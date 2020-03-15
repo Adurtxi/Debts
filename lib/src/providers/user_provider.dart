@@ -37,11 +37,16 @@ class UserProvider {
     }
   }
 
-  Future<Map<String, dynamic>> newUser(String email, String password) async {
+  Future<Map<String, dynamic>> newUser(
+      String email, String password, String name, String surname) async {
     final authData = {
+      'name': name,
+      'surname': surname,
       'email': email,
       'password': password,
     };
+
+    print(authData);
 
     final resp = await http.post(
       'https://api.debts.epbasic.eu/api/register',

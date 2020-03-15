@@ -95,6 +95,10 @@ class RegisterPage extends StatelessWidget {
                   style: TextStyle(fontSize: 20.0),
                 ),
                 SizedBox(height: 40.0),
+                _createName(bloc),
+                SizedBox(height: 20.0),
+                _createSurname(bloc),
+                SizedBox(height: 20.0),
                 _createEmail(bloc),
                 SizedBox(height: 20.0),
                 _createPassword(bloc),
@@ -110,6 +114,54 @@ class RegisterPage extends StatelessWidget {
           SizedBox(height: 100.0)
         ],
       ),
+    );
+  }
+
+  Widget _createName(LoginBloc bloc) {
+    return StreamBuilder(
+      stream: bloc.nameStream,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          child: TextField(
+            decoration: InputDecoration(
+              icon: Icon(
+                Icons.person,
+                color: Colors.deepPurple,
+              ),
+              hintText: 'Jon',
+              labelText: 'Nombre',
+              counterText: snapshot.data,
+              errorText: snapshot.error,
+            ),
+            onChanged: bloc.changeName,
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _createSurname(LoginBloc bloc) {
+    return StreamBuilder(
+      stream: bloc.surnameStream,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          child: TextField(
+            decoration: InputDecoration(
+              icon: Icon(
+                Icons.person_outline,
+                color: Colors.deepPurple,
+              ),
+              hintText: 'Brown',
+              labelText: 'Apellido',
+              counterText: snapshot.data,
+              errorText: snapshot.error,
+            ),
+            onChanged: bloc.changeSurname,
+          ),
+        );
+      },
     );
   }
 
@@ -184,8 +236,8 @@ class RegisterPage extends StatelessWidget {
   }
 
   _register(LoginBloc bloc, BuildContext context) async {
-    userProvider.newUser(bloc.email, bloc.password);
-    final info = await userProvider.newUser(bloc.email, bloc.password);
+    final info = await userProvider.newUser(
+        bloc.email, bloc.password, bloc.name, bloc.surname);
 
     if (info['ok'] == true) {
       Navigator.pushReplacementNamed(context, 'login');

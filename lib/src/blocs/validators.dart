@@ -1,6 +1,26 @@
 import 'dart:async';
 
 class Validators {
+  final validateName = StreamTransformer<String, String>.fromHandlers(
+    handleData: (password, sink) {
+      if (password.length >= 1) {
+        sink.add(password);
+      } else {
+        sink.addError('El campo es requerido');
+      }
+    },
+  );
+
+  final validateSurname = StreamTransformer<String, String>.fromHandlers(
+    handleData: (password, sink) {
+      if (password.length >= 1) {
+        sink.add(password);
+      } else {
+        sink.addError('El campo es requerido');
+      }
+    },
+  );
+
   final validateEmail = StreamTransformer<String, String>.fromHandlers(
     handleData: (email, sink) {
       Pattern pattern =
