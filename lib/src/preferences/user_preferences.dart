@@ -30,4 +30,12 @@ class UserPreferences {
   set identity(List value) {
     _prefs.setStringList('identity', value);
   }
+
+  get lastPage {
+    return _prefs.getString('lastPage') ?? 'login';
+  }
+
+  set lastPage(String value) {
+    _prefs.setString('lastPage', value);
+  }
 }

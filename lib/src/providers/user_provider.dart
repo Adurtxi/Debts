@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
-import 'package:epbasic_debts/src/models/user_model.dart';
 
 class UserProvider {
   final _prefs = new UserPreferences();
@@ -24,12 +23,20 @@ class UserProvider {
 
     Map<String, dynamic> decodedResp = json.decode(resp.body);
 
-    print(decodedResp);
-
     if (decodedResp['status'] == 'success') {
       _prefs.token = decodedResp['token'];
 
-      print(decodedResp['identity']);
+      final identity = decodedResp['identity'];
+
+      List<String> identityList = [
+        '${identity['id']}',
+        identity['name'],
+        identity['surname'],
+        identity['email'],
+      ];
+
+      _prefs.identity = identityList;
+      _prefs.lastPage = 'home';
 
       return {'ok': true, 'token': decodedResp['token']};
     } else {
