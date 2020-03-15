@@ -15,12 +15,19 @@ class UserPreferences {
     this._prefs = await SharedPreferences.getInstance();
   }
 
-  // GET y SET del nombre
   get token {
     return _prefs.getString('token') ?? '';
   }
 
   set token(String value) {
     _prefs.setString('token', value);
+  }
+
+  get identity {
+    return _prefs.getStringList('identity') ?? '';
+  }
+
+  set identity(List value) {
+    _prefs.setStringList('identity', value);
   }
 }

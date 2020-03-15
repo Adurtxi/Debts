@@ -210,7 +210,7 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  //Enviar datos al provider para enviarlos a Firebase y en caso de OK redirigir a home
+  //Enviar datos al provider y en caso de OK redirigir a home
   _login(LoginBloc bloc, BuildContext context) async {
     Map info = await userProvider.login(bloc.email, bloc.password);
 

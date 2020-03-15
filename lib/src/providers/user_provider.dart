@@ -2,58 +2,62 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
+import 'package:epbasic_debts/src/models/user_model.dart';
 
 class UserProvider {
-  final String _firebaseToken = 'AIzaSyDQXvtvjskMB6Pxi1wBsuNNnuY7heFcftI';
   final _prefs = new UserPreferences();
 
   Future<Map<String, dynamic>> login(String email, String password) async {
     final authData = {
       'email': email,
       'password': password,
-      'returnSecureToken': true,
     };
 
     final resp = await http.post(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=$_firebaseToken',
+      'https://api.debts.epbasic.eu/api/login',
       body: json.encode(authData),
+      headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+      },
     );
 
     Map<String, dynamic> decodedResp = json.decode(resp.body);
 
-    return _returnDecodedData(decodedResp);
+    print(decodedResp);
+
+    if (decodedResp['status'] == 'success') {
+      _prefs.token = decodedResp['token'];
+
+      print(decodedResp['identity']);
+
+      return {'ok': true, 'token': decodedResp['token']};
+    } else {
+      return {'ok': false, 'message': decodedResp['message']};
+    }
   }
 
   Future<Map<String, dynamic>> newUser(String email, String password) async {
     final authData = {
       'email': email,
       'password': password,
-      'returnSecureToken': true,
     };
 
     final resp = await http.post(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=$_firebaseToken',
+      'https://api.debts.epbasic.eu/api/register',
       body: json.encode(authData),
+      headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+      },
     );
 
     Map<String, dynamic> decodedResp = json.decode(resp.body);
 
-    return _returnDecodedData(decodedResp);
-  }
-
-  _returnDecodedData(decodedResp) {
-    if (decodedResp.containsKey('idToken')) {
-      _prefs.token = decodedResp['idToken'];
-
-      return {
-        'ok': true,
-        'token': decodedResp['idToken'],
-      };
+    if (decodedResp['status'] == 'success') {
+      return {'ok': true};
     } else {
-      return {
-        'ok': false,
-        'message': decodedResp['error']['message'],
-      };
+      return {'ok': false, 'message': decodedResp['message']};
     }
   }
 }
