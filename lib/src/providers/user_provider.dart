@@ -53,8 +53,6 @@ class UserProvider {
       'password': password,
     };
 
-    print(authData);
-
     final resp = await http.post(
       'https://api.debts.epbasic.eu/api/register',
       body: json.encode(authData),
@@ -71,5 +69,10 @@ class UserProvider {
     } else {
       return {'ok': false, 'message': decodedResp['message']};
     }
+  }
+
+  logout() {
+    _prefs.token = null;
+    _prefs.lastPage = null;
   }
 }
