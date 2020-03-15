@@ -65,13 +65,13 @@ class LoginPage extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Icon(
-                Icons.person_pin_circle,
+                Icons.money_off,
                 color: Colors.white,
                 size: 100.0,
               ),
               SizedBox(height: 10.0, width: double.infinity),
               Text(
-                'Adur Marques',
+                'EPBasic Debts',
                 style: TextStyle(color: Colors.white, fontSize: 25.0),
               ),
             ],
