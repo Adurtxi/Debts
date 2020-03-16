@@ -27,7 +27,7 @@ class _BottomNavState extends State<BottomNav> {
           title: Container(),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.add_box),
+          icon: Icon(Icons.person),
           title: Container(),
         ),
       ],
@@ -50,7 +50,7 @@ class _BottomNavState extends State<BottomNav> {
         _navigate('debts');
         break;
       case 2:
-        _navigate('create');
+        _navigate('people');
         break;
     }
   }

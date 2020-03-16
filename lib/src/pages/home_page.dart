@@ -17,12 +17,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.symmetric(vertical: 10.0),
         child: Column(
           children: <Widget>[
             AppBarW(title: 'Inicio'),
             Container(
-              margin: EdgeInsets.symmetric(vertical: 5.0),
+              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
               child: Column(
                 children: <Widget>[
                   _cardType1(),
@@ -53,7 +52,10 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: <Widget>[
               ListTile(
-                leading: Icon(Icons.photo_album),
+                leading: CircleAvatar(
+                  child: Text('NS'),
+                  backgroundColor: Colors.blue,
+                ),
                 title: Text('Soy una tarjeta muy feliz'),
                 subtitle: Text('Tengo cuatro curvas de 20'),
               ),

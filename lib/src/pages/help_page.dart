@@ -7,7 +7,6 @@ class HelpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.symmetric(vertical: 10.0),
         child: Column(
           children: <Widget>[
             AppBarW(title: 'Ayuda'),

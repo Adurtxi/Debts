@@ -8,6 +8,7 @@ class DebtModel {
   int id;
   int userId;
   int defaulterId;
+  double quantity;
   String title;
   String description;
   bool paid;
@@ -16,15 +17,17 @@ class DebtModel {
     this.id,
     this.userId,
     this.defaulterId,
-    this.title,
-    this.description,
-    this.paid,
+    this.quantity = 0.0,
+    this.title = '',
+    this.description = '',
+    this.paid = true,
   });
 
   factory DebtModel.fromJson(Map<String, dynamic> json) => DebtModel(
         id: json["id"],
         userId: json["user_id"],
         defaulterId: json["defaulter_id"],
+        quantity: json["quantity"],
         title: json["title"],
         description: json["description"],
         paid: json["paid"],
@@ -34,6 +37,7 @@ class DebtModel {
         "id": id,
         "user_id": userId,
         "defaulter_id": defaulterId,
+        "quantity": quantity,
         "title": title,
         "description": description,
         "paid": paid,

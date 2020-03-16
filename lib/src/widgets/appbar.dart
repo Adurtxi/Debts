@@ -19,6 +19,7 @@ class _AppBarWState extends State<AppBarW> {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.white,
+      centerTitle: true,
       title: Text(
         widget.title,
         style: TextStyle(color: Colors.black),
