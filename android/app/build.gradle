@@ -39,10 +39,10 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.epbasic_debts"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 28
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        versionCode 1
+        versionName "0.0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

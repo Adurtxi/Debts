@@ -24,16 +24,6 @@ class _AppBarWState extends State<AppBarW> {
         style: TextStyle(color: Colors.black),
       ),
       actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.notifications_active),
-          color: Colors.black54,
-          onPressed: () {},
-        ),
-        IconButton(
-          icon: Icon(Icons.search),
-          color: Colors.black54,
-          onPressed: () {},
-        ),
         _dropDown(),
       ],
     );
@@ -55,10 +45,10 @@ class _AppBarWState extends State<AppBarW> {
         setState(() {
           switch (newValue) {
             case 'Ayuda':
-              print(3);
+              Navigator.pushReplacementNamed(context, 'help');
               break;
             case 'Cuenta':
-              print(2);
+              Navigator.pushReplacementNamed(context, 'account');
               break;
             case 'Cerrar Sesión':
               _logout();
