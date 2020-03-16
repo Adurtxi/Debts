@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
@@ -11,15 +12,18 @@ class DebtsProvider {
   final _prefs = new UserPreferences();
 
   Future<bool> createDebt(DebtModel debt) async {
-    final url = '$_url/Debts.json?auth=${_prefs.token}';
+    print(debtModelToJson(debt));
+
+    final url = '$_url/debt';
 
     final resp = await http.post(
-      url,
+      Uri.encodeFull(url),
       body: debtModelToJson(debt),
+      headers: {HttpHeaders.authorizationHeader: _prefs.token},
     );
 
-    final decodedData = json.decode(resp.body);
-
+    //final decodedData = json.decode(resp.body);
+    print(resp.body);
     return true;
   }
 
@@ -32,15 +36,15 @@ class DebtsProvider {
 
     if (decodedData == null) return [];
 
-    final List<DebtModel> Debts = new List();
+    final List<DebtModel> debts = new List();
 
     decodedData.forEach((debts, debt) {
       final prodTemp = DebtModel.fromJson(debt);
-      prodTemp.id = debt.id;
-      Debts.add(prodTemp);
+
+      //debts.add(prodTemp);
     });
 
-    return Debts;
+    return debts;
   }
 
   Future<bool> updateDebt(DebtModel debt) async {

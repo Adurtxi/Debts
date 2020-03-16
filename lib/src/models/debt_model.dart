@@ -16,7 +16,7 @@ class DebtModel {
   DebtModel({
     this.id,
     this.userId,
-    this.defaulterId,
+    this.defaulterId = 1,
     this.quantity = 0.0,
     this.title = '',
     this.description = '',

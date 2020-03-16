@@ -29,7 +29,7 @@ class UserProvider {
       final identity = decodedResp['identity'];
 
       List<String> identityList = [
-        '${identity['id']}',
+        '${identity['sub']}',
         identity['name'],
         identity['surname'],
         identity['email'],
