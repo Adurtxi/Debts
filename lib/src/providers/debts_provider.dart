@@ -19,7 +19,9 @@ class DebtsProvider {
     final resp = await http.post(
       Uri.encodeFull(url),
       body: debtModelToJson(debt),
-      headers: {HttpHeaders.authorizationHeader: _prefs.token},
+      headers: {
+        HttpHeaders.authorizationHeader: _prefs.token,
+      },
     );
 
     //final decodedData = json.decode(resp.body);
@@ -30,7 +32,12 @@ class DebtsProvider {
   Future<List<DebtModel>> loadDebts() async {
     final url = '$_url/debts';
 
-    final resp = await http.get(url);
+    final resp = await http.get(
+      Uri.encodeFull(url),
+      headers: {
+        HttpHeaders.authorizationHeader: _prefs.token,
+      },
+    );
 
     final Map<String, dynamic> decodedData = json.decode(resp.body);
 
@@ -38,10 +45,9 @@ class DebtsProvider {
 
     final List<DebtModel> debts = new List();
 
-    decodedData.forEach((debts, debt) {
+    decodedData['debts'].forEach((debt) {
       final prodTemp = DebtModel.fromJson(debt);
-
-      //debts.add(prodTemp);
+      debts.add(prodTemp);
     });
 
     return debts;
@@ -51,7 +57,7 @@ class DebtsProvider {
     final url = '$_url/debt/${debt.id}';
 
     final resp = await http.put(
-      url,
+      Uri.encodeFull(url),
       body: debtModelToJson(debt),
     );
 
