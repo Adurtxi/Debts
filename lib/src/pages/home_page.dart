@@ -1,6 +1,9 @@
+import 'package:epbasic_debts/src/models/debt_model.dart';
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
+import 'package:epbasic_debts/src/providers/debts_provider.dart';
 import 'package:epbasic_debts/src/providers/user_provider.dart';
 import 'package:epbasic_debts/src/widgets/bottomNav.dart';
+import 'package:epbasic_debts/src/widgets/debtsList.dart';
 import 'package:epbasic_debts/src/widgets/myAppBar.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final userProvider = new UserProvider();
+  final debtsProvider = new DebtsProvider();
   final prefs = new UserPreferences();
 
   @override
@@ -24,44 +28,30 @@ class _HomePageState extends State<HomePage> {
         user: '${prefs.identity[1][0]}${prefs.identity[2][0]}',
       ),
       body: Container(
-        child: Column(
-          children: <Widget>[
-            _cardType1(),
-            _cardType1(),
-            _cardType1(),
-            _cardType1(),
-          ],
-        ),
+        child: _createList(),
       ),
       bottomNavigationBar: BottomNav(),
     );
   }
 
-  Widget _cardType1() {
-    return Dismissible(
-      //Eliminar producto
-      key: UniqueKey(),
-      background: Container(color: Colors.red),
-      onDismissed: (direction) {},
-      child: Container(
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child: Column(
-            children: <Widget>[
-              ListTile(
-                leading: CircleAvatar(
-                  child: Text('NS'),
-                  backgroundColor: Colors.blue,
-                ),
-                title: Text('Soy una tarjeta muy feliz'),
-                subtitle: Text('Tengo cuatro curvas de 20'),
-              ),
-            ],
-          ),
-        ),
-      ),
+  //Lista de deudas
+  _createList() {
+    return FutureBuilder(
+      future: debtsProvider.loadDebts(),
+      builder: (BuildContext context, AsyncSnapshot<List<DebtModel>> snapshot) {
+        if (snapshot.hasData) {
+          final debts = snapshot.data;
+
+          return ListView.builder(
+            itemCount: debts.length,
+            itemBuilder: (context, i) => DebstList(debt: debts[i]),
+          );
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
     );
   }
 }
