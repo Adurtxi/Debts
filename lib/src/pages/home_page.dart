@@ -1,7 +1,7 @@
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:epbasic_debts/src/providers/user_provider.dart';
-import 'package:epbasic_debts/src/widgets/appbar.dart';
 import 'package:epbasic_debts/src/widgets/bottomNav.dart';
+import 'package:epbasic_debts/src/widgets/myAppBar.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,21 +16,20 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: MyAppBar(
+        title: Text(
+          'Inicio',
+          style: TextStyle(color: Colors.black),
+        ),
+        user: '${prefs.identity[1][0]}${prefs.identity[2][0]}',
+      ),
       body: Container(
         child: Column(
           children: <Widget>[
-            AppBarW(title: 'Inicio'),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-              child: Column(
-                children: <Widget>[
-                  _cardType1(),
-                  _cardType1(),
-                  _cardType1(),
-                  _cardType1(),
-                ],
-              ),
-            ),
+            _cardType1(),
+            _cardType1(),
+            _cardType1(),
+            _cardType1(),
           ],
         ),
       ),

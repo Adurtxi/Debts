@@ -1,18 +1,22 @@
-import 'package:epbasic_debts/src/widgets/appbar.dart';
+import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:epbasic_debts/src/widgets/bottomNav.dart';
+import 'package:epbasic_debts/src/widgets/myAppBar.dart';
 import 'package:flutter/material.dart';
 
 class HelpPage extends StatelessWidget {
+  final prefs = new UserPreferences();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            AppBarW(title: 'Ayuda'),
-          ],
+      appBar: MyAppBar(
+        title: Text(
+          'Ayuda',
+          style: TextStyle(color: Colors.black),
         ),
+        user: '${prefs.identity[1][0]}${prefs.identity[2][0]}',
       ),
+      body: Container(),
       bottomNavigationBar: BottomNav(),
     );
   }

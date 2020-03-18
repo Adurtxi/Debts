@@ -1,8 +1,9 @@
 import 'package:epbasic_debts/src/modals/defaulter_modal.dart';
 import 'package:epbasic_debts/src/models/debt_model.dart';
+import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:epbasic_debts/src/providers/debts_provider.dart';
-import 'package:epbasic_debts/src/widgets/appbar.dart';
 import 'package:epbasic_debts/src/widgets/bottomNav.dart';
+import 'package:epbasic_debts/src/widgets/myAppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:epbasic_debts/src/utils/utils.dart' as utils;
 
@@ -13,12 +14,13 @@ class NewDebtPage extends StatefulWidget {
 
 class _NewDebtPageState extends State<NewDebtPage> {
   DebtModel debt = new DebtModel();
+  final prefs = new UserPreferences();
+  final productProvider = new DebtsProvider();
 
   bool _saving = false;
 
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final productProvider = new DebtsProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -26,46 +28,44 @@ class _NewDebtPageState extends State<NewDebtPage> {
 
     final DebtModel debtData = ModalRoute.of(context).settings.arguments;
 
-    //Si los argumentos traen datos los asignamos al producto
     if (debtData != null) {
       debt = debtData;
     }
 
     return Scaffold(
       key: scaffoldKey,
+      appBar: MyAppBar(
+        title: Text(
+          'Crear deuda',
+          style: TextStyle(color: Colors.black),
+        ),
+        user: '${prefs.identity[1][0]}${prefs.identity[2][0]}',
+      ),
       body: Container(
-        child: Column(
-          children: <Widget>[
-            AppBarW(title: 'Nueva deuda'),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: Container(
-                  margin:
-                      EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+        margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+            child: Column(
+              children: <Widget>[
+                Form(
+                  key: formKey,
                   child: Column(
                     children: <Widget>[
-                      Form(
-                        key: formKey,
-                        child: Column(
-                          children: <Widget>[
-                            _createTitle(),
-                            _createDescription(),
-                            _createQuantity(),
-                            _createAvailable(),
-                            _createButton(),
-                          ],
-                        ),
-                      ),
+                      _createTitle(),
+                      _createDescription(),
+                      _createQuantity(),
+                      _createAvailable(),
+                      _createButton(),
                     ],
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
       floatingActionButton: new FloatingActionButton(
