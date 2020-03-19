@@ -40,39 +40,44 @@ class _NewDebtPageState extends State<NewDebtPage> {
           style: TextStyle(color: Colors.black),
         ),
         user: '${prefs.identity[1][0]}${prefs.identity[2][0]}',
+        context: context,
       ),
-      body: Container(
-        margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-            child: Column(
-              children: <Widget>[
-                Form(
-                  key: formKey,
-                  child: Column(
-                    children: <Widget>[
-                      _createTitle(),
-                      _createDescription(),
-                      _createQuantity(),
-                      _createAvailable(),
-                      _createButton(),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
+      body: _container(),
       floatingActionButton: new FloatingActionButton(
         onPressed: () => modal.mainBottomSheet(context),
         child: new Icon(Icons.add),
       ),
       bottomNavigationBar: BottomNav(),
+    );
+  }
+
+  Widget _container() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+          child: Column(
+            children: <Widget>[
+              Form(
+                key: formKey,
+                child: Column(
+                  children: <Widget>[
+                    _createTitle(),
+                    _createDescription(),
+                    _createQuantity(),
+                    _createAvailable(),
+                    _createButton(),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 

@@ -15,6 +15,7 @@ class DebtDetail extends StatelessWidget {
           style: TextStyle(color: Colors.black),
         ),
         user: '${prefs.identity[1][0]}${prefs.identity[2][0]}',
+        context: context,
       ),
       body: Container(
         child: Text('Detalle'),

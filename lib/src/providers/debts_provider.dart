@@ -70,7 +70,7 @@ class DebtsProvider {
     return true;
   }
 
-  Future<bool> deleteDebt(String id) async {
+  Future<Map<String, dynamic>> deleteDebt(String id) async {
     final url = '$_apiUrl/debt/$id';
 
     final resp = await http.delete(
@@ -81,7 +81,11 @@ class DebtsProvider {
     );
 
     final decodedData = json.decode(resp.body);
-    print(decodedData);
-    return true;
+
+    if (decodedData['status'] == 'success') {
+      return {'ok': true, 'message': 'Deuda eliminada correctamente'};
+    } else {
+      return {'ok': true, 'message': decodedData['message']};
+    }
   }
 }
