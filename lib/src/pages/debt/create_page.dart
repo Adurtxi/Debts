@@ -128,6 +128,17 @@ class _NewDebtPageState extends State<NewDebtPage> {
     );
   }
 
+  Widget _createAvailable() {
+    return SwitchListTile(
+      value: debt.paid,
+      title: Text('Pagado'),
+      activeColor: Color.fromRGBO(31, 133, 109, 1.0),
+      onChanged: (value) => setState(() {
+        debt.paid = value;
+      }),
+    );
+  }
+
   Widget _createButton() {
     return RaisedButton.icon(
       shape: RoundedRectangleBorder(
@@ -138,17 +149,6 @@ class _NewDebtPageState extends State<NewDebtPage> {
       label: Text('Guardar'),
       icon: Icon(Icons.save),
       onPressed: (_saving) ? null : _submit,
-    );
-  }
-
-  Widget _createAvailable() {
-    return SwitchListTile(
-      value: debt.paid,
-      title: Text('Pagado'),
-      activeColor: Color.fromRGBO(31, 133, 109, 1.0),
-      onChanged: (value) => setState(() {
-        debt.paid = value;
-      }),
     );
   }
 
