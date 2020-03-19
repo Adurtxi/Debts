@@ -2,7 +2,6 @@ import 'package:epbasic_debts/src/models/debt_model.dart';
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:epbasic_debts/src/providers/debts_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:epbasic_debts/src/utils/utils.dart';
 
 class DebstList extends StatelessWidget {
   final scaffoldKey = GlobalKey<ScaffoldState>();

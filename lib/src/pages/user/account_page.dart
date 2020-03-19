@@ -23,7 +23,8 @@ class AccountPage extends StatelessWidget {
         child: Container(
           child: RaisedButton(
             onPressed: () {
-              _logout(context);
+              //_logout(context);
+              Navigator.pushReplacementNamed(context, 'auth');
             },
             child: const Text('Cerrar Sesión', style: TextStyle(fontSize: 20)),
           ),

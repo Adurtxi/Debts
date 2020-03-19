@@ -1,3 +1,4 @@
+import 'package:epbasic_debts/src/services/service_locator.dart';
 import 'package:flutter/material.dart';
 
 //Almacenamiento TOKEN
@@ -8,6 +9,8 @@ import 'package:epbasic_debts/src/blocs/provider.dart';
 import 'package:epbasic_debts/src/routes/routes.dart';
 
 void main() async {
+  setupLocator();
+
   WidgetsFlutterBinding.ensureInitialized();
 
   final prefs = new UserPreferences();
