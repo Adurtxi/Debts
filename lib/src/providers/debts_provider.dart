@@ -73,10 +73,15 @@ class DebtsProvider {
   Future<bool> deleteDebt(String id) async {
     final url = '$_apiUrl/debt/$id';
 
-    final resp = await http.delete(url);
+    final resp = await http.delete(
+      Uri.encodeFull(url),
+      headers: {
+        HttpHeaders.authorizationHeader: _prefs.token,
+      },
+    );
 
     final decodedData = json.decode(resp.body);
-
+    print(decodedData);
     return true;
   }
 }
