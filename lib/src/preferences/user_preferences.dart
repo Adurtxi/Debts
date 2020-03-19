@@ -38,4 +38,20 @@ class UserPreferences {
   set lastPage(String value) {
     _prefs.setString('lastPage', value);
   }
+
+  get lookScreen {
+    return _prefs.getBool('lookScreen') ?? false;
+  }
+
+  set lookScreen(bool value) {
+    _prefs.setBool('lookScreen', value);
+  }
+
+  get darkMode {
+    return _prefs.getBool('darkMode') ?? false;
+  }
+
+  set darkMode(bool value) {
+    _prefs.setBool('darkMode', value);
+  }
 }

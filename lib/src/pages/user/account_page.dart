@@ -10,7 +10,7 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
-  final prefs = new UserPreferences();
+  final _prefs = new UserPreferences();
 
   final userProvider = new UserProvider();
 
@@ -25,7 +25,7 @@ class _AccountPageState extends State<AccountPage> {
           'Cuenta',
           style: TextStyle(color: Colors.black),
         ),
-        user: '${prefs.identity[1][0]}${prefs.identity[2][0]}',
+        user: '${_prefs.identity[1][0]}${_prefs.identity[2][0]}',
         context: context,
       ),
       body: Center(
@@ -51,19 +51,25 @@ class _AccountPageState extends State<AccountPage> {
       child: Column(
         children: <Widget>[
           SwitchListTile(
-            value: darkMode,
+            value: _prefs.darkMode,
             title: Text('Modo oscuro'),
             activeColor: Color.fromRGBO(31, 133, 109, 1.0),
             onChanged: (value) => setState(() {
-              darkMode = value;
+              _prefs.darkMode = value;
             }),
           ),
           SwitchListTile(
-            value: fingerprint,
+            value: _prefs.lookScreen,
             title: Text('Desbloqueo con huella'),
             activeColor: Color.fromRGBO(31, 133, 109, 1.0),
             onChanged: (value) => setState(() {
-              fingerprint = value;
+              _prefs.lookScreen = value;
+
+              if (value == true) {
+                _prefs.lastPage = 'auth';
+              } else {
+                _prefs.lastPage = 'home';
+              }
             }),
           ),
         ],

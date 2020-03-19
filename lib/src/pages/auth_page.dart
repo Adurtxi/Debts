@@ -65,22 +65,27 @@ class _AuthPageState extends State<AuthPage> {
       color: Colors.blue,
       textColor: Colors.white,
       child: Text(text),
-      onPressed: () {
-        if (type == 1) {
-          String password = '2486';
-
-          if (_password == password) {
-            Navigator.pushReplacementNamed(context, 'home');
-          }
-        } else {
-          final auth = _auth();
-
-          if (auth == true) {
-            Navigator.pushReplacementNamed(context, 'home');
-          }
-        }
-      },
+      onPressed: () => _goHome(type),
     );
+  }
+
+  _goHome(type) {
+    bool goHome = false;
+    if (type == 1) {
+      String password = '2486';
+      if (_password == password) {
+        goHome = true;
+      }
+    } else {
+      final auth = _auth();
+
+      if (auth == true) {
+        goHome = true;
+      }
+    }
+    if (goHome == true) {
+      Navigator.pushReplacementNamed(context, 'home');
+    }
   }
 
   _auth() async {
