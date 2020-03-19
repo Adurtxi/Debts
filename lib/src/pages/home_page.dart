@@ -37,14 +37,19 @@ class _HomePageState extends State<HomePage> {
   //Lista de deudas
   _createList() {
     return FutureBuilder(
-      future: debtsProvider.loadDebts(),
+      future: debtsProvider.loadDebts('defaulter-debts-to-pay'),
       builder: (BuildContext context, AsyncSnapshot<List<DebtModel>> snapshot) {
         if (snapshot.hasData) {
           final debts = snapshot.data;
 
           return ListView.builder(
             itemCount: debts.length,
-            itemBuilder: (context, i) => DebstList(debt: debts[i]),
+            itemBuilder: (context, i) {
+              final user =
+                  '${debts[i].user.name[0]}${debts[i].user.surname[0]}';
+
+              return DebstList(debt: debts[i], user: user);
+            },
           );
         } else {
           return Center(

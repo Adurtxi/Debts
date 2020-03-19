@@ -10,7 +10,6 @@ class UserModel {
   String surname;
   String email;
   String password;
-  bool darkMode;
 
   UserModel({
     this.id,
@@ -18,7 +17,6 @@ class UserModel {
     this.surname,
     this.email,
     this.password,
-    this.darkMode,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
@@ -27,7 +25,6 @@ class UserModel {
         surname: json["surname"],
         email: json["email"],
         password: json["password"],
-        darkMode: json["dark_mode"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -36,6 +33,5 @@ class UserModel {
         "surname": surname,
         "email": email,
         "password": password,
-        "dark_mode": darkMode,
       };
 }

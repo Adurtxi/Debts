@@ -16,7 +16,9 @@ class DebtDetail extends StatelessWidget {
         ),
         user: '${prefs.identity[1][0]}${prefs.identity[2][0]}',
       ),
-      body: Container(),
+      body: Container(
+        child: Text('Detalle'),
+      ),
       bottomNavigationBar: BottomNav(),
     );
   }

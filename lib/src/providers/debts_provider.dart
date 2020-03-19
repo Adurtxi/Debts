@@ -8,13 +8,13 @@ import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:epbasic_debts/src/models/debt_model.dart';
 
 class DebtsProvider {
-  final String _url = 'https://api.debts.epbasic.eu/api';
+  final String _apiUrl = 'https://api.debts.epbasic.eu/api';
   final _prefs = new UserPreferences();
 
   Future<bool> createDebt(DebtModel debt) async {
     print(debtModelToJson(debt));
 
-    final url = '$_url/debt';
+    final url = '$_apiUrl/debt';
 
     final resp = await http.post(
       Uri.encodeFull(url),
@@ -29,8 +29,8 @@ class DebtsProvider {
     return true;
   }
 
-  Future<List<DebtModel>> loadDebts() async {
-    final url = '$_url/debts';
+  Future<List<DebtModel>> loadDebts(String pathUrl) async {
+    final url = '$_apiUrl/$pathUrl';
 
     final resp = await http.get(
       Uri.encodeFull(url),
@@ -43,18 +43,22 @@ class DebtsProvider {
 
     if (decodedData == null) return [];
 
-    final List<DebtModel> debts = new List();
+    if (decodedData['status'] == 'success') {
+      final List<DebtModel> debts = new List();
 
-    decodedData['debts'].forEach((debt) {
-      final prodTemp = DebtModel.fromJson(debt);
-      debts.add(prodTemp);
-    });
+      decodedData['debts'].forEach((debt) {
+        final prodTemp = DebtModel.fromJson(debt);
+        debts.add(prodTemp);
+      });
 
-    return debts;
+      return debts;
+    } else {
+      return [];
+    }
   }
 
   Future<bool> updateDebt(DebtModel debt) async {
-    final url = '$_url/debt/${debt.id}';
+    final url = '$_apiUrl/debt/${debt.id}';
 
     final resp = await http.put(
       Uri.encodeFull(url),
@@ -67,7 +71,7 @@ class DebtsProvider {
   }
 
   Future<bool> deleteDebt(String id) async {
-    final url = '$_url/debt/$id';
+    final url = '$_apiUrl/debt/$id';
 
     final resp = await http.delete(url);
 

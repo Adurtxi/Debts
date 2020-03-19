@@ -27,12 +27,12 @@ class _BottomNavState extends State<BottomNav> {
           title: Container(),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person),
+          icon: Icon(Icons.people),
           title: Container(),
         ),
       ],
       currentIndex: _selectedIndex,
-      selectedItemColor: Colors.amber[800],
+      selectedItemColor: Colors.blue,
       onTap: _onItemTapped,
     );
   }

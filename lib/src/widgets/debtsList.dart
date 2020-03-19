@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 
 class DebstList extends StatelessWidget {
   final DebtModel debt;
+  final String user;
 
-  DebstList({@required this.debt});
+  DebstList({@required this.debt, @required this.user});
 
   final debtsProvider = new DebtsProvider();
 
@@ -25,14 +26,14 @@ class DebstList extends StatelessWidget {
           children: <Widget>[
             ListTile(
               leading: CircleAvatar(
-                child: Text('NS'),
+                child: Text(user),
                 backgroundColor: Colors.blue,
               ),
               title: Text('${debt.title}'),
               subtitle: Text(debt.id.toString()),
               onTap: () => Navigator.pushNamed(
                 context,
-                'debt',
+                'detail',
                 arguments: debt,
               ),
             ),
@@ -41,28 +42,4 @@ class DebstList extends StatelessWidget {
       ),
     );
   }
-
-  //Lista de deudas
-  _createList() {
-    return FutureBuilder(
-      future: debtsProvider.loadDebts(),
-      builder: (BuildContext context, AsyncSnapshot<List<DebtModel>> snapshot) {
-        if (snapshot.hasData) {
-          final debts = snapshot.data;
-
-          return ListView.builder(
-            itemCount: debts.length,
-            itemBuilder: (context, i) => _createItem(context, debts[i]),
-          );
-        } else {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
-    );
-  }
-
-  //Widget de cada debt
-  Widget _createItem(BuildContext context, DebtModel debt) {}
 }
