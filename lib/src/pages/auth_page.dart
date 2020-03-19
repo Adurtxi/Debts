@@ -69,7 +69,7 @@ class _AuthPageState extends State<AuthPage> {
     );
   }
 
-  _goHome(type) {
+   _goHome(type) async {
     bool goHome = false;
     if (type == 1) {
       String password = '2486';
@@ -77,7 +77,7 @@ class _AuthPageState extends State<AuthPage> {
         goHome = true;
       }
     } else {
-      final auth = _auth();
+      final auth = await _auth();
 
       if (auth == true) {
         goHome = true;
