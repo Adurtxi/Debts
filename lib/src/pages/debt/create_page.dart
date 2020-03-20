@@ -42,11 +42,11 @@ class _NewDebtPageState extends State<NewDebtPage> {
         user: '${prefs.identity[1][0]}${prefs.identity[2][0]}',
         context: context,
       ),
-      body: _container(),
       floatingActionButton: new FloatingActionButton(
         onPressed: () => modal.mainBottomSheet(context),
         child: new Icon(Icons.add),
       ),
+      body: _container(),
       bottomNavigationBar: BottomNav(),
     );
   }
@@ -54,15 +54,15 @@ class _NewDebtPageState extends State<NewDebtPage> {
   Widget _container() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-          child: Column(
-            children: <Widget>[
-              Form(
+      child: Column(
+        children: <Widget>[
+          Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
                 key: formKey,
                 child: Column(
                   children: <Widget>[
@@ -74,9 +74,9 @@ class _NewDebtPageState extends State<NewDebtPage> {
                   ],
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

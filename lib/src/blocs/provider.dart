@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:epbasic_debts/src/blocs/login_bloc.dart';
-export 'package:epbasic_debts/src/blocs/login_bloc.dart';
+import 'package:epbasic_debts/src/blocs/user_bloc.dart';
+export 'package:epbasic_debts/src/blocs/user_bloc.dart';
 
 class Provider extends InheritedWidget {
   static Provider _instance;
@@ -15,12 +15,12 @@ class Provider extends InheritedWidget {
 
   Provider._internal({Key key, Widget child}) : super(key: key, child: child);
 
-  final loginBloc = LoginBloc();
+  final loginBloc = UserBloc();
 
   @override
   bool updateShouldNotify(InheritedWidget oldWidget) => true;
 
-  static LoginBloc of(BuildContext context) {
+  static UserBloc of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<Provider>().loginBloc;
   }
 }

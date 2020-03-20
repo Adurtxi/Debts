@@ -10,10 +10,7 @@ class HelpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(
-        title: Text(
-          'Ayuda',
-          style: TextStyle(color: Colors.black),
-        ),
+        title: Text('Ayuda'),
         user: '${prefs.identity[1][0]}${prefs.identity[2][0]}',
         context: context,
       ),

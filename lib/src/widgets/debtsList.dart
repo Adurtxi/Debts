@@ -24,7 +24,12 @@ class DebstList extends StatelessWidget {
         children: <Widget>[
           ListTile(
             leading: CircleAvatar(
-              child: Text(user),
+              child: Text(
+                user,
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
               backgroundColor: Colors.blue,
             ),
             title: Text('${debt.title}'),

@@ -10,10 +10,7 @@ class DebtDetail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(
-        title: Text(
-          'Detalle',
-          style: TextStyle(color: Colors.black),
-        ),
+        title: Text('Detalle'),
         user: '${prefs.identity[1][0]}${prefs.identity[2][0]}',
         context: context,
       ),

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:epbasic_debts/src/blocs/validators.dart';
 import 'package:rxdart/rxdart.dart';
 
-class LoginBloc with Validators {
+class UserBloc with Validators {
   final _nameController = BehaviorSubject<String>();
   final _surnameController = BehaviorSubject<String>();
   final _emailController = BehaviorSubject<String>();
@@ -22,8 +22,16 @@ class LoginBloc with Validators {
   Stream<String> get passwordStream =>
       _passwordController.stream.transform(validatePassword);
 
-  Stream<bool> get formValidStream =>
+  Stream<bool> get loginFormValidStream =>
       CombineLatestStream.combine2(emailStream, passwordStream, (e, p) => true);
+
+  Stream<bool> get registerFormValidStream => CombineLatestStream.combine4(
+        nameStream,
+        surnameStream,
+        emailStream,
+        passwordStream,
+        (n, s, e, p) => true,
+      );
 
   //Insertar valores al Stream
   Function(String) get changeName => _nameController.sink.add;

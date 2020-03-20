@@ -14,7 +14,11 @@ class LocalAuthenticationService {
         stickyAuth: true,
       );
 
-      return true;
+      if (isAuthenticated) {
+        return true;
+      } else {
+        return false;
+      }
     } on PlatformException catch (e) {
       return false;
     }

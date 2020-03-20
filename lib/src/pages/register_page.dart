@@ -21,7 +21,7 @@ class RegisterPage extends StatelessWidget {
   Widget _createBackground(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final background = Container(
-      height: size.height * 0.4,
+      height: size.height * 0.25,
       width: double.infinity,
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -54,7 +54,7 @@ class RegisterPage extends StatelessWidget {
               Icon(
                 Icons.money_off,
                 color: Colors.white,
-                size: 100.0,
+                size: 60.0,
               ),
               SizedBox(height: 10.0, width: double.infinity),
               Text(
@@ -80,18 +80,6 @@ class RegisterPage extends StatelessWidget {
             margin: EdgeInsets.symmetric(vertical: 30.0),
             padding: EdgeInsets.symmetric(vertical: 50.0),
             width: size.width * 0.85,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8.0),
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 3.0,
-                  offset: Offset(0.0, 5.0),
-                  spreadRadius: 3.0,
-                ),
-              ],
-            ),
             child: Column(
               children: <Widget>[
                 Text(
@@ -121,7 +109,7 @@ class RegisterPage extends StatelessWidget {
     );
   }
 
-  Widget _createName(LoginBloc bloc) {
+  Widget _createName(UserBloc bloc) {
     return StreamBuilder(
       stream: bloc.nameStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -145,7 +133,7 @@ class RegisterPage extends StatelessWidget {
     );
   }
 
-  Widget _createSurname(LoginBloc bloc) {
+  Widget _createSurname(UserBloc bloc) {
     return StreamBuilder(
       stream: bloc.surnameStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -169,7 +157,7 @@ class RegisterPage extends StatelessWidget {
     );
   }
 
-  Widget _createEmail(LoginBloc bloc) {
+  Widget _createEmail(UserBloc bloc) {
     return StreamBuilder(
       stream: bloc.emailStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -194,7 +182,7 @@ class RegisterPage extends StatelessWidget {
     );
   }
 
-  Widget _createPassword(LoginBloc bloc) {
+  Widget _createPassword(UserBloc bloc) {
     return StreamBuilder(
       stream: bloc.passwordStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -218,9 +206,9 @@ class RegisterPage extends StatelessWidget {
     );
   }
 
-  Widget _createButton(LoginBloc bloc) {
+  Widget _createButton(UserBloc bloc) {
     return StreamBuilder(
-      stream: bloc.formValidStream,
+      stream: bloc.registerFormValidStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         return RaisedButton(
           padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
@@ -239,7 +227,7 @@ class RegisterPage extends StatelessWidget {
     );
   }
 
-  _register(LoginBloc bloc, BuildContext context) async {
+  _register(UserBloc bloc, BuildContext context) async {
     final info = await userProvider.newUser(
         bloc.email, bloc.password, bloc.name, bloc.surname);
 

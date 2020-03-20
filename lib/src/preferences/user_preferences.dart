@@ -46,12 +46,4 @@ class UserPreferences {
   set lookScreen(bool value) {
     _prefs.setBool('lookScreen', value);
   }
-
-  get darkMode {
-    return _prefs.getBool('darkMode') ?? false;
-  }
-
-  set darkMode(bool value) {
-    _prefs.setBool('darkMode', value);
-  }
 }

@@ -14,10 +14,7 @@ class DebtsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(
-        title: Text(
-          'Deudas',
-          style: TextStyle(color: Colors.black),
-        ),
+        title: Text('Deudas'),
         user: '${prefs.identity[1][0]}${prefs.identity[2][0]}',
         context: context,
       ),
@@ -61,17 +58,23 @@ class DebtsPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         FloatingActionButton(
-          heroTag: "btn1",
-          child: Icon(Icons.search),
-          backgroundColor: Colors.black,
-          onPressed: () {},
+          heroTag: "btn2",
+          child: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+          backgroundColor: Color.fromRGBO(31, 133, 109, 1.0),
+          onPressed: () => Navigator.pushNamed(context, 'create'),
         ),
         SizedBox(width: 10),
         FloatingActionButton(
-          heroTag: "btn2",
-          child: Icon(Icons.add),
-          backgroundColor: Color.fromRGBO(31, 133, 109, 1.0),
-          onPressed: () => Navigator.pushNamed(context, 'create'),
+          heroTag: "btn1",
+          child: Icon(
+            Icons.search,
+            color: Colors.white,
+          ),
+          backgroundColor: Colors.blue,
+          onPressed: () {},
         ),
       ],
     );

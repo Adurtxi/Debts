@@ -33,7 +33,17 @@ class MyApp extends StatelessWidget {
         routes: getAppRoutes(),
         //Estilos globales
         theme: ThemeData(
-          primaryColor: Colors.blue,
+          brightness: Brightness.light,
+          primaryColor: Colors.white,
+        ),
+        darkTheme: ThemeData(
+          primaryColor: Colors.black,
+          primaryColorBrightness: Brightness.dark,
+          primaryColorLight: Colors.black,
+          brightness: Brightness.dark,
+          primaryColorDark: Colors.black,
+          indicatorColor: Colors.white,
+          canvasColor: Colors.black,
         ),
       ),
     );

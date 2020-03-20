@@ -10,10 +10,7 @@ class PeoplePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(
-        title: Text(
-          'Gente',
-          style: TextStyle(color: Colors.black),
-        ),
+        title: Text('Gente'),
         user: '${prefs.identity[1][0]}${prefs.identity[2][0]}',
         context: context,
       ),

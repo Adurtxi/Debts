@@ -21,10 +21,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(
-        title: Text(
-          'Inicio',
-          style: TextStyle(color: Colors.black),
-        ),
+        title: Text('Inicio'),
         user: '${prefs.identity[1][0]}${prefs.identity[2][0]}',
         context: context,
       ),

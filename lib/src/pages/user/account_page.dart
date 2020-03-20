@@ -1,3 +1,4 @@
+import 'package:epbasic_debts/src/blocs/provider.dart';
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:epbasic_debts/src/providers/user_provider.dart';
 import 'package:epbasic_debts/src/widgets/bottomNav.dart';
@@ -21,10 +22,7 @@ class _AccountPageState extends State<AccountPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(
-        title: Text(
-          'Cuenta',
-          style: TextStyle(color: Colors.black),
-        ),
+        title: Text('Cuenta'),
         user: '${_prefs.identity[1][0]}${_prefs.identity[2][0]}',
         context: context,
       ),
@@ -33,7 +31,7 @@ class _AccountPageState extends State<AccountPage> {
           margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
           child: Column(
             children: <Widget>[
-              _card(),
+              _optionsCard(),
               _logoutContainer(),
             ],
           ),
@@ -43,36 +41,31 @@ class _AccountPageState extends State<AccountPage> {
     );
   }
 
-  Widget _card() {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0),
-      ),
-      child: Column(
-        children: <Widget>[
-          SwitchListTile(
-            value: _prefs.darkMode,
-            title: Text('Modo oscuro'),
-            activeColor: Color.fromRGBO(31, 133, 109, 1.0),
-            onChanged: (value) => setState(() {
-              _prefs.darkMode = value;
-            }),
-          ),
-          SwitchListTile(
-            value: _prefs.lookScreen,
-            title: Text('Desbloqueo con huella'),
-            activeColor: Color.fromRGBO(31, 133, 109, 1.0),
-            onChanged: (value) => setState(() {
-              _prefs.lookScreen = value;
+  Widget _optionsCard() {
+    return Container(
+      margin: EdgeInsets.only(top: 10.0),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        child: Column(
+          children: <Widget>[
+            SwitchListTile(
+              value: _prefs.lookScreen,
+              title: Text('Desbloqueo con huella'),
+              activeColor: Color.fromRGBO(31, 133, 109, 1.0),
+              onChanged: (value) => setState(() {
+                _prefs.lookScreen = value;
 
-              if (value == true) {
-                _prefs.lastPage = 'auth';
-              } else {
-                _prefs.lastPage = 'home';
-              }
-            }),
-          ),
-        ],
+                if (value == true) {
+                  _prefs.lastPage = 'auth';
+                } else {
+                  _prefs.lastPage = 'home';
+                }
+              }),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -93,7 +86,6 @@ class _AccountPageState extends State<AccountPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(Icons.person_outline),
             Text("Cerrar Sesión"),
           ],
         ),

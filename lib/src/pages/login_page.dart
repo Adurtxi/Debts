@@ -27,7 +27,7 @@ class LoginPage extends StatelessWidget {
     //Contenedor solido
     final background = Container(
       //40 % del alto total
-      height: size.height * 0.4,
+      height: size.height * 0.3,
       //100 % del ancho total
       width: double.infinity,
       decoration: BoxDecoration(
@@ -67,7 +67,7 @@ class LoginPage extends StatelessWidget {
               Icon(
                 Icons.money_off,
                 color: Colors.white,
-                size: 100.0,
+                size: 80.0,
               ),
               SizedBox(height: 10.0, width: double.infinity),
               Text(
@@ -97,19 +97,7 @@ class LoginPage extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 50.0),
             width: size.width * 0.85,
             //Tarjeta login
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8.0),
-              //Sombra
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 3.0,
-                  offset: Offset(0.0, 5.0),
-                  spreadRadius: 3.0,
-                ),
-              ],
-            ),
+
             child: Column(
               children: <Widget>[
                 Text('Login', style: TextStyle(fontSize: 20.0)),
@@ -136,7 +124,7 @@ class LoginPage extends StatelessWidget {
   }
 
   //Input email
-  Widget _createEmail(LoginBloc bloc) {
+  Widget _createEmail(UserBloc bloc) {
     //Stream de email y contraseña
     return StreamBuilder(
       stream: bloc.emailStream,
@@ -163,7 +151,7 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Widget _createPassword(LoginBloc bloc) {
+  Widget _createPassword(UserBloc bloc) {
     return StreamBuilder(
       stream: bloc.passwordStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -187,9 +175,9 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Widget _createButton(LoginBloc bloc) {
+  Widget _createButton(UserBloc bloc) {
     return StreamBuilder(
-      stream: bloc.formValidStream,
+      stream: bloc.loginFormValidStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         return RaisedButton(
           padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
@@ -211,7 +199,7 @@ class LoginPage extends StatelessWidget {
   }
 
   //Enviar datos al provider y en caso de OK redirigir a home
-  _login(LoginBloc bloc, BuildContext context) async {
+  _login(UserBloc bloc, BuildContext context) async {
     Map info = await userProvider.login(bloc.email, bloc.password);
 
     if (info['ok'] == true) {
