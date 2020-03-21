@@ -11,73 +11,9 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          //Fondo parte superior
-          _createBackground(context),
-          //Tarjeta login
           _loginForm(context),
         ],
       ),
-    );
-  }
-
-  Widget _createBackground(BuildContext context) {
-    //Tamaño total
-    final size = MediaQuery.of(context).size;
-
-    //Contenedor solido
-    final background = Container(
-      //40 % del alto total
-      height: size.height * 0.3,
-      //100 % del ancho total
-      width: double.infinity,
-      decoration: BoxDecoration(
-        //Gradiente de izquierda a derecha
-        gradient: LinearGradient(
-          colors: <Color>[
-            Color.fromRGBO(22, 216, 169, 1.0),
-            Color.fromRGBO(31, 133, 109, 1.0),
-          ],
-        ),
-      ),
-    );
-
-    //Circulos del contenedor
-    final circle = Container(
-      width: 100.0,
-      height: 100.0,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(100.0),
-        color: Color.fromRGBO(255, 255, 255, 0.05),
-      ),
-    );
-
-    //Devolver un stack (widget que permite poner widgets encima de el)
-    return Stack(
-      children: <Widget>[
-        //Incluir el fondo
-        background,
-        //Incluir circulos
-        Positioned(top: 90.0, left: 30.0, child: circle),
-        Positioned(top: -40.0, right: -30.0, child: circle),
-        //Icono del fondo
-        Container(
-          padding: EdgeInsets.only(top: 60.0),
-          child: Column(
-            children: <Widget>[
-              Icon(
-                Icons.money_off,
-                color: Colors.white,
-                size: 80.0,
-              ),
-              SizedBox(height: 10.0, width: double.infinity),
-              Text(
-                'EPBasic Debts',
-                style: TextStyle(color: Colors.white, fontSize: 25.0),
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 
@@ -90,10 +26,8 @@ class LoginPage extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          SafeArea(child: Container(height: 180.0)),
+          SafeArea(child: Container(height: 150.0)),
           Container(
-            //Margenes y tamaño
-            margin: EdgeInsets.symmetric(vertical: 30.0),
             padding: EdgeInsets.symmetric(vertical: 50.0),
             width: size.width * 0.85,
             //Tarjeta login

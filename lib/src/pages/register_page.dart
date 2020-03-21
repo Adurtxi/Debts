@@ -11,60 +11,9 @@ class RegisterPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          _createBackground(context),
           _registerForm(context),
         ],
       ),
-    );
-  }
-
-  Widget _createBackground(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final background = Container(
-      height: size.height * 0.25,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: <Color>[
-            Color.fromRGBO(63, 63, 156, 1.0),
-            Color.fromRGBO(90, 70, 178, 1.0),
-          ],
-        ),
-      ),
-    );
-
-    final circle = Container(
-      width: 100.0,
-      height: 100.0,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(100.0),
-        color: Color.fromRGBO(255, 255, 255, 0.05),
-      ),
-    );
-
-    return Stack(
-      children: <Widget>[
-        background,
-        Positioned(top: 90.0, left: 30.0, child: circle),
-        Positioned(top: -40.0, right: -30.0, child: circle),
-        Container(
-          padding: EdgeInsets.only(top: 60.0),
-          child: Column(
-            children: <Widget>[
-              Icon(
-                Icons.money_off,
-                color: Colors.white,
-                size: 60.0,
-              ),
-              SizedBox(height: 10.0, width: double.infinity),
-              Text(
-                'EPBasic Debts',
-                style: TextStyle(color: Colors.white, fontSize: 25.0),
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 
@@ -75,9 +24,8 @@ class RegisterPage extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          SafeArea(child: Container(height: 180.0)),
+          SafeArea(child: Container(height: 90.0)),
           Container(
-            margin: EdgeInsets.symmetric(vertical: 30.0),
             padding: EdgeInsets.symmetric(vertical: 50.0),
             width: size.width * 0.85,
             child: Column(

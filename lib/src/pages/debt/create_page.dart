@@ -35,10 +35,7 @@ class _NewDebtPageState extends State<NewDebtPage> {
     return Scaffold(
       key: scaffoldKey,
       appBar: MyAppBar(
-        title: Text(
-          'Crear deuda',
-          style: TextStyle(color: Colors.black),
-        ),
+        title: Text('Crear deuda'),
         user: '${prefs.identity[1][0]}${prefs.identity[2][0]}',
         context: context,
       ),
