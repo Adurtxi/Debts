@@ -18,7 +18,7 @@ class RegisterPage extends StatelessWidget {
   }
 
   Widget _registerForm(context) {
-    final bloc = Provider.of(context);
+    final bloc = Provider.userBloc(context);
     final size = MediaQuery.of(context).size;
 
     return SingleChildScrollView(

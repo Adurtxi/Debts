@@ -1,7 +1,7 @@
+import 'package:epbasic_debts/src/blocs/provider.dart';
 import 'package:epbasic_debts/src/modals/defaulter_modal.dart';
 import 'package:epbasic_debts/src/models/debt_model.dart';
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
-import 'package:epbasic_debts/src/providers/debts_provider.dart';
 import 'package:epbasic_debts/src/widgets/bottomNav.dart';
 import 'package:epbasic_debts/src/widgets/myAppBar.dart';
 import 'package:flutter/material.dart';
@@ -13,14 +13,14 @@ class NewDebtPage extends StatefulWidget {
 }
 
 class _NewDebtPageState extends State<NewDebtPage> {
-  DebtModel debt = new DebtModel();
   final prefs = new UserPreferences();
-  final productProvider = new DebtsProvider();
-
-  bool _saving = false;
-
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  DebtModel debt = new DebtModel();
+  DebtsBloc debtsBloc;
+
+  bool _saving = false;
 
   @override
   Widget build(BuildContext context) {
@@ -159,10 +159,10 @@ class _NewDebtPageState extends State<NewDebtPage> {
     });
 
     if (debt.id == null) {
-      productProvider.createDebt(debt);
+      debtsBloc.createDebt(debt);
       _printSnackbar('Registro guardado');
     } else {
-      productProvider.updateDebt(debt);
+      debtsBloc.updateDebt(debt);
       _printSnackbar('Registro actualizado');
     }
 

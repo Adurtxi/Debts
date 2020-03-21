@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:epbasic_debts/src/blocs/user_bloc.dart';
 export 'package:epbasic_debts/src/blocs/user_bloc.dart';
+import 'package:epbasic_debts/src/blocs/debts_bloc.dart';
+export 'package:epbasic_debts/src/blocs/debts_bloc.dart';
 
 class Provider extends InheritedWidget {
+  final _loginBloc = UserBloc();
+  final _debtsBloc = DebtsBloc();
+
   static Provider _instance;
 
   factory Provider({Key key, Widget child}) {
@@ -15,12 +20,14 @@ class Provider extends InheritedWidget {
 
   Provider._internal({Key key, Widget child}) : super(key: key, child: child);
 
-  final loginBloc = UserBloc();
-
   @override
   bool updateShouldNotify(InheritedWidget oldWidget) => true;
 
-  static UserBloc of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<Provider>().loginBloc;
+  static UserBloc userBloc(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<Provider>()._loginBloc;
+  }
+
+  static DebtsBloc debtsBloc(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<Provider>()._debtsBloc;
   }
 }

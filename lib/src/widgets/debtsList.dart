@@ -1,6 +1,6 @@
+import 'package:epbasic_debts/src/blocs/provider.dart';
 import 'package:epbasic_debts/src/models/debt_model.dart';
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
-import 'package:epbasic_debts/src/providers/debts_provider.dart';
 import 'package:flutter/material.dart';
 
 class DebstList extends StatelessWidget {
@@ -11,11 +11,12 @@ class DebstList extends StatelessWidget {
 
   DebstList({@required this.debt, @required this.user});
 
-  final debtsProvider = new DebtsProvider();
   final prefs = new UserPreferences();
 
   @override
   Widget build(BuildContext context) {
+    final debtsBloc = Provider.debtsBloc(context);
+
     final card = Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
@@ -49,7 +50,7 @@ class DebstList extends StatelessWidget {
         key: UniqueKey(),
         background: Container(color: Colors.red),
         onDismissed: (direction) async {
-          Map info = await debtsProvider.deleteDebt(debt.id.toString());
+          Map info = await debtsBloc.deleteDebt(debt.id.toString());
 
           if (info['ok'] == true) {
             _printSnackbar(context, info['message']);

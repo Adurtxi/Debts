@@ -1,11 +1,12 @@
+import 'package:flutter/material.dart';
+
+import 'package:epbasic_debts/src/blocs/provider.dart';
 import 'package:epbasic_debts/src/models/debt_model.dart';
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
-import 'package:epbasic_debts/src/providers/debts_provider.dart';
 import 'package:epbasic_debts/src/providers/user_provider.dart';
 import 'package:epbasic_debts/src/widgets/bottomNav.dart';
 import 'package:epbasic_debts/src/widgets/debtsList.dart';
 import 'package:epbasic_debts/src/widgets/myAppBar.dart';
-import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -14,11 +15,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final userProvider = new UserProvider();
-  final debtsProvider = new DebtsProvider();
   final prefs = new UserPreferences();
 
   @override
   Widget build(BuildContext context) {
+    final debtsBloc = Provider.debtsBloc(context);
+    debtsBloc.loadDebts('defaulter-debts-to-pay');
+
     return Scaffold(
       appBar: MyAppBar(
         title: Text('Inicio'),
@@ -26,16 +29,16 @@ class _HomePageState extends State<HomePage> {
         context: context,
       ),
       body: Container(
-        child: _createList(),
+        child: _createList(debtsBloc),
       ),
       bottomNavigationBar: BottomNav(),
     );
   }
 
   //Lista de deudas
-  _createList() {
-    return FutureBuilder(
-      future: debtsProvider.loadDebts('defaulter-debts-to-pay'),
+  _createList(DebtsBloc debtsBloc) {
+    return StreamBuilder(
+      stream: debtsBloc.debtsStream,
       builder: (BuildContext context, AsyncSnapshot<List<DebtModel>> snapshot) {
         if (snapshot.hasData) {
           final debts = snapshot.data;
