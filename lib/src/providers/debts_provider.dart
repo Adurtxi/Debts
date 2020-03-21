@@ -57,6 +57,34 @@ class DebtsProvider {
     }
   }
 
+  Future<List<DebtModel>> searchDebt(String query) async {
+    final url = '$_apiUrl/debts/search/$query';
+
+    final resp = await http.get(
+      Uri.encodeFull(url),
+      headers: {
+        HttpHeaders.authorizationHeader: _prefs.token,
+      },
+    );
+
+    final Map<String, dynamic> decodedData = json.decode(resp.body);
+
+    if (decodedData == null) return [];
+
+    if (decodedData['status'] == 'success') {
+      final List<DebtModel> debts = new List();
+
+      decodedData['debts'].forEach((debt) {
+        final prodTemp = DebtModel.fromJson(debt);
+        debts.add(prodTemp);
+      });
+
+      return debts;
+    } else {
+      return [];
+    }
+  }
+
   Future<bool> updateDebt(DebtModel debt) async {
     final url = '$_apiUrl/debt/${debt.id}';
 
