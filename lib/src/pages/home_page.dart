@@ -40,9 +40,9 @@ class _HomePageState extends State<HomePage> {
     return StreamBuilder(
       stream: debtsBloc.debtsStream,
       builder: (BuildContext context, AsyncSnapshot<List<DebtModel>> snapshot) {
-        if (snapshot.hasData) {
-          final debts = snapshot.data;
+        final debts = snapshot.data;
 
+        if (snapshot.hasData && debts.length > 0) {
           return ListView.builder(
             itemCount: debts.length,
             itemBuilder: (context, i) {

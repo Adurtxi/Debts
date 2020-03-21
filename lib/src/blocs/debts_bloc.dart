@@ -1,6 +1,7 @@
 import 'package:epbasic_debts/src/models/debt_model.dart';
 import 'package:epbasic_debts/src/providers/debts_provider.dart';
 import 'package:rxdart/rxdart.dart';
+import 'dart:convert';
 
 class DebtsBloc {
   final _debtsCtr = new BehaviorSubject<List<DebtModel>>();
@@ -12,7 +13,9 @@ class DebtsBloc {
   Stream<bool> get loading => _loadingCtr.stream;
 
   void loadDebts(pathUrl) async {
+    _debtsCtr.sink.add([]);
     final debts = await _debtsProvider.loadDebts(pathUrl);
+    //print(json.encode(debts));
     _debtsCtr.sink.add(debts);
   }
 
