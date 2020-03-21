@@ -5,7 +5,7 @@ class MyAppBar extends AppBar {
       : super(key: key, title: title, centerTitle: true, actions: <Widget>[
           GestureDetector(
             onTap: () {
-              Navigator.pushReplacementNamed(context, 'account');
+              Navigator.pushNamed(context, 'account');
             },
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 10.0),
