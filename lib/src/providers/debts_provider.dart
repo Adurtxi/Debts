@@ -88,12 +88,10 @@ class DebtsProvider {
   Future<bool> updateDebt(DebtModel debt) async {
     final url = '$_apiUrl/debt/${debt.id}';
 
-    final resp = await http.put(
+    await http.put(
       Uri.encodeFull(url),
       body: debtModelToJson(debt),
     );
-
-    final decodedData = json.decode(resp.body);
 
     return true;
   }

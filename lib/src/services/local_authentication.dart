@@ -20,6 +20,7 @@ class LocalAuthenticationService {
         return false;
       }
     } on PlatformException catch (e) {
+      print(e);
       return false;
     }
   }
