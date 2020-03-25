@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
@@ -11,17 +10,23 @@ class DebtsProvider {
   final String _apiUrl = 'https://api.debts.epbasic.eu/api';
   final _prefs = new UserPreferences();
 
-  Future<bool> createDebt(DebtModel debt) async {
-    print(debtModelToJson(debt));
+  _setHeaders() => {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': '${_prefs.token}'
+      };
 
+  Future<bool> createDebt(DebtModel debt) async {
     final url = '$_apiUrl/debt';
 
+    final json = debtModelToJson(debt);
+    final jsonParams = 'json=$json';
+
+    print(jsonParams);
     final resp = await http.post(
       Uri.encodeFull(url),
       body: debtModelToJson(debt),
-      headers: {
-        HttpHeaders.authorizationHeader: _prefs.token,
-      },
+      headers: _setHeaders(),
     );
 
     //final decodedData = json.decode(resp.body);
@@ -34,9 +39,7 @@ class DebtsProvider {
 
     final resp = await http.get(
       Uri.encodeFull(url),
-      headers: {
-        HttpHeaders.authorizationHeader: _prefs.token,
-      },
+      headers: _setHeaders(),
     );
 
     final Map<String, dynamic> decodedData = json.decode(resp.body);
@@ -62,9 +65,7 @@ class DebtsProvider {
 
     final resp = await http.get(
       Uri.encodeFull(url),
-      headers: {
-        HttpHeaders.authorizationHeader: _prefs.token,
-      },
+      headers: _setHeaders(),
     );
 
     final Map<String, dynamic> decodedData = json.decode(resp.body);
@@ -91,6 +92,7 @@ class DebtsProvider {
     await http.put(
       Uri.encodeFull(url),
       body: debtModelToJson(debt),
+      headers: _setHeaders(),
     );
 
     return true;
@@ -101,9 +103,7 @@ class DebtsProvider {
 
     final resp = await http.delete(
       Uri.encodeFull(url),
-      headers: {
-        HttpHeaders.authorizationHeader: _prefs.token,
-      },
+      headers: _setHeaders(),
     );
 
     final decodedData = json.decode(resp.body);

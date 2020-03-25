@@ -18,7 +18,7 @@ class _NewDebtPageState extends State<NewDebtPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   DebtModel debt = new DebtModel();
-  DebtsBloc debtsBloc;
+  DebtsBloc debtsBloc = new DebtsBloc();
 
   bool _saving = false;
 
@@ -170,7 +170,7 @@ class _NewDebtPageState extends State<NewDebtPage> {
       _saving = false;
     });
 
-    Navigator.pop(context);
+    //Navigator.pop(context);
   }
 
   void _printSnackbar(String message) {

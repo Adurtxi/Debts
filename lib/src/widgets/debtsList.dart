@@ -33,8 +33,8 @@ class DebstList extends StatelessWidget {
               ),
               backgroundColor: Colors.blue,
             ),
-            title: Text('${debt.title}'),
-            subtitle: Text(debt.id.toString()),
+            title: Text(debt.title),
+            subtitle: Text(debt.description),
             onTap: () => Navigator.pushNamed(
               context,
               'detail',
