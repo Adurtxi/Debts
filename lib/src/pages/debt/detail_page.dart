@@ -5,18 +5,20 @@ import 'package:flutter/material.dart';
 class DebtDetail extends StatelessWidget {
   final prefs = new UserPreferences();
 
+  DebtModel debt = new DebtModel();
+
   @override
   Widget build(BuildContext context) {
-    DebtModel debt = ModalRoute.of(context).settings.arguments;
+    debt = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
-          _createAppbar(debt),
+          _createAppbar(),
           SliverList(
             delegate: SliverChildListDelegate([
               SizedBox(height: 10.0),
-              _container(debt),
+              _container(),
             ]),
           )
         ],
@@ -24,7 +26,7 @@ class DebtDetail extends StatelessWidget {
     );
   }
 
-  Widget _container(DebtModel debt) {
+  Widget _container() {
     final user = '${debt.user.name[0]}${debt.user.surname[0]}';
     final defaulter = '${debt.defaulter.name[0]}${debt.defaulter.surname[0]}';
 
@@ -63,7 +65,7 @@ class DebtDetail extends StatelessWidget {
     );
   }
 
-  Widget _createAppbar(DebtModel debt) {
+  Widget _createAppbar() {
     return SliverAppBar(
       elevation: 2.0,
       backgroundColor: Colors.blue,

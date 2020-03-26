@@ -16,20 +16,6 @@ class DebtsProvider {
         'Authorization': '${_prefs.token}'
       };
 
-  Future<bool> createDebt(DebtModel debt) async {
-    final url = '$_apiUrl/debt';
-
-    final json = debtModelToJson(debt);
-
-    await http.post(
-      Uri.encodeFull(url),
-      body: json,
-      headers: _setHeaders(),
-    );
-
-    return true;
-  }
-
   Future<List<DebtModel>> loadDebts(String pathUrl) async {
     final url = '$_apiUrl/$pathUrl';
 
@@ -80,6 +66,18 @@ class DebtsProvider {
     } else {
       return [];
     }
+  }
+
+  Future<bool> createDebt(DebtModel debt) async {
+    final url = '$_apiUrl/debt';
+
+    await http.post(
+      Uri.encodeFull(url),
+      body: debtModelToJson(debt),
+      headers: _setHeaders(),
+    );
+
+    return true;
   }
 
   Future<bool> updateDebt(DebtModel debt) async {

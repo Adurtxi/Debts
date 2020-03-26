@@ -6,6 +6,9 @@ import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 class UserProvider {
   final _prefs = new UserPreferences();
 
+  _setHeaders() =>
+      {'Content-type': 'application/json', 'Accept': 'application/json'};
+
   Future<Map<String, dynamic>> login(String email, String password) async {
     final authData = {
       'email': email,
@@ -15,10 +18,7 @@ class UserProvider {
     final resp = await http.post(
       'https://api.debts.epbasic.eu/api/login',
       body: json.encode(authData),
-      headers: {
-        'Content-type': 'application/json',
-        'Accept': 'application/json',
-      },
+      headers: _setHeaders(),
     );
 
     Map<String, dynamic> decodedResp = json.decode(resp.body);
@@ -56,10 +56,7 @@ class UserProvider {
     final resp = await http.post(
       'https://api.debts.epbasic.eu/api/register',
       body: json.encode(authData),
-      headers: {
-        'Content-type': 'application/json',
-        'Accept': 'application/json',
-      },
+      headers: _setHeaders(),
     );
 
     Map<String, dynamic> decodedResp = json.decode(resp.body);
@@ -74,5 +71,6 @@ class UserProvider {
   logout() {
     _prefs.token = null;
     _prefs.lastPage = null;
+    _prefs.lookScreen = null;
   }
 }

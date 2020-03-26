@@ -6,12 +6,12 @@ import 'package:epbasic_debts/src/widgets/myAppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:epbasic_debts/src/utils/utils.dart' as utils;
 
-class NewDebtPage extends StatefulWidget {
+class EditDebtPage extends StatefulWidget {
   @override
-  _NewDebtPageState createState() => _NewDebtPageState();
+  _EditDebtPageState createState() => _EditDebtPageState();
 }
 
-class _NewDebtPageState extends State<NewDebtPage> {
+class _EditDebtPageState extends State<EditDebtPage> {
   final prefs = new UserPreferences();
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -25,10 +25,16 @@ class _NewDebtPageState extends State<NewDebtPage> {
   Widget build(BuildContext context) {
     DefaulterModal modal = new DefaulterModal();
 
+    DebtModel debtData = ModalRoute.of(context).settings.arguments;
+
+    if (debtData != null) {
+      debt = debtData;
+    }
+
     return Scaffold(
       key: scaffoldKey,
       appBar: MyAppBar(
-        title: Text('Crear deuda'),
+        title: Text('Editar deuda'),
         user: '${prefs.identity[1][0]}${prefs.identity[2][0]}',
         context: context,
       ),
@@ -135,7 +141,7 @@ class _NewDebtPageState extends State<NewDebtPage> {
       ),
       color: Color.fromRGBO(31, 133, 109, 1.0),
       textColor: Colors.white,
-      label: Text('Guardar'),
+      label: Text('Actualizar'),
       icon: Icon(Icons.save),
       onPressed: (_saving) ? null : _submit,
     );
@@ -150,8 +156,8 @@ class _NewDebtPageState extends State<NewDebtPage> {
       _saving = true;
     });
 
-    debtsBloc.createDebt(debt);
-    _printSnackbar('Deuda guardada');
+    debtsBloc.updateDebt(debt);
+    _printSnackbar('Registro actualizado');
 
     setState(() {
       _saving = false;

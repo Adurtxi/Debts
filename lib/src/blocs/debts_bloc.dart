@@ -14,7 +14,6 @@ class DebtsBloc {
   void loadDebts(pathUrl) async {
     _debtsCtr.sink.add([]);
     final debts = await _debtsProvider.loadDebts(pathUrl);
-    //print(json.encode(debts));
     _debtsCtr.sink.add(debts);
   }
 

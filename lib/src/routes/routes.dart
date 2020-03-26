@@ -10,6 +10,7 @@ import 'package:epbasic_debts/src/pages/register_page.dart';
 import 'package:epbasic_debts/src/pages/login_page.dart';
 import 'package:epbasic_debts/src/pages/home_page.dart';
 import 'package:epbasic_debts/src/pages/auth_page.dart';
+import 'package:epbasic_debts/src/pages/debt/edit_page.dart';
 
 Map<String, WidgetBuilder> getAppRoutes() {
   return <String, WidgetBuilder>{
@@ -19,6 +20,7 @@ Map<String, WidgetBuilder> getAppRoutes() {
     'debts': (BuildContext context) => DebtsPage(),
     'detail': (BuildContext context) => DebtDetail(),
     'create': (BuildContext context) => NewDebtPage(),
+    'edit': (BuildContext context) => EditDebtPage(),
     'help': (BuildContext context) => HelpPage(),
     'account': (BuildContext context) => AccountPage(),
     'people': (BuildContext context) => PeoplePage(),
