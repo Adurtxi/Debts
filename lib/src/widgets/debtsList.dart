@@ -32,7 +32,13 @@ class DebstList extends StatelessWidget {
               'detail',
               arguments: debt,
             ),
-            onLongPress: () => modal.mainBottomSheet(context),
+            onLongPress: () {
+              if (debt.userId.toString() == prefs.identity[0]) {
+                modal.mainBottomSheet(context);
+              } else {
+                _printSnackbar(context, 'No eres el creador de la deuda');
+              }
+            },
             child: ListTile(
               leading: CircleAvatar(
                 child: Text(
@@ -45,6 +51,8 @@ class DebstList extends StatelessWidget {
               ),
               title: Text(debt.title),
               subtitle: Text(debt.description),
+              //trailing: Icon(icon),
+              trailing: _trailing(),
             ),
           ),
         ],
@@ -71,7 +79,23 @@ class DebstList extends StatelessWidget {
     }
   }
 
-  void _printSnackbar(context, String message) {
+  Widget _trailing() {
+    if (debt.userId.toString() == prefs.identity[0]) {
+      return Icon(Icons.person);
+    } else if (debt.paid == true) {
+      return Icon(Icons.check);
+    } else {
+      int i = debt.quantity.truncate();
+
+      if (debt.quantity == i) {
+        return Text('${i.toString()}€');
+      }
+
+      return Text('${debt.quantity.toString()}€');
+    }
+  }
+
+  void _printSnackbar(BuildContext context, String message) {
     final snackBar = SnackBar(
       content: Text(message),
     );
