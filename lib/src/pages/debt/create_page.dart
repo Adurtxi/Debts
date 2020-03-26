@@ -170,7 +170,7 @@ class _NewDebtPageState extends State<NewDebtPage> {
       _saving = false;
     });
 
-    //Navigator.pop(context);
+    Navigator.pop(context);
   }
 
   void _printSnackbar(String message) {

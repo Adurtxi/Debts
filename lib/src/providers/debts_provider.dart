@@ -20,17 +20,13 @@ class DebtsProvider {
     final url = '$_apiUrl/debt';
 
     final json = debtModelToJson(debt);
-    final jsonParams = 'json=$json';
 
-    print(jsonParams);
-    final resp = await http.post(
+    await http.post(
       Uri.encodeFull(url),
-      body: debtModelToJson(debt),
+      body: json,
       headers: _setHeaders(),
     );
 
-    //final decodedData = json.decode(resp.body);
-    print(resp.body);
     return true;
   }
 
