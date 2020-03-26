@@ -24,9 +24,9 @@ class _NewDebtPageState extends State<NewDebtPage> {
 
   @override
   Widget build(BuildContext context) {
-    Modal modal = new Modal();
+    DefaulterModal modal = new DefaulterModal();
 
-    final DebtModel debtData = ModalRoute.of(context).settings.arguments;
+    DebtModel debtData = ModalRoute.of(context).settings.arguments;
 
     if (debtData != null) {
       debt = debtData;

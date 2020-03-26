@@ -1,4 +1,5 @@
 import 'package:epbasic_debts/src/blocs/provider.dart';
+import 'package:epbasic_debts/src/modals/debt_actions_modal.dart';
 import 'package:epbasic_debts/src/models/debt_model.dart';
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,8 @@ class DebstList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DebtActionsModal modal = new DebtActionsModal(debt: debt);
+
     final debtsBloc = Provider.debtsBloc(context);
 
     final card = Card(
@@ -23,22 +26,25 @@ class DebstList extends StatelessWidget {
       ),
       child: Column(
         children: <Widget>[
-          ListTile(
-            leading: CircleAvatar(
-              child: Text(
-                user,
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              backgroundColor: Colors.blue,
-            ),
-            title: Text(debt.title),
-            subtitle: Text(debt.description),
+          GestureDetector(
             onTap: () => Navigator.pushNamed(
               context,
               'detail',
               arguments: debt,
+            ),
+            onLongPress: () => modal.mainBottomSheet(context),
+            child: ListTile(
+              leading: CircleAvatar(
+                child: Text(
+                  user,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                backgroundColor: Colors.blue,
+              ),
+              title: Text(debt.title),
+              subtitle: Text(debt.description),
             ),
           ),
         ],

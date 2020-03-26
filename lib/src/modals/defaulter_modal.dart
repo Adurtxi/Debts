@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Modal {
+class DefaulterModal {
   mainBottomSheet(BuildContext context) {
     showModalBottomSheet(
         context: context,
