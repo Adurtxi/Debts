@@ -31,10 +31,36 @@ class PeoplePage extends StatelessWidget {
   }
 
   Widget _body(FollowersBloc followersBloc) {
-    return Stack(
+    return Column(
       children: <Widget>[
-        _createFollowersList(followersBloc),
-        _createFollowedsList(followersBloc),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            'Seguidores',
+            style: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.blue,
+            ),
+          ),
+        ),
+        Expanded(
+          child: _createFollowersList(followersBloc),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            'Siguiendo',
+            style: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.blue,
+            ),
+          ),
+        ),
+        Expanded(
+          child: _createFollowedsList(followersBloc),
+        ),
       ],
     );
   }
