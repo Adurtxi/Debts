@@ -1,4 +1,5 @@
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
+import 'package:epbasic_debts/src/search/user_search_delegate.dart';
 import 'package:epbasic_debts/src/widgets/bottomNav.dart';
 import 'package:epbasic_debts/src/widgets/myAppBar.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,31 @@ class PeoplePage extends StatelessWidget {
         context: context,
       ),
       body: Container(),
+      floatingActionButton: _createButtons(context),
       bottomNavigationBar: BottomNav(),
+    );
+  }
+
+  //Botón crear nuevo producto
+  _createButtons(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        FloatingActionButton(
+          heroTag: "btn1",
+          child: Icon(
+            Icons.search,
+            color: Colors.white,
+          ),
+          backgroundColor: Colors.blue,
+          onPressed: () {
+            showSearch(
+              context: context,
+              delegate: UserSearch(),
+            );
+          },
+        ),
+      ],
     );
   }
 }

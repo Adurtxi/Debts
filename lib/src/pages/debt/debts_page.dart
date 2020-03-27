@@ -1,7 +1,7 @@
 import 'package:epbasic_debts/src/blocs/provider.dart';
 import 'package:epbasic_debts/src/models/debt_model.dart';
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
-import 'package:epbasic_debts/src/search/search_delegate.dart';
+import 'package:epbasic_debts/src/search/debt_search_delegate.dart';
 import 'package:epbasic_debts/src/widgets/bottomNav.dart';
 import 'package:epbasic_debts/src/widgets/debtsList.dart';
 import 'package:epbasic_debts/src/widgets/myAppBar.dart';
@@ -80,7 +80,7 @@ class DebtsPage extends StatelessWidget {
           onPressed: () {
             showSearch(
               context: context,
-              delegate: DataSearch(),
+              delegate: DebtSearch(),
             );
           },
         ),

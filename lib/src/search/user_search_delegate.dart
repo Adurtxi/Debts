@@ -1,10 +1,10 @@
-import 'package:epbasic_debts/src/models/debt_model.dart';
-import 'package:epbasic_debts/src/providers/debts_provider.dart';
-import 'package:epbasic_debts/src/widgets/debtsList.dart';
+import 'package:epbasic_debts/src/models/user_model.dart';
+import 'package:epbasic_debts/src/providers/user_provider.dart';
+import 'package:epbasic_debts/src/widgets/userList.dart';
 import 'package:flutter/material.dart';
 
-class DataSearch extends SearchDelegate {
-  final debtsProvider = new DebtsProvider();
+class UserSearch extends SearchDelegate {
+  final userProvider = new UserProvider();
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -43,17 +43,18 @@ class DataSearch extends SearchDelegate {
     }
 
     return FutureBuilder(
-      future: debtsProvider.searchDebt(query),
-      builder: (BuildContext context, AsyncSnapshot<List<DebtModel>> snapshot) {
+      future: userProvider.searchUser(query),
+      builder: (BuildContext context, AsyncSnapshot<List<UserModel>> snapshot) {
         if (snapshot.hasData) {
-          final debts = snapshot.data;
-
-          return ListView(
-            children: debts.map((debt) {
-              final user = '${debt.user.name[0]}${debt.user.surname[0]}';
-
-              return DebstList(debt: debt, user: user);
-            }).toList(),
+          final users = snapshot.data;
+          print(users);
+          return Container(
+            margin: EdgeInsets.only(top: 5.0),
+            child: ListView(
+              children: users.map((user) {
+                return UserList(user: user);
+              }).toList(),
+            ),
           );
         } else {
           return Center(
