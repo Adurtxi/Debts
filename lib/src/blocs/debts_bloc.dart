@@ -3,18 +3,24 @@ import 'package:epbasic_debts/src/providers/debts_provider.dart';
 import 'package:rxdart/rxdart.dart';
 
 class DebtsBloc {
-  final _debtsCtr = new BehaviorSubject<List<DebtModel>>();
+  final _homeDebtsCtr = new BehaviorSubject<List<DebtModel>>();
+  final _debtsDebtsCtr = new BehaviorSubject<List<DebtModel>>();
   final _loadingCtr = new BehaviorSubject<bool>();
 
   final _debtsProvider = new DebtsProvider();
 
-  Stream<List<DebtModel>> get debtsStream => _debtsCtr.stream;
+  Stream<List<DebtModel>> get homeDebtsStream => _homeDebtsCtr.stream;
+  Stream<List<DebtModel>> get debtsDebtsStream => _debtsDebtsCtr.stream;
   Stream<bool> get loading => _loadingCtr.stream;
 
-  void loadDebts(pathUrl) async {
-    _debtsCtr.sink.add([]);
-    final debts = await _debtsProvider.loadDebts(pathUrl);
-    _debtsCtr.sink.add(debts);
+  void homeDebts() async {
+    final debts = await _debtsProvider.loadDebts('defaulter-debts-to-pay');
+    _homeDebtsCtr.sink.add(debts);
+  }
+
+  void debtsDebts() async {
+    final debts = await _debtsProvider.loadDebts('debts');
+    _debtsDebtsCtr.sink.add(debts);
   }
 
   void createDebt(DebtModel debt) async {
@@ -34,7 +40,8 @@ class DebtsBloc {
   }
 
   dispose() {
-    _debtsCtr?.close();
+    _homeDebtsCtr?.close();
+    _debtsDebtsCtr?.close();
     _loadingCtr?.close();
   }
 }

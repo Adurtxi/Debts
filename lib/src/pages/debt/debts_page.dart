@@ -13,7 +13,7 @@ class DebtsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final debtsBloc = Provider.debtsBloc(context);
-    debtsBloc.loadDebts('debts');
+    debtsBloc.debtsDebts();
 
     return Scaffold(
       appBar: MyAppBar(
@@ -32,7 +32,7 @@ class DebtsPage extends StatelessWidget {
   //Lista de deudas
   _createList(DebtsBloc debtsBloc) {
     return StreamBuilder(
-      stream: debtsBloc.debtsStream,
+      stream: debtsBloc.debtsDebtsStream,
       builder: (BuildContext context, AsyncSnapshot<List<DebtModel>> snapshot) {
         final debts = snapshot.data;
 

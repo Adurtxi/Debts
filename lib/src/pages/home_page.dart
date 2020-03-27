@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final debtsBloc = Provider.debtsBloc(context);
-    debtsBloc.loadDebts('defaulter-debts-to-pay');
+    debtsBloc.homeDebts();
 
     return Scaffold(
       appBar: MyAppBar(
@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
   //Lista de deudas
   _createList(DebtsBloc debtsBloc) {
     return StreamBuilder(
-      stream: debtsBloc.debtsStream,
+      stream: debtsBloc.homeDebtsStream,
       builder: (BuildContext context, AsyncSnapshot<List<DebtModel>> snapshot) {
         final debts = snapshot.data;
 
