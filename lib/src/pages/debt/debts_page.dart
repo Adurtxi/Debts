@@ -47,9 +47,7 @@ class DebtsPage extends StatelessWidget {
             },
           );
         } else {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
+          return Center(child: CircularProgressIndicator());
         }
       },
     );
@@ -61,27 +59,18 @@ class DebtsPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         FloatingActionButton(
-          heroTag: "btn2",
-          child: Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
+          heroTag: "create",
+          child: Icon(Icons.add, color: Colors.white),
           backgroundColor: Color.fromRGBO(31, 133, 109, 1.0),
           onPressed: () => Navigator.pushNamed(context, 'create'),
         ),
         SizedBox(width: 10),
         FloatingActionButton(
-          heroTag: "btn1",
-          child: Icon(
-            Icons.search,
-            color: Colors.white,
-          ),
+          heroTag: "search",
+          child: Icon(Icons.search, color: Colors.white),
           backgroundColor: Colors.blue,
           onPressed: () {
-            showSearch(
-              context: context,
-              delegate: DebtSearch(),
-            );
+            showSearch(context: context, delegate: DebtSearch());
           },
         ),
       ],

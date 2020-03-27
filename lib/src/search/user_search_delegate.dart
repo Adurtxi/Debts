@@ -47,7 +47,7 @@ class UserSearch extends SearchDelegate {
       builder: (BuildContext context, AsyncSnapshot<List<UserModel>> snapshot) {
         if (snapshot.hasData) {
           final users = snapshot.data;
-          print(users);
+
           return Container(
             margin: EdgeInsets.only(top: 5.0),
             child: ListView(

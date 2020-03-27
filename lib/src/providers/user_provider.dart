@@ -91,8 +91,6 @@ class UserProvider {
 
     final Map<String, dynamic> decodedData = json.decode(resp.body);
 
-    print(resp.body);
-
     if (decodedData == null) return [];
 
     if (decodedData['status'] == 'success') {
