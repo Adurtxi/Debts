@@ -75,8 +75,8 @@ class DefaulterModal {
                 ),
                 trailing: Icon(Icons.person),
                 onTap: () {
+                  followersBloc.sDefaulter(followeds[i].followed);
                   Navigator.pop(context);
-                  print(followeds[i].id);
                 },
               );
             },

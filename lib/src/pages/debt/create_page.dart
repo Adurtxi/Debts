@@ -1,6 +1,8 @@
+import 'package:epbasic_debts/src/blocs/followers_bloc.dart';
 import 'package:epbasic_debts/src/blocs/provider.dart';
 import 'package:epbasic_debts/src/modals/defaulter_modal.dart';
 import 'package:epbasic_debts/src/models/debt_model.dart';
+import 'package:epbasic_debts/src/models/user_model.dart';
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:epbasic_debts/src/widgets/myAppBar.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,8 @@ class _NewDebtPageState extends State<NewDebtPage> {
 
   @override
   Widget build(BuildContext context) {
+    final followersBloc = Provider.followersBloc(context);
+
     DefaulterModal modal = new DefaulterModal();
 
     return Scaffold(
@@ -36,11 +40,11 @@ class _NewDebtPageState extends State<NewDebtPage> {
         onPressed: () => modal.mainBottomSheet(context),
         child: new Icon(Icons.add),
       ),
-      body: _container(),
+      body: _container(followersBloc),
     );
   }
 
-  Widget _container() {
+  Widget _container(followersBloc) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
       child: Column(
@@ -55,11 +59,12 @@ class _NewDebtPageState extends State<NewDebtPage> {
                 key: formKey,
                 child: Column(
                   children: <Widget>[
+                    _defaulter(followersBloc),
                     _createTitle(),
                     _createDescription(),
                     _createQuantity(),
                     _createAvailable(),
-                    _createButton(),
+                    _createButton(followersBloc),
                   ],
                 ),
               ),
@@ -67,6 +72,24 @@ class _NewDebtPageState extends State<NewDebtPage> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _defaulter(FollowersBloc followersBloc) {
+    return StreamBuilder<UserModel>(
+      stream: followersBloc.defaulter,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          debt.defaulterId = snapshot.data.id;
+
+          return Text(
+            '${snapshot.data.name} ${snapshot.data.surname}',
+            style: TextStyle(fontSize: 20.0),
+          );
+        } else {
+          return Text('Selecciona moroso');
+        }
+      },
     );
   }
 
@@ -128,7 +151,7 @@ class _NewDebtPageState extends State<NewDebtPage> {
     );
   }
 
-  Widget _createButton() {
+  Widget _createButton(followersBloc) {
     return RaisedButton.icon(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
@@ -137,7 +160,9 @@ class _NewDebtPageState extends State<NewDebtPage> {
       textColor: Colors.white,
       label: Text('Guardar'),
       icon: Icon(Icons.save),
-      onPressed: (_saving) ? null : _submit,
+      onPressed: () {
+        _submit();
+      },
     );
   }
 
