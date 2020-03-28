@@ -1,69 +1,95 @@
+import 'package:epbasic_debts/src/services/local_authentication.dart';
+import 'package:epbasic_debts/src/services/service_locator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_lock_screen/flutter_lock_screen.dart';
-import 'package:local_auth/local_auth.dart';
-import 'package:flutter/services.dart';
 
-class PassCodeScreen extends StatefulWidget {
-  PassCodeScreen({Key key, this.title}) : super(key: key);
-
-  final String title;
-
+class AuthPage extends StatefulWidget {
   @override
-  _PassCodeScreenState createState() => new _PassCodeScreenState();
+  _AuthPageState createState() => _AuthPageState();
 }
 
-class _PassCodeScreenState extends State<PassCodeScreen> {
-  bool isFingerprint;
+class _AuthPageState extends State<AuthPage> {
+  String _password = '';
 
-  Future<Null> biometrics() async {
-    final LocalAuthentication auth = new LocalAuthentication();
-    bool authenticated = false;
-
-    try {
-      authenticated = await auth.authenticateWithBiometrics(
-          localizedReason: 'Use el dedo para desbloquear la APP',
-          useErrorDialogs: true,
-          stickyAuth: false);
-    } on PlatformException catch (e) {
-      print(e);
-    }
-    if (!mounted) return;
-    if (authenticated) {
-      setState(() {
-        isFingerprint = true;
-      });
-    }
-  }
+  final LocalAuthenticationService _localAuth =
+      locator<LocalAuthenticationService>();
 
   @override
   Widget build(BuildContext context) {
-    var myPass = [1, 2, 3, 4];
-    return LockScreen(
-        foregroundColor: Colors.black,
-        numColor: Colors.blue,
-        title: "",
-        passLength: myPass.length,
-        bgImage: 'assets/img/bg.jpg',
-        fingerPrintImage: "assets/img/fingerprint.png",
-        showFingerPass: true,
-        fingerFunction: biometrics,
-        fingerVerify: isFingerprint,
-        borderColor: Colors.white,
-        showWrongPassDialog: true,
-        wrongPassContent: "Pin incorrecto.",
-        wrongPassTitle: "Upps!",
-        wrongPassCancelButtonText: "Cancelar",
-        passCodeVerify: (passcode) async {
-          for (int i = 0; i < myPass.length; i++) {
-            if (passcode[i] != myPass[i]) {
-              return false;
-            }
-          }
+    _fingerprintAuth();
 
-          return true;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('EPBasic Deudas'),
+      ),
+      body: Container(
+        margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+        child: Column(
+          children: <Widget>[
+            _createInputPassword(),
+            _buttons(1, 'Autentificar con Pin'),
+            _buttons(2, 'Autentificar con Huella'),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _createInputPassword() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 20.0),
+      child: TextField(
+        keyboardType: TextInputType.numberWithOptions(),
+        obscureText: true,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          hintText: 'Contraseña de la persona',
+          labelText: 'Contraseña',
+          suffixIcon: Icon(Icons.lock_open),
+          icon: Icon(Icons.lock),
+        ),
+        onChanged: (value) {
+          setState(() {
+            _password = value;
+          });
         },
-        onSuccess: () {
-          Navigator.pushReplacementNamed(context, 'home');
-        });
+      ),
+    );
+  }
+
+  Widget _buttons(int type, String text) {
+    return RaisedButton(
+      shape: new RoundedRectangleBorder(
+        borderRadius: new BorderRadius.circular(18.0),
+        side: BorderSide(color: Colors.blue),
+      ),
+      color: Colors.blue,
+      textColor: Colors.white,
+      child: Text(text),
+      onPressed: () => _goHome(type),
+    );
+  }
+
+  _goHome(type) async {
+    if (type == 1) {
+      if (_password == '2486') {
+        Navigator.pushReplacementNamed(context, 'home');
+      }
+    } else {
+      _fingerprintAuth();
+    }
+  }
+
+  _fingerprintAuth() async {
+    bool auth = await _auth();
+
+    if (auth == true) {
+      Navigator.pushReplacementNamed(context, 'home');
+    }
+  }
+
+  _auth() async {
+    return await _localAuth.authenticate();
   }
 }
