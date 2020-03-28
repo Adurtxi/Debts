@@ -25,7 +25,7 @@ Map<String, WidgetBuilder> getAppRoutes() {
     'help': (BuildContext context) => HelpPage(),
     'account': (BuildContext context) => AccountPage(),
     'people': (BuildContext context) => PeoplePage(),
-    'auth': (BuildContext context) => AuthPage(),
+    'auth': (BuildContext context) => PassCodeScreen(),
     'userDetail': (BuildContext context) => UserDetailPage(),
   };
 }

@@ -30,6 +30,7 @@ dependencies:
   shared_preferences:
   local_auth: ^0.5.2+3
   get_it: ^1.0.3+2
+  flutter_lock_screen: "^1.0.5"
 
 dev_dependencies:
   flutter_test:
