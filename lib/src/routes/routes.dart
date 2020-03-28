@@ -1,3 +1,4 @@
+import 'package:epbasic_debts/src/pages/user/detail_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:epbasic_debts/src/pages/debt/create_page.dart';
@@ -25,5 +26,6 @@ Map<String, WidgetBuilder> getAppRoutes() {
     'account': (BuildContext context) => AccountPage(),
     'people': (BuildContext context) => PeoplePage(),
     'auth': (BuildContext context) => AuthPage(),
+    'userDetail': (BuildContext context) => UserDetailPage(),
   };
 }

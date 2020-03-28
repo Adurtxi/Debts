@@ -4,8 +4,8 @@ import 'package:epbasic_debts/src/models/follower_model.dart';
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:epbasic_debts/src/search/user_search_delegate.dart';
 import 'package:epbasic_debts/src/widgets/bottomNav.dart';
-import 'package:epbasic_debts/src/widgets/followedList.dart';
-import 'package:epbasic_debts/src/widgets/followerList.dart';
+import 'package:epbasic_debts/src/widgets/followers/followedList.dart';
+import 'package:epbasic_debts/src/widgets/followers/followerList.dart';
 import 'package:epbasic_debts/src/widgets/myAppBar.dart';
 import 'package:flutter/material.dart';
 

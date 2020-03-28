@@ -19,19 +19,26 @@ class FollowerList extends StatelessWidget {
       ),
       child: Column(
         children: <Widget>[
-          ListTile(
-            leading: CircleAvatar(
-              child: Text(
-                '${follower.follower.name[0]}${follower.follower.surname[0]}',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              backgroundColor: Colors.blue,
+          GestureDetector(
+            onTap: () => Navigator.pushNamed(
+              context,
+              'userDetail',
+              arguments: follower.followed,
             ),
-            title:
-                Text('${follower.follower.name} ${follower.follower.surname}'),
-            trailing: Icon(Icons.person_outline),
+            child: ListTile(
+              leading: CircleAvatar(
+                child: Text(
+                  '${follower.follower.name[0]}${follower.follower.surname[0]}',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                backgroundColor: Colors.blue,
+              ),
+              title: Text(
+                  '${follower.follower.name} ${follower.follower.surname}'),
+              trailing: Icon(Icons.person),
+            ),
           ),
         ],
       ),
