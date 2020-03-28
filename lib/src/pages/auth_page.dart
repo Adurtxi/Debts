@@ -15,6 +15,8 @@ class _AuthPageState extends State<AuthPage> {
 
   @override
   Widget build(BuildContext context) {
+    _fingerprintAuth();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('EPBasic Deudas'),
@@ -24,8 +26,8 @@ class _AuthPageState extends State<AuthPage> {
         child: Column(
           children: <Widget>[
             _createInputPassword(),
-            _authButton(1, 'Autentificar con Pin'),
-            _authButton(2, 'Autentificar con Huella'),
+            _buttons(1, 'Autentificar con Pin'),
+            _buttons(2, 'Autentificar con Huella'),
           ],
         ),
       ),
@@ -56,7 +58,7 @@ class _AuthPageState extends State<AuthPage> {
     );
   }
 
-  Widget _authButton(int type, String text) {
+  Widget _buttons(int type, String text) {
     return RaisedButton(
       shape: new RoundedRectangleBorder(
         borderRadius: new BorderRadius.circular(18.0),
@@ -69,21 +71,20 @@ class _AuthPageState extends State<AuthPage> {
     );
   }
 
-   _goHome(type) async {
-    bool goHome = false;
+  _goHome(type) async {
     if (type == 1) {
-      String password = '2486';
-      if (_password == password) {
-        goHome = true;
+      if (_password == '2486') {
+        Navigator.pushReplacementNamed(context, 'home');
       }
     } else {
-      final auth = await _auth();
-
-      if (auth == true) {
-        goHome = true;
-      }
+      _fingerprintAuth();
     }
-    if (goHome == true) {
+  }
+
+  _fingerprintAuth() async {
+    bool auth = await _auth();
+
+    if (auth == true) {
       Navigator.pushReplacementNamed(context, 'home');
     }
   }
