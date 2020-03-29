@@ -51,30 +51,22 @@ class FollowerList extends StatelessWidget {
 
   Widget _trailing(FollowersBloc _followersBloc) {
     if (follower.accepted == true) {
-      return FlatButton(
-        child: Text('Eliminar'),
-        onPressed: () {
-          _followersBloc.deleteFollower(follower.followerId);
-        },
-      );
+      return _flatButton('Eliminar', _followersBloc.deleteFollower);
     } else {
       return ButtonBar(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          new FlatButton(
-            child: new Text('Cancelar'),
-            onPressed: () {
-              _followersBloc.deleteFollower(follower.followerId);
-            },
-          ),
-          new FlatButton(
-            child: new Text('Aceptar'),
-            onPressed: () {
-              _followersBloc.acceptFollower(follower.followerId);
-            },
-          ),
+          _flatButton('Cancelar', _followersBloc.deleteFollower),
+          _flatButton('Aceptar', _followersBloc.acceptFollower),
         ],
       );
     }
+  }
+
+  Widget _flatButton(String text, function) {
+    return FlatButton(
+      child: Text(text),
+      onPressed: () => function(follower.followerId),
+    );
   }
 }

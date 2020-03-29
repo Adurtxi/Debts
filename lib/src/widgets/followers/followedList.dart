@@ -51,19 +51,16 @@ class FollowedList extends StatelessWidget {
 
   Widget _trailing(FollowersBloc _followersBloc) {
     if (followed.accepted == true) {
-      return FlatButton(
-        child: Text('Eliminar'),
-        onPressed: () {
-          _followersBloc.deleteFollowed(followed.followedId);
-        },
-      );
+      return _flatButton('Eliminar', _followersBloc.deleteFollowed);
     } else {
-      return FlatButton(
-        child: Text('Cancelar'),
-        onPressed: () {
-          _followersBloc.deleteFollowed(followed.followedId);
-        },
-      );
+      return _flatButton('Cancelar', _followersBloc.deleteFollowed);
     }
+  }
+
+  Widget _flatButton(String text, function) {
+    return FlatButton(
+      child: Text(text),
+      onPressed: () => function(followed.followedId),
+    );
   }
 }

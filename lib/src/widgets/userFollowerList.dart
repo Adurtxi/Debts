@@ -42,15 +42,26 @@ class UserFollowerList extends StatelessWidget {
   }
 
   Widget _trailing(FollowersBloc _followersBloc) {
-    if (user.follStatus == 0) {
-      return FlatButton(
-        child: Text('Seguir'),
-        onPressed: () {
-          _followersBloc.newFollower(user.id);
-        },
-      );
-    } else {
-      return Icon(Icons.person);
+    switch (user.follStatus) {
+      case 1:
+        {
+          return _flatButton('Cancelar', _followersBloc.deleteFollowed);
+        }
+        break;
+      case 2:
+        {
+          return _flatButton('Eliminar', _followersBloc.deleteFollowed);
+        }
+        break;
     }
+
+    return _flatButton('Seguir', _followersBloc.newFollower);
+  }
+
+  Widget _flatButton(String text, function) {
+    return FlatButton(
+      child: Text(text),
+      onPressed: () => function(user.id),
+    );
   }
 }
