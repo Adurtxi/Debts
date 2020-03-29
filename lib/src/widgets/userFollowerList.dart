@@ -4,12 +4,12 @@ import 'package:epbasic_debts/src/models/user_model.dart';
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:flutter/material.dart';
 
-class UserList extends StatelessWidget {
+class UserFollowerList extends StatelessWidget {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   final UserModel user;
 
-  UserList({@required this.user});
+  UserFollowerList({@required this.user});
 
   final prefs = new UserPreferences();
 
@@ -42,11 +42,15 @@ class UserList extends StatelessWidget {
   }
 
   Widget _trailing(FollowersBloc _followersBloc) {
-    return FlatButton(
-      child: Text('Seguir'),
-      onPressed: () {
-        _followersBloc.deleteFollower(user.id);
-      },
-    );
+    if (user.follStatus == 0) {
+      return FlatButton(
+        child: Text('Seguir'),
+        onPressed: () {
+          _followersBloc.newFollower(user.id);
+        },
+      );
+    } else {
+      return Icon(Icons.person);
+    }
   }
 }

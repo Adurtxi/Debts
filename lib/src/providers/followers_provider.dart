@@ -86,8 +86,27 @@ class FollowersProvider {
     }
   }
 
-  Future<bool> acceptFollower(int followerId) async {
-    final url = '$_apiUrl/follower/accept/$followerId';
+  Future<bool> deleteFollowed(int userId) async {
+    final url = '$_apiUrl/follower/cancel-delete/$userId';
+
+    final resp = await http.delete(
+      Uri.encodeFull(url),
+      headers: _setHeaders(),
+    );
+
+    final Map<String, dynamic> decodedData = json.decode(resp.body);
+
+    if (decodedData == null) return false;
+
+    if (decodedData['status'] == 'success') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> acceptFollower(int userId) async {
+    final url = '$_apiUrl/follower/accept/$userId';
 
     final resp = await http.get(
       Uri.encodeFull(url),
@@ -105,8 +124,8 @@ class FollowersProvider {
     }
   }
 
-  Future<bool> deleteFollower(int followerId) async {
-    final url = '$_apiUrl/follower/delete/$followerId';
+  Future<bool> deleteFollower(int userId) async {
+    final url = '$_apiUrl/follower/delete/$userId';
 
     final resp = await http.delete(
       Uri.encodeFull(url),

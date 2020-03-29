@@ -1,6 +1,6 @@
 import 'package:epbasic_debts/src/models/user_model.dart';
 import 'package:epbasic_debts/src/providers/user_provider.dart';
-import 'package:epbasic_debts/src/widgets/userList.dart';
+import 'package:epbasic_debts/src/widgets/userFollowerList.dart';
 import 'package:flutter/material.dart';
 
 class UserSearch extends SearchDelegate {
@@ -52,7 +52,7 @@ class UserSearch extends SearchDelegate {
             margin: EdgeInsets.only(top: 5.0),
             child: ListView(
               children: users.map((user) {
-                return UserList(user: user);
+                return UserFollowerList(user: user);
               }).toList(),
             ),
           );
