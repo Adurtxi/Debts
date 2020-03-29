@@ -50,8 +50,10 @@ class DebstList extends StatelessWidget {
                 backgroundColor: Colors.blue,
               ),
               title: Text(debt.title),
-              subtitle: Text(debt.description),
-              //trailing: Icon(icon),
+              subtitle: Text(
+                debt.description,
+                overflow: TextOverflow.ellipsis,
+              ),
               trailing: _trailing(),
             ),
           ),

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:epbasic_debts/src/models/debt_model.dart';
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:epbasic_debts/src/widgets/userList.dart';
@@ -13,15 +14,12 @@ class DebtDetail extends StatelessWidget {
     debt = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
-      body: CustomScrollView(
-        slivers: <Widget>[
-          _createAppbar(),
-          SliverList(
-            delegate: SliverChildListDelegate([
-              SizedBox(height: 10.0),
-              _container(),
-            ]),
-          )
+      appBar: AppBar(
+        title: Text(debt.title),
+      ),
+      body: Column(
+        children: <Widget>[
+          _container(),
         ],
       ),
     );
@@ -34,44 +32,84 @@ class DebtDetail extends StatelessWidget {
         children: <Widget>[
           UserList(user: debt.user),
           UserList(user: debt.defaulter),
-          Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Text('Descripción: ${debt.description}'),
-                      Text('Pagado: ${debt.paid.toString()}'),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
+          _quantity(),
+          _description(),
         ],
       ),
     );
   }
 
-  Widget _createAppbar() {
-    return SliverAppBar(
-      elevation: 2.0,
-      backgroundColor: Colors.blue,
-      expandedHeight: 100.0,
-      floating: false,
-      flexibleSpace: FlexibleSpaceBar(
-        centerTitle: true,
-        title: Text(
-          debt.title,
-          style: TextStyle(
-            color: Colors.white,
+  Widget _quantity() {
+    Color color;
+    if (debt.paid == true) {
+      color = Colors.green;
+    } else {
+      color = Colors.red;
+    }
+
+    return ListTile(
+      title: _statusText(),
+      subtitle: _quantityText(),
+      trailing: Icon(
+        Icons.money_off,
+        color: color,
+      ),
+    );
+  }
+
+  Widget _quantityText() {
+    int i = debt.quantity.truncate();
+
+    if (debt.quantity == i) {
+      return Text('${i.toString()}€');
+    }
+    return Text('${debt.quantity.toString()}€');
+  }
+
+  Widget _statusText() {
+    if (debt.paid == true) {
+      return Text(
+        'Pagada',
+        style: TextStyle(
+          color: Colors.green,
+        ),
+      );
+    }
+    return Text(
+      'Sin pagar',
+      style: TextStyle(
+        color: Colors.red,
+      ),
+    );
+  }
+
+  Widget _description() {
+    final description = Padding(
+      padding: const EdgeInsets.only(top: 10.0),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: <Widget>[
+              AutoSizeText(
+                debt.description,
+                style: TextStyle(fontSize: 16),
+                textAlign: TextAlign.justify,
+                maxLines: 10,
+              ),
+            ],
           ),
         ),
       ),
     );
+
+    if (debt.description.length > 1) {
+      return description;
+    } else {
+      return Container();
+    }
   }
 }

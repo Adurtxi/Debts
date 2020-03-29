@@ -31,6 +31,11 @@ class UserList extends StatelessWidget {
             ),
             title: Text('${user.name} ${user.surname}'),
             trailing: Icon(Icons.person),
+            onTap: () => Navigator.pushNamed(
+              context,
+              'userDetail',
+              arguments: user,
+            ),
           ),
         ],
       ),
