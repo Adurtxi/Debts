@@ -19,7 +19,7 @@ class DefaulterModal {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 20.0),
                   child: Text(
-                    'Seleccione Moroso',
+                    'Selecciona deudor',
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
@@ -35,7 +35,7 @@ class DefaulterModal {
                   child: TextField(
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: 'Busca moroso',
+                      hintText: 'Buscar deudor',
                     ),
                   ),
                 ),

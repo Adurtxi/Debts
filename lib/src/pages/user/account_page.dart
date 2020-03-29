@@ -11,6 +11,8 @@ class AccountPage extends StatefulWidget {
 class _AccountPageState extends State<AccountPage> {
   final _prefs = new UserPreferences();
 
+  String _password = '';
+
   final userProvider = new UserProvider();
 
   bool darkMode = false;
@@ -30,11 +32,11 @@ class _AccountPageState extends State<AccountPage> {
           child: Column(
             children: <Widget>[
               _optionsCard(),
-              _logoutContainer(),
             ],
           ),
         ),
       ),
+      floatingActionButton: _logoutButton(),
     );
   }
 
@@ -49,7 +51,7 @@ class _AccountPageState extends State<AccountPage> {
           children: <Widget>[
             SwitchListTile(
               value: _prefs.lookScreen,
-              title: Text('Desbloqueo con huella'),
+              title: Text('Pantalla de bloqueo'),
               activeColor: Color.fromRGBO(31, 133, 109, 1.0),
               onChanged: (value) => setState(() {
                 _prefs.lookScreen = value;
@@ -61,32 +63,80 @@ class _AccountPageState extends State<AccountPage> {
                 }
               }),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: _createInputPassword(),
+            ),
+            _changePass(),
           ],
         ),
       ),
     );
   }
 
-  Widget _logoutContainer() {
+  Widget _changePass() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 80.0, vertical: 10.0),
+      margin: EdgeInsets.fromLTRB(100, 0, 100, 15),
       child: FlatButton(
         shape: new RoundedRectangleBorder(
           borderRadius: new BorderRadius.circular(18.0),
-          side: BorderSide(color: Colors.red),
+          side: BorderSide(color: Colors.blue),
         ),
-        color: Colors.red,
+        color: Colors.blue,
         textColor: Colors.white,
         onPressed: () {
-          _logout(context);
+          _prefs.pincode = _password;
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("Cerrar Sesión"),
+            Text("Cambiar PIN"),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _createInputPassword() {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 20.0),
+      child: TextField(
+        keyboardType: TextInputType.numberWithOptions(),
+        obscureText: true,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          hintText: 'Introduce un PIN',
+          labelText: 'Pin',
+          suffixIcon: Icon(Icons.lock_open),
+        ),
+        onChanged: (value) {
+          setState(() {
+            _password = value;
+          });
+        },
+      ),
+    );
+  }
+
+  Widget _logoutButton() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        FlatButton(
+          shape: new RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(18.0),
+            side: BorderSide(color: Colors.red),
+          ),
+          color: Colors.red,
+          textColor: Colors.white,
+          onPressed: () {
+            _logout(context);
+          },
+          child: Text("Cerrar Sesión"),
+        ),
+      ],
     );
   }
 

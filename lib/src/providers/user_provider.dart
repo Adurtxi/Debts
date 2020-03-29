@@ -111,5 +111,6 @@ class UserProvider {
     _prefs.token = null;
     _prefs.lastPage = null;
     _prefs.lookScreen = null;
+    _prefs.pincode = null;
   }
 }

@@ -1,3 +1,4 @@
+import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:epbasic_debts/src/services/local_authentication.dart';
 import 'package:epbasic_debts/src/services/service_locator.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,8 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
+  final _prefs = new UserPreferences();
+
   String _password = '';
 
   final LocalAuthenticationService _localAuth =
@@ -73,7 +76,7 @@ class _AuthPageState extends State<AuthPage> {
 
   _goHome(type) async {
     if (type == 1) {
-      if (_password == '2486') {
+      if (_password == _prefs.pincode) {
         Navigator.pushReplacementNamed(context, 'home');
       }
     } else {

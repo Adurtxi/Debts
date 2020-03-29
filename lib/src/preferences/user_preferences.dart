@@ -46,4 +46,12 @@ class UserPreferences {
   set lookScreen(bool value) {
     _prefs.setBool('lookScreen', value);
   }
+
+  get pincode {
+    return _prefs.getString('pincode') ?? '0000';
+  }
+
+  set pincode(String value) {
+    _prefs.setString('pincode', value);
+  }
 }

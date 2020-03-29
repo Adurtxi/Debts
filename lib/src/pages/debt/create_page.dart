@@ -36,58 +36,75 @@ class _NewDebtPageState extends State<NewDebtPage> {
         user: '${prefs.identity[1][0]}${prefs.identity[2][0]}',
         context: context,
       ),
-      floatingActionButton: new FloatingActionButton(
-        onPressed: () => modal.mainBottomSheet(context),
-        child: new Icon(Icons.add),
-      ),
+      floatingActionButton: _defaulterButton(modal),
       body: _container(followersBloc),
     );
   }
 
   Widget _container(followersBloc) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
-      child: Column(
-        children: <Widget>[
-          Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Form(
-                key: formKey,
-                child: Column(
-                  children: <Widget>[
-                    _defaulter(followersBloc),
-                    _createTitle(),
-                    _createDescription(),
-                    _createQuantity(),
-                    _createAvailable(),
-                    _createButton(followersBloc),
-                  ],
+    return Stack(children: <Widget>[
+      Container(
+        margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
+        child: Column(
+          children: <Widget>[
+            _userList(followersBloc),
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: <Widget>[
+                      _createTitle(),
+                      _createDescription(),
+                      _createQuantity(),
+                      _createAvailable(),
+                      _createButton(),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      )
+    ]);
   }
 
-  Widget _defaulter(FollowersBloc followersBloc) {
+  Widget _userList(FollowersBloc followersBloc) {
     return StreamBuilder<UserModel>(
       stream: followersBloc.defaulter,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           debt.defaulterId = snapshot.data.id;
 
-          return Text(
-            '${snapshot.data.name} ${snapshot.data.surname}',
-            style: TextStyle(fontSize: 20.0),
+          return ListTile(
+            leading: CircleAvatar(
+              child: Text(
+                '${snapshot.data.name[0]} ${snapshot.data.surname[0]}',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              backgroundColor: Colors.blue,
+            ),
+            title: Text('${snapshot.data.name} ${snapshot.data.surname}'),
+            trailing: Icon(Icons.person),
           );
         } else {
-          return Text('Selecciona moroso');
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Selecciona moroso',
+              style: TextStyle(
+                fontSize: 17.0,
+                color: Colors.blue[500],
+              ),
+            ),
+          );
         }
       },
     );
@@ -95,7 +112,6 @@ class _NewDebtPageState extends State<NewDebtPage> {
 
   Widget _createTitle() {
     return TextFormField(
-      autofocus: true,
       initialValue: debt.title,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
@@ -151,7 +167,7 @@ class _NewDebtPageState extends State<NewDebtPage> {
     );
   }
 
-  Widget _createButton(followersBloc) {
+  Widget _createButton() {
     return RaisedButton.icon(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
@@ -160,9 +176,7 @@ class _NewDebtPageState extends State<NewDebtPage> {
       textColor: Colors.white,
       label: Text('Guardar'),
       icon: Icon(Icons.save),
-      onPressed: () {
-        _submit();
-      },
+      onPressed: () => _submit(),
     );
   }
 
@@ -171,24 +185,26 @@ class _NewDebtPageState extends State<NewDebtPage> {
 
     formKey.currentState.save();
 
-    setState(() {
-      _saving = true;
-    });
-
     debtsBloc.createDebt(debt);
-    _printSnackbar('Deuda guardada');
 
-    setState(() {
-      _saving = false;
-    });
+    Navigator.pop(context);
   }
 
-  void _printSnackbar(String message) {
-    final snackbar = SnackBar(
-      content: Text(message),
-      duration: Duration(milliseconds: 1500),
+  Widget _defaulterButton(DefaulterModal modal) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        FlatButton(
+          shape: new RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(18.0),
+            side: BorderSide(color: Colors.blue),
+          ),
+          color: Colors.blue,
+          textColor: Colors.white,
+          onPressed: () => modal.mainBottomSheet(context),
+          child: Text("Seleccionar deudor"),
+        ),
+      ],
     );
-
-    scaffoldKey.currentState.showSnackBar(snackbar);
   }
 }
