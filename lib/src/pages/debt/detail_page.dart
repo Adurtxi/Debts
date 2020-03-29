@@ -1,5 +1,6 @@
 import 'package:epbasic_debts/src/models/debt_model.dart';
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
+import 'package:epbasic_debts/src/widgets/userList.dart';
 import 'package:flutter/material.dart';
 
 class DebtDetail extends StatelessWidget {
@@ -27,21 +28,12 @@ class DebtDetail extends StatelessWidget {
   }
 
   Widget _container() {
-    final user = '${debt.user.name[0]}${debt.user.surname[0]}';
-    final defaulter = '${debt.defaulter.name[0]}${debt.defaulter.surname[0]}';
-
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
       child: Column(
         children: <Widget>[
-          _userList(
-            user,
-            '${debt.user.name} ${debt.user.surname}',
-          ),
-          _userList(
-            defaulter,
-            '${debt.defaulter.name} ${debt.defaulter.surname}',
-          ),
+          UserList(user: debt.user),
+          UserList(user: debt.defaulter),
           Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
@@ -79,31 +71,6 @@ class DebtDetail extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _userList(String userIcon, String user) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: Column(
-        children: <Widget>[
-          ListTile(
-            leading: CircleAvatar(
-              child: Text(
-                userIcon,
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              backgroundColor: Colors.blue,
-            ),
-            title: Text(user),
-            onTap: () {},
-          ),
-        ],
       ),
     );
   }

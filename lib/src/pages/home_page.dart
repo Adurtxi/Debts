@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:epbasic_debts/src/blocs/provider.dart';
 import 'package:epbasic_debts/src/models/debt_model.dart';
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
-import 'package:epbasic_debts/src/providers/user_provider.dart';
 import 'package:epbasic_debts/src/widgets/bottomNav.dart';
 import 'package:epbasic_debts/src/widgets/debtsList.dart';
 import 'package:epbasic_debts/src/widgets/myAppBar.dart';
@@ -14,7 +13,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final userProvider = new UserProvider();
   final prefs = new UserPreferences();
 
   @override

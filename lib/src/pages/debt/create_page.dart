@@ -5,6 +5,7 @@ import 'package:epbasic_debts/src/models/debt_model.dart';
 import 'package:epbasic_debts/src/models/user_model.dart';
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:epbasic_debts/src/widgets/myAppBar.dart';
+import 'package:epbasic_debts/src/widgets/userList.dart';
 import 'package:flutter/material.dart';
 import 'package:epbasic_debts/src/utils/utils.dart' as utils;
 
@@ -20,8 +21,6 @@ class _NewDebtPageState extends State<NewDebtPage> {
 
   DebtModel debt = new DebtModel();
   DebtsBloc debtsBloc = new DebtsBloc();
-
-  bool _saving = false;
 
   @override
   Widget build(BuildContext context) {
@@ -81,19 +80,7 @@ class _NewDebtPageState extends State<NewDebtPage> {
         if (snapshot.hasData) {
           debt.defaulterId = snapshot.data.id;
 
-          return ListTile(
-            leading: CircleAvatar(
-              child: Text(
-                '${snapshot.data.name[0]} ${snapshot.data.surname[0]}',
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              backgroundColor: Colors.blue,
-            ),
-            title: Text('${snapshot.data.name} ${snapshot.data.surname}'),
-            trailing: Icon(Icons.person),
-          );
+          return UserList(user: snapshot.data);
         } else {
           return Padding(
             padding: const EdgeInsets.all(8.0),

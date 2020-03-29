@@ -1,3 +1,5 @@
+import 'package:epbasic_debts/src/blocs/followers_bloc.dart';
+import 'package:epbasic_debts/src/blocs/provider.dart';
 import 'package:epbasic_debts/src/models/user_model.dart';
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,8 @@ class UserList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _followersBloc = Provider.followersBloc(context);
+
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
@@ -30,10 +34,19 @@ class UserList extends StatelessWidget {
               backgroundColor: Colors.blue,
             ),
             title: Text('${user.name} ${user.surname}'),
-            trailing: Icon(Icons.person),
+            trailing: _trailing(_followersBloc),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _trailing(FollowersBloc _followersBloc) {
+    return FlatButton(
+      child: Text('Seguir'),
+      onPressed: () {
+        _followersBloc.deleteFollower(user.id);
+      },
     );
   }
 }

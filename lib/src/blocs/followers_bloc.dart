@@ -27,6 +27,24 @@ class FollowersBloc {
     _followedsCtr.sink.add(followeds);
   }
 
+  void newFollower(int userId) async {
+    _loadingCtr.sink.add(true);
+    await _followersProvider.newFollower(userId);
+    _loadingCtr.sink.add(false);
+  }
+
+  void acceptFollower(int followerId) async {
+    _loadingCtr.sink.add(true);
+    await _followersProvider.acceptFollower(followerId);
+    _loadingCtr.sink.add(false);
+  }
+
+  void deleteFollower(int followerId) async {
+    _loadingCtr.sink.add(true);
+    await _followersProvider.deleteFollower(followerId);
+    _loadingCtr.sink.add(false);
+  }
+
   void sDefaulter(sDefaulter) async {
     _defaulterCtr.sink.add(sDefaulter);
   }
