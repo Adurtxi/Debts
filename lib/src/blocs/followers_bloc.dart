@@ -14,7 +14,6 @@ class FollowersBloc {
 
   Stream<List<FollowerModel>> get followerStream => _followersCtr.stream;
   Stream<List<FollowerModel>> get followedStream => _followedsCtr.stream;
-  Stream<bool> get loading => _loadingCtr.stream;
   Stream<UserModel> get defaulter => _defaulterCtr.stream;
 
   void followers() async {
@@ -28,27 +27,23 @@ class FollowersBloc {
   }
 
   void newFollower(int userId) async {
-    _loadingCtr.sink.add(true);
     await _followersProvider.newFollower(userId);
-    _loadingCtr.sink.add(false);
+    followers();
   }
 
   void deleteFollowed(int userId) async {
-    _loadingCtr.sink.add(true);
     await _followersProvider.deleteFollowed(userId);
-    _loadingCtr.sink.add(false);
+    followeds();
   }
 
   void acceptFollower(int userId) async {
-    _loadingCtr.sink.add(true);
     await _followersProvider.acceptFollower(userId);
-    _loadingCtr.sink.add(false);
+    followers();
   }
 
   void deleteFollower(int userId) async {
-    _loadingCtr.sink.add(true);
     await _followersProvider.deleteFollower(userId);
-    _loadingCtr.sink.add(false);
+    followers();
   }
 
   void sDefaulter(sDefaulter) async {
