@@ -3,8 +3,6 @@ import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:flutter/material.dart';
 
 class UserList extends StatelessWidget {
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-
   final UserModel user;
 
   UserList({@required this.user});

@@ -4,18 +4,18 @@ import 'package:epbasic_debts/src/widgets/myAppBar.dart';
 import 'package:flutter/material.dart';
 
 class UserDetailPage extends StatelessWidget {
-  final prefs = new UserPreferences();
+  final _prefs = new UserPreferences();
 
-  UserModel user = new UserModel();
+  UserModel _user = new UserModel();
 
   @override
   Widget build(BuildContext context) {
-    user = ModalRoute.of(context).settings.arguments;
+    _user = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
       appBar: MyAppBar(
-        title: Text('${user.name} ${user.surname}'),
-        user: '${prefs.identity[1][0]}${prefs.identity[2][0]}',
+        title: Text('${_user.name} ${_user.surname}'),
+        user: '${_prefs.identity[1][0]}${_prefs.identity[2][0]}',
         context: context,
       ),
       body: Container(),

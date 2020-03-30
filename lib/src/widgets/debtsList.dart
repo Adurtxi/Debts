@@ -5,8 +5,6 @@ import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:flutter/material.dart';
 
 class DebstList extends StatelessWidget {
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-
   final DebtModel debt;
   final String user;
 
@@ -36,7 +34,8 @@ class DebstList extends StatelessWidget {
               if (debt.userId.toString() == prefs.identity[0]) {
                 modal.mainBottomSheet(context);
               } else {
-                _printSnackbar(context, 'No eres el creador de la deuda');
+                _printSnackbar(context, 'No eres el creador de la deuda',
+                    Colors.blue, Colors.white);
               }
             },
             child: ListTile(
@@ -69,9 +68,10 @@ class DebstList extends StatelessWidget {
           Map info = await debtsBloc.deleteDebt(debt.id.toString());
 
           if (info['ok'] == true) {
-            _printSnackbar(context, info['message']);
+            _printSnackbar(
+                context, info['message'], Colors.green, Colors.white);
           } else {
-            _printSnackbar(context, info['message']);
+            _printSnackbar(context, info['message'], Colors.red, Colors.white);
           }
         },
         child: card,
@@ -97,11 +97,12 @@ class DebstList extends StatelessWidget {
     }
   }
 
-  void _printSnackbar(BuildContext context, String message) {
-    final snackBar = SnackBar(
-      content: Text(message),
-    );
-
-    Scaffold.of(context).showSnackBar(snackBar);
+  void _printSnackbar(
+      BuildContext context, String message, Color backColor, Color textColor) {
+    Scaffold.of(context).showSnackBar(SnackBar(
+      content: Text(message, style: TextStyle(color: textColor)),
+      duration: Duration(milliseconds: 1500),
+      backgroundColor: backColor,
+    ));
   }
 }

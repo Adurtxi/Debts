@@ -15,9 +15,9 @@ class NewDebtPage extends StatefulWidget {
 }
 
 class _NewDebtPageState extends State<NewDebtPage> {
-  final prefs = new UserPreferences();
-  final formKey = GlobalKey<FormState>();
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  final _prefs = new UserPreferences();
+  final _formKey = GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   DebtModel debt = new DebtModel();
   DebtsBloc debtsBloc = new DebtsBloc();
@@ -29,10 +29,10 @@ class _NewDebtPageState extends State<NewDebtPage> {
     DefaulterModal modal = new DefaulterModal();
 
     return Scaffold(
-      key: scaffoldKey,
+      key: _scaffoldKey,
       appBar: MyAppBar(
         title: Text('Crear deuda'),
-        user: '${prefs.identity[1][0]}${prefs.identity[2][0]}',
+        user: '${_prefs.identity[1][0]}${_prefs.identity[2][0]}',
         context: context,
       ),
       floatingActionButton: _defaulterButton(modal),
@@ -54,7 +54,7 @@ class _NewDebtPageState extends State<NewDebtPage> {
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Form(
-                  key: formKey,
+                  key: _formKey,
                   child: Column(
                     children: <Widget>[
                       _createTitle(),
@@ -168,19 +168,19 @@ class _NewDebtPageState extends State<NewDebtPage> {
   }
 
   void _submit() async {
-    if (!formKey.currentState.validate()) return;
+    if (!_formKey.currentState.validate()) return;
 
-    formKey.currentState.save();
+    _formKey.currentState.save();
 
     if (debt.defaulterId == null) {
-      _printSnackbar('Selecciona deudor', Colors.orange, Colors.white);
+      _printSnackbar('Selecciona deudor', Colors.blue, Colors.white);
       return;
     }
 
     final resp = await debtsBloc.createDebt(debt);
 
     if (resp['ok'] == true) {
-      formKey.currentState?.reset();
+      _formKey.currentState?.reset();
 
       _printSnackbar(resp['message'], Colors.green, Colors.white);
     } else {
@@ -190,16 +190,11 @@ class _NewDebtPageState extends State<NewDebtPage> {
   }
 
   void _printSnackbar(String message, Color backColor, Color textColor) {
-    final snackbar = SnackBar(
-      content: Text(
-        message,
-        style: TextStyle(color: textColor),
-      ),
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text(message, style: TextStyle(color: textColor)),
       duration: Duration(milliseconds: 1500),
       backgroundColor: backColor,
-    );
-
-    scaffoldKey.currentState.showSnackBar(snackbar);
+    ));
   }
 
   Widget _defaulterButton(DefaulterModal modal) {

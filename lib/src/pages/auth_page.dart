@@ -2,6 +2,7 @@ import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:epbasic_debts/src/services/local_authentication.dart';
 import 'package:epbasic_debts/src/services/service_locator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_verification_code_input/flutter_verification_code_input.dart';
 
 class AuthPage extends StatefulWidget {
   @override
@@ -10,8 +11,6 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> {
   final _prefs = new UserPreferences();
-
-  String _password = '';
 
   final LocalAuthenticationService _localAuth =
       locator<LocalAuthenticationService>();
@@ -25,43 +24,33 @@ class _AuthPageState extends State<AuthPage> {
         title: Text('EPBasic Deudas'),
       ),
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-        child: Column(
-          children: <Widget>[
-            _createInputPassword(),
-            _buttons(1, 'Autentificar con Pin'),
-            _buttons(2, 'Autentificar con Huella'),
-          ],
-        ),
+        child: _createInputPassword(),
       ),
+      floatingActionButton: _button(),
     );
   }
 
   Widget _createInputPassword() {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 20.0),
-      child: TextField(
-        keyboardType: TextInputType.numberWithOptions(),
-        obscureText: true,
-        decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          hintText: 'Contraseña de la persona',
-          labelText: 'Contraseña',
-          suffixIcon: Icon(Icons.lock_open),
-          icon: Icon(Icons.lock),
-        ),
-        onChanged: (value) {
-          setState(() {
-            _password = value;
-          });
+    final size = MediaQuery.of(context).size;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(
+          vertical: size.height * 0.1, horizontal: size.width * 0.3),
+      child: VerificationCodeInput(
+        keyboardType: TextInputType.number,
+        length: _prefs.pincode.length,
+        autofocus: true,
+        textStyle: TextStyle(color: Colors.blue, fontSize: 20.0),
+        onCompleted: (String value) {
+          if (value == _prefs.pincode) {
+            Navigator.pushReplacementNamed(context, 'home');
+          }
         },
       ),
     );
   }
 
-  Widget _buttons(int type, String text) {
+  Widget _button() {
     return RaisedButton(
       shape: new RoundedRectangleBorder(
         borderRadius: new BorderRadius.circular(18.0),
@@ -69,19 +58,9 @@ class _AuthPageState extends State<AuthPage> {
       ),
       color: Colors.blue,
       textColor: Colors.white,
-      child: Text(text),
-      onPressed: () => _goHome(type),
+      child: Text('Desbloqueo con huella'),
+      onPressed: () => _fingerprintAuth(),
     );
-  }
-
-  _goHome(type) async {
-    if (type == 1) {
-      if (_password == _prefs.pincode) {
-        Navigator.pushReplacementNamed(context, 'home');
-      }
-    } else {
-      _fingerprintAuth();
-    }
   }
 
   _fingerprintAuth() async {

@@ -5,8 +5,6 @@ import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:flutter/material.dart';
 
 class UserFollowerList extends StatelessWidget {
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-
   final UserModel user;
 
   UserFollowerList({@required this.user});

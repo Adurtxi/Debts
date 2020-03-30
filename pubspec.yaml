@@ -31,6 +31,9 @@ dependencies:
   local_auth: ^0.5.2+3
   get_it: ^1.0.3+2
   auto_size_text: ^2.1.0
+  flutter_verification_code_input:
+    git:
+      url: git://github.com/tinylife-io/flutter_verification_code_input.git
 
 dev_dependencies:
   flutter_test:

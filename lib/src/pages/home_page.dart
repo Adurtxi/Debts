@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:epbasic_debts/src/blocs/provider.dart';
-import 'package:epbasic_debts/src/models/debt_model.dart';
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:epbasic_debts/src/widgets/bottomNav.dart';
 import 'package:epbasic_debts/src/widgets/debtsList.dart';
@@ -13,7 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final prefs = new UserPreferences();
+  final _prefs = new UserPreferences();
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +22,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: MyAppBar(
         title: Text('Inicio'),
-        user: '${prefs.identity[1][0]}${prefs.identity[2][0]}',
+        user: '${_prefs.identity[1][0]}${_prefs.identity[2][0]}',
         context: context,
       ),
       body: Container(

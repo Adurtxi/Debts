@@ -10,7 +10,7 @@ import 'package:epbasic_debts/src/widgets/myAppBar.dart';
 import 'package:flutter/material.dart';
 
 class PeoplePage extends StatelessWidget {
-  final prefs = new UserPreferences();
+  final _prefs = new UserPreferences();
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class PeoplePage extends StatelessWidget {
     return Scaffold(
       appBar: MyAppBar(
         title: Text('Gente'),
-        user: '${prefs.identity[1][0]}${prefs.identity[2][0]}',
+        user: '${_prefs.identity[1][0]}${_prefs.identity[2][0]}',
         context: context,
       ),
       body: _body(followersBloc),

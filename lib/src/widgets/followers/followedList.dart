@@ -5,8 +5,6 @@ import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:flutter/material.dart';
 
 class FollowedList extends StatelessWidget {
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-
   final FollowerModel followed;
 
   FollowedList({@required this.followed});

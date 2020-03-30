@@ -12,9 +12,9 @@ class EditDebtPage extends StatefulWidget {
 }
 
 class _EditDebtPageState extends State<EditDebtPage> {
-  final prefs = new UserPreferences();
-  final formKey = GlobalKey<FormState>();
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  final _prefs = new UserPreferences();
+  final _formKey = GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   DebtModel debt = new DebtModel();
   DebtsBloc debtsBloc = new DebtsBloc();
@@ -32,10 +32,10 @@ class _EditDebtPageState extends State<EditDebtPage> {
     }
 
     return Scaffold(
-      key: scaffoldKey,
+      key: _scaffoldKey,
       appBar: MyAppBar(
         title: Text('Editar deuda'),
-        user: '${prefs.identity[1][0]}${prefs.identity[2][0]}',
+        user: '${_prefs.identity[1][0]}${_prefs.identity[2][0]}',
         context: context,
       ),
       floatingActionButton: new FloatingActionButton(
@@ -58,7 +58,7 @@ class _EditDebtPageState extends State<EditDebtPage> {
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Form(
-                key: formKey,
+                key: _formKey,
                 child: Column(
                   children: <Widget>[
                     _createTitle(),
@@ -148,28 +148,28 @@ class _EditDebtPageState extends State<EditDebtPage> {
   }
 
   void _submit() async {
-    if (!formKey.currentState.validate()) return;
+    if (!_formKey.currentState.validate()) return;
 
-    formKey.currentState.save();
+    _formKey.currentState.save();
 
-    setState(() {
-      _saving = true;
-    });
+    setState(() => _saving = true);
 
-    debtsBloc.updateDebt(debt);
-    _printSnackbar('Registro actualizado');
+    final resp = await debtsBloc.updateDebt(debt);
 
-    setState(() {
-      _saving = false;
-    });
+    if (resp['ok'] == true) {
+      _printSnackbar(resp['message'], Colors.green, Colors.white);
+    } else {
+      _printSnackbar(resp['message'], Colors.red, Colors.white);
+    }
+
+    setState(() => _saving = false);
   }
 
-  void _printSnackbar(String message) {
-    final snackbar = SnackBar(
-      content: Text(message),
+  void _printSnackbar(String message, Color backColor, Color textColor) {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text(message, style: TextStyle(color: textColor)),
       duration: Duration(milliseconds: 1500),
-    );
-
-    scaffoldKey.currentState.showSnackBar(snackbar);
+      backgroundColor: backColor,
+    ));
   }
 }

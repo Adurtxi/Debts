@@ -15,9 +15,6 @@ class _AccountPageState extends State<AccountPage> {
 
   final userProvider = new UserProvider();
 
-  bool darkMode = false;
-  bool fingerprint = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
