@@ -3,13 +3,13 @@ import 'package:epbasic_debts/src/providers/debts_provider.dart';
 import 'package:rxdart/rxdart.dart';
 
 class DebtsBloc {
-  final _homeDebtsCtr = new BehaviorSubject<List<DebtModel>>();
-  final _debtsDebtsCtr = new BehaviorSubject<List<DebtModel>>();
+  final _homeDebtsCtr = new BehaviorSubject<Map<String, dynamic>>();
+  final _debtsDebtsCtr = new BehaviorSubject<Map<String, dynamic>>();
 
   final _debtsProvider = new DebtsProvider();
 
-  Stream<List<DebtModel>> get homeDebtsStream => _homeDebtsCtr.stream;
-  Stream<List<DebtModel>> get debtsDebtsStream => _debtsDebtsCtr.stream;
+  Stream<Map<String, dynamic>> get homeDebtsStream => _homeDebtsCtr.stream;
+  Stream<Map<String, dynamic>> get debtsDebtsStream => _debtsDebtsCtr.stream;
 
   void homeDebts() async {
     final debts = await _debtsProvider.loadDebts('defaulter-debts-to-pay');
@@ -21,12 +21,12 @@ class DebtsBloc {
     _debtsDebtsCtr.sink.add(debts);
   }
 
-  void createDebt(DebtModel debt) async {
-    await _debtsProvider.createDebt(debt);
+  Future<Map<String, dynamic>> createDebt(DebtModel debt) async {
+    return await _debtsProvider.createDebt(debt);
   }
 
-  void updateDebt(DebtModel debt) async {
-    await _debtsProvider.updateDebt(debt);
+  Future<Map<String, dynamic>> updateDebt(DebtModel debt) async {
+    return await _debtsProvider.updateDebt(debt);
   }
 
   Future<Map<String, dynamic>> deleteDebt(String id) async {

@@ -37,19 +37,23 @@ class _HomePageState extends State<HomePage> {
   _createList(DebtsBloc debtsBloc) {
     return StreamBuilder(
       stream: debtsBloc.homeDebtsStream,
-      builder: (BuildContext context, AsyncSnapshot<List<DebtModel>> snapshot) {
-        final debts = snapshot.data;
+      builder:
+          (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data['ok'] == true) {
+            final debts = snapshot.data['debts'];
+            return ListView.builder(
+              itemCount: debts.length,
+              itemBuilder: (context, i) {
+                final user =
+                    '${debts[i].user.name[0]}${debts[i].user.surname[0]}';
 
-        if (snapshot.hasData && debts.length > 0) {
-          return ListView.builder(
-            itemCount: debts.length,
-            itemBuilder: (context, i) {
-              final user =
-                  '${debts[i].user.name[0]}${debts[i].user.surname[0]}';
-
-              return DebstList(debt: debts[i], user: user);
-            },
-          );
+                return DebstList(debt: debts[i], user: user);
+              },
+            );
+          } else {
+            return Container();
+          }
         } else {
           return Center(
             child: CircularProgressIndicator(),

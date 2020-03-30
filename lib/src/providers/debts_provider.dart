@@ -16,7 +16,7 @@ class DebtsProvider {
         'Authorization': '${_prefs.token}'
       };
 
-  Future<List<DebtModel>> loadDebts(String pathUrl) async {
+  Future<Map<String, dynamic>> loadDebts(String pathUrl) async {
     final url = '$_apiUrl/$pathUrl';
 
     final resp = await http.get(
@@ -26,7 +26,7 @@ class DebtsProvider {
 
     final Map<String, dynamic> decodedData = json.decode(resp.body);
 
-    if (decodedData == null) return [];
+    if (decodedData == null) return {'ok': false, 'debts': []};
 
     if (decodedData['status'] == 'success') {
       final List<DebtModel> debts = new List();
@@ -36,9 +36,9 @@ class DebtsProvider {
         debts.add(prodTemp);
       });
 
-      return debts;
+      return {'ok': true, 'debts': debts};
     } else {
-      return [];
+      return {'ok': false, 'debts': []};
     }
   }
 
@@ -68,28 +68,28 @@ class DebtsProvider {
     }
   }
 
-  Future<bool> createDebt(DebtModel debt) async {
+  Future<Map<String, dynamic>> createDebt(DebtModel debt) async {
     final url = '$_apiUrl/debt';
 
-    await http.post(
+    final resp = await http.post(
       Uri.encodeFull(url),
       body: debtModelToJson(debt),
       headers: _setHeaders(),
     );
 
-    return true;
+    return _returnData(resp);
   }
 
-  Future<bool> updateDebt(DebtModel debt) async {
+  Future<Map<String, dynamic>> updateDebt(DebtModel debt) async {
     final url = '$_apiUrl/debt/${debt.id}';
 
-    await http.put(
+    final resp = await http.put(
       Uri.encodeFull(url),
       body: debtModelToJson(debt),
       headers: _setHeaders(),
     );
 
-    return true;
+    return _returnData(resp);
   }
 
   Future<Map<String, dynamic>> deleteDebt(String id) async {
@@ -100,12 +100,16 @@ class DebtsProvider {
       headers: _setHeaders(),
     );
 
+    return _returnData(resp);
+  }
+
+  _returnData(resp) {
     final decodedData = json.decode(resp.body);
 
     if (decodedData['status'] == 'success') {
-      return {'ok': true, 'message': 'Deuda eliminada correctamente'};
-    } else {
       return {'ok': true, 'message': decodedData['message']};
+    } else {
+      return {'ok': false, 'message': decodedData['message']};
     }
   }
 }

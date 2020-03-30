@@ -24,11 +24,11 @@ class DebtModel {
   DebtModel({
     this.id,
     this.userId,
-    this.defaulterId = 1,
+    this.defaulterId,
     this.quantity = 0.0,
     this.title = '',
     this.description = '',
-    this.paid = true,
+    this.paid = false,
     this.user,
     this.defaulter,
   });

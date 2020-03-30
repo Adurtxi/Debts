@@ -172,9 +172,34 @@ class _NewDebtPageState extends State<NewDebtPage> {
 
     formKey.currentState.save();
 
-    debtsBloc.createDebt(debt);
+    if (debt.defaulterId == null) {
+      _printSnackbar('Selecciona deudor', Colors.orange, Colors.white);
+      return;
+    }
 
-    Navigator.pop(context);
+    final resp = await debtsBloc.createDebt(debt);
+
+    if (resp['ok'] == true) {
+      formKey.currentState?.reset();
+
+      _printSnackbar(resp['message'], Colors.green, Colors.white);
+    } else {
+      _printSnackbar(resp['message'], Colors.red, Colors.white);
+      return;
+    }
+  }
+
+  void _printSnackbar(String message, Color backColor, Color textColor) {
+    final snackbar = SnackBar(
+      content: Text(
+        message,
+        style: TextStyle(color: textColor),
+      ),
+      duration: Duration(milliseconds: 1500),
+      backgroundColor: backColor,
+    );
+
+    scaffoldKey.currentState.showSnackBar(snackbar);
   }
 
   Widget _defaulterButton(DefaulterModal modal) {
