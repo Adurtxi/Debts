@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class DefaulterModal {
   mainBottomSheet(BuildContext context) {
     final followersBloc = Provider.followersBloc(context);
-    followersBloc.followeds();
+    followersBloc.dFolloweds();
 
     showModalBottomSheet(
         context: context,
@@ -51,7 +51,7 @@ class DefaulterModal {
 
   _createFollowedsList(FollowersBloc followersBloc) {
     return StreamBuilder(
-      stream: followersBloc.followedStream,
+      stream: followersBloc.dFollowedsStream,
       builder:
           (BuildContext context, AsyncSnapshot<List<FollowerModel>> snapshot) {
         final followeds = snapshot.data;

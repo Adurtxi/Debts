@@ -7,6 +7,7 @@ import 'package:rxdart/rxdart.dart';
 class FollowersBloc {
   final _followersCtr = new BehaviorSubject<List<FollowerModel>>();
   final _followedsCtr = new BehaviorSubject<List<FollowerModel>>();
+  final _dFollowedsCtr = new BehaviorSubject<List<FollowerModel>>();
   final _loadingCtr = new BehaviorSubject<bool>();
   final _defaulterCtr = new BehaviorSubject<UserModel>();
 
@@ -14,6 +15,7 @@ class FollowersBloc {
 
   Stream<List<FollowerModel>> get followerStream => _followersCtr.stream;
   Stream<List<FollowerModel>> get followedStream => _followedsCtr.stream;
+  Stream<List<FollowerModel>> get dFollowedsStream => _dFollowedsCtr.stream;
   Stream<UserModel> get defaulter => _defaulterCtr.stream;
 
   void followers() async {
@@ -24,6 +26,11 @@ class FollowersBloc {
   void followeds() async {
     final followeds = await _followersProvider.loadFolloweds('all');
     _followedsCtr.sink.add(followeds);
+  }
+
+  void dFolloweds() async {
+    final followeds = await _followersProvider.loadFolloweds('accepted');
+    _dFollowedsCtr.sink.add(followeds);
   }
 
   void newFollower(int userId) async {
@@ -53,6 +60,7 @@ class FollowersBloc {
   dispose() {
     _followersCtr?.close();
     _followedsCtr?.close();
+    _dFollowedsCtr?.close();
     _defaulterCtr?.close();
     _loadingCtr?.close();
   }
