@@ -1,3 +1,4 @@
+import 'package:epbasic_debts/src/widgets/loader.dart';
 import 'package:flutter/material.dart';
 
 import 'package:epbasic_debts/src/blocs/provider.dart';
@@ -25,8 +26,13 @@ class _HomePageState extends State<HomePage> {
         user: '${_prefs.identity[1][0]}${_prefs.identity[2][0]}',
         context: context,
       ),
-      body: Container(
-        child: _createList(debtsBloc),
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: _createList(debtsBloc),
+          ),
+          _loader(debtsBloc),
+        ],
       ),
       bottomNavigationBar: BottomNav(),
     );
@@ -51,13 +57,25 @@ class _HomePageState extends State<HomePage> {
               },
             );
           } else {
-            return Container();
+            return ProgressIndicatorW();
           }
         } else {
           return Center(
             child: CircularProgressIndicator(),
           );
         }
+      },
+    );
+  }
+
+  _loader(DebtsBloc debtsBloc) {
+    return StreamBuilder(
+      stream: debtsBloc.loadingStream,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.data == true) {
+          return ProgressIndicatorW();
+        }
+        return Container();
       },
     );
   }

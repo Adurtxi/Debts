@@ -3,6 +3,7 @@ import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:epbasic_debts/src/search/debt_search_delegate.dart';
 import 'package:epbasic_debts/src/widgets/bottomNav.dart';
 import 'package:epbasic_debts/src/widgets/debtsList.dart';
+import 'package:epbasic_debts/src/widgets/loader.dart';
 import 'package:epbasic_debts/src/widgets/myAppBar.dart';
 import 'package:flutter/material.dart';
 
@@ -20,8 +21,13 @@ class DebtsPage extends StatelessWidget {
         user: '${_prefs.identity[1][0]}${_prefs.identity[2][0]}',
         context: context,
       ),
-      body: Container(
-        child: _createList(debtsBloc),
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: _createList(debtsBloc),
+          ),
+          _loader(debtsBloc),
+        ],
       ),
       floatingActionButton: _createButtons(context),
       bottomNavigationBar: BottomNav(),
@@ -79,6 +85,18 @@ class DebtsPage extends StatelessWidget {
           },
         ),
       ],
+    );
+  }
+
+  _loader(DebtsBloc debtsBloc) {
+    return StreamBuilder(
+      stream: debtsBloc.loadingStream,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.data == true) {
+          return ProgressIndicatorW();
+        }
+        return Container();
+      },
     );
   }
 }

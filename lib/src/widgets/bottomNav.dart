@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'package:epbasic_debts/src/widgets/slideTransition.dart';
+
+import 'package:epbasic_debts/src/pages/debt/debts_page.dart';
+import 'package:epbasic_debts/src/pages/home_page.dart';
+import 'package:epbasic_debts/src/pages/user/people_page.dart';
+
 class BottomNav extends StatefulWidget {
   @override
   _BottomNavState createState() => _BottomNavState();
@@ -44,18 +50,14 @@ class _BottomNavState extends State<BottomNav> {
 
     switch (_selectedIndex) {
       case 0:
-        _navigate('home');
+        Navigator.pushReplacement(context, SlideRightRoute(page: HomePage()));
         break;
       case 1:
-        _navigate('debts');
+        Navigator.pushReplacement(context, SlideRightRoute(page: DebtsPage()));
         break;
       case 2:
-        _navigate('people');
+        Navigator.pushReplacement(context, SlideRightRoute(page: PeoplePage()));
         break;
     }
-  }
-
-  void _navigate(String route) {
-    Navigator.pushReplacementNamed(context, route, arguments: _selectedIndex);
   }
 }
