@@ -1,35 +1,44 @@
-import 'package:epbasic_debts/src/models/follower_model.dart';
 import 'package:epbasic_debts/src/models/user_model.dart';
 import 'package:epbasic_debts/src/providers/followers_provider.dart';
 
 import 'package:rxdart/rxdart.dart';
 
 class FollowersBloc {
-  final _followersCtr = new BehaviorSubject<List<FollowerModel>>();
-  final _followedsCtr = new BehaviorSubject<List<FollowerModel>>();
-  final _dFollowedsCtr = new BehaviorSubject<List<FollowerModel>>();
-  final _loadingCtr = new BehaviorSubject<bool>();
+  final _followersCtr = new BehaviorSubject<Map<String, dynamic>>();
+  final _followedsCtr = new BehaviorSubject<Map<String, dynamic>>();
+  final _dFollowedsCtr = new BehaviorSubject<Map<String, dynamic>>();
   final _defaulterCtr = new BehaviorSubject<UserModel>();
+  final _loadingCtr = new BehaviorSubject<bool>();
 
   final _followersProvider = new FollowersProvider();
 
-  Stream<List<FollowerModel>> get followerStream => _followersCtr.stream;
-  Stream<List<FollowerModel>> get followedStream => _followedsCtr.stream;
-  Stream<List<FollowerModel>> get dFollowedsStream => _dFollowedsCtr.stream;
+  Stream<Map<String, dynamic>> get followerStream => _followersCtr.stream;
+  Stream<Map<String, dynamic>> get followedStream => _followedsCtr.stream;
+  Stream<Map<String, dynamic>> get dFollowedsStream => _dFollowedsCtr.stream;
   Stream<UserModel> get defaulter => _defaulterCtr.stream;
+  Stream<bool> get loadingStream => _loadingCtr.stream;
 
   void followers() async {
+    _loadingCtr.sink.add(true);
     final followers = await _followersProvider.loadFollowers('all');
+    _loadingCtr.sink.add(false);
+
     _followersCtr.sink.add(followers);
   }
 
   void followeds() async {
+    _loadingCtr.sink.add(true);
     final followeds = await _followersProvider.loadFolloweds('all');
+    _loadingCtr.sink.add(false);
+
     _followedsCtr.sink.add(followeds);
   }
 
   void dFolloweds() async {
+    _loadingCtr.sink.add(true);
     final followeds = await _followersProvider.loadFolloweds('accepted');
+    _loadingCtr.sink.add(false);
+
     _dFollowedsCtr.sink.add(followeds);
   }
 

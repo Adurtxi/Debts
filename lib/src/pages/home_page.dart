@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
               },
             );
           } else {
-            return ProgressIndicatorW();
+            return Container();
           }
         } else {
           return Center(

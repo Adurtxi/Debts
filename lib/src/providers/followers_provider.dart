@@ -15,7 +15,7 @@ class FollowersProvider {
         'Authorization': '${_prefs.token}'
       };
 
-  Future<List<FollowerModel>> loadFollowers(String pathUrl) async {
+  Future<Map<String, dynamic>> loadFollowers(String pathUrl) async {
     final url = '$_apiUrl/followers/$pathUrl';
 
     final resp = await http.get(
@@ -25,7 +25,7 @@ class FollowersProvider {
 
     final Map<String, dynamic> decodedData = json.decode(resp.body);
 
-    if (decodedData == null) return [];
+    if (decodedData == null) return {'ok': false, 'followers': []};
 
     if (decodedData['status'] == 'success') {
       final List<FollowerModel> followers = new List();
@@ -35,13 +35,13 @@ class FollowersProvider {
         followers.add(prodTemp);
       });
 
-      return followers;
+      return {'ok': true, 'followers': followers};
     } else {
-      return [];
+      return {'ok': false, 'followers': []};
     }
   }
 
-  Future<List<FollowerModel>> loadFolloweds(String pathUrl) async {
+  Future<Map<String, dynamic>> loadFolloweds(String pathUrl) async {
     final url = '$_apiUrl/followeds/$pathUrl';
 
     final resp = await http.get(
@@ -51,7 +51,7 @@ class FollowersProvider {
 
     final Map<String, dynamic> decodedData = json.decode(resp.body);
 
-    if (decodedData == null) return [];
+    if (decodedData == null) return {'ok': false, 'followeds': []};
 
     if (decodedData['status'] == 'success') {
       final List<FollowerModel> followeds = new List();
@@ -61,9 +61,9 @@ class FollowersProvider {
         followeds.add(prodTemp);
       });
 
-      return followeds;
+      return {'ok': true, 'followeds': followeds};
     } else {
-      return [];
+      return {'ok': false, 'followeds': []};
     }
   }
 
@@ -140,6 +140,16 @@ class FollowersProvider {
       return true;
     } else {
       return false;
+    }
+  }
+
+  _returnData(resp) {
+    final decodedData = json.decode(resp.body);
+
+    if (decodedData['status'] == 'success') {
+      return {'ok': true, 'message': decodedData['message']};
+    } else {
+      return {'ok': false, 'message': decodedData['message']};
     }
   }
 }

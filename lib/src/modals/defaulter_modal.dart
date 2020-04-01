@@ -1,6 +1,6 @@
 import 'package:epbasic_debts/src/blocs/followers_bloc.dart';
 import 'package:epbasic_debts/src/blocs/provider.dart';
-import 'package:epbasic_debts/src/models/follower_model.dart';
+import 'package:epbasic_debts/src/models/user_model.dart';
 import 'package:flutter/material.dart';
 
 class DefaulterModal {
@@ -53,43 +53,50 @@ class DefaulterModal {
     return StreamBuilder(
       stream: followersBloc.dFollowedsStream,
       builder:
-          (BuildContext context, AsyncSnapshot<List<FollowerModel>> snapshot) {
-        final followeds = snapshot.data;
-
-        if (snapshot.hasData && followeds.length > 0) {
-          return ListView.builder(
-            itemCount: followeds.length,
-            itemBuilder: (context, i) {
-              return ListTile(
-                leading: CircleAvatar(
-                  child: Text(
-                    '${followeds[i].followed.name[0]}${followeds[i].followed.surname[0]}',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                  backgroundColor: Colors.blue,
-                ),
-                title: Text(
-                  '${followeds[i].followed.name} ${followeds[i].followed.surname}',
-                ),
-                trailing: Icon(Icons.person),
-                onTap: () {
-                  followersBloc.sDefaulter(followeds[i].followed);
-                  Navigator.pop(context);
-                },
-              );
-            },
-          );
+          (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data['ok'] == true) {
+            final followeds = snapshot.data['followeds'];
+            return ListView.builder(
+              itemCount: followeds.length,
+              itemBuilder: (context, i) =>
+                  _followerList(context, followersBloc, followeds[i].followed),
+            );
+          } else {
+            return ListTile(
+              leading: Icon(Icons.person),
+              title: Text('No sigues a nadie'),
+              onTap: () {},
+            );
+          }
         } else {
-          return ListTile(
-            leading: Icon(Icons.person),
-            title: Text('No sigues a nadie'),
-            onTap: () {
-              Navigator.pop(context);
-            },
+          return Center(
+            child: CircularProgressIndicator(),
           );
         }
+      },
+    );
+  }
+
+  Widget _followerList(
+      BuildContext context, FollowersBloc followersBloc, UserModel followed) {
+    return ListTile(
+      leading: CircleAvatar(
+        child: Text(
+          '${followed.name[0]}${followed.surname[0]}',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: Colors.blue,
+      ),
+      title: Text(
+        '${followed.name} ${followed.surname}',
+      ),
+      trailing: Icon(Icons.person),
+      onTap: () {
+        followersBloc.sDefaulter(followed);
+        Navigator.pop(context);
       },
     );
   }
