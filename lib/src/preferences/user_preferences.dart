@@ -54,4 +54,12 @@ class UserPreferences {
   set pincode(String value) {
     _prefs.setString('pincode', value);
   }
+
+  get actualPage {
+    return _prefs.getInt('actualPage') ?? 0;
+  }
+
+  set actualPage(int value) {
+    _prefs.setInt('actualPage', value);
+  }
 }

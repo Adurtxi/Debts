@@ -17,8 +17,6 @@ class _AuthPageState extends State<AuthPage> {
 
   @override
   Widget build(BuildContext context) {
-    _fingerprintAuth();
-
     return Scaffold(
       appBar: AppBar(
         title: Text('EPBasic Deudas'),
@@ -35,11 +33,12 @@ class _AuthPageState extends State<AuthPage> {
 
     return Padding(
       padding: EdgeInsets.symmetric(
-          vertical: size.height * 0.1, horizontal: size.width * 0.3),
+        vertical: size.height * 0.1,
+        horizontal: size.width * 0.3,
+      ),
       child: VerificationCodeInput(
         keyboardType: TextInputType.number,
         length: _prefs.pincode.length,
-        autofocus: true,
         textStyle: TextStyle(color: Colors.blue, fontSize: 20.0),
         onCompleted: (String value) {
           if (value == _prefs.pincode) {

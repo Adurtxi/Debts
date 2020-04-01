@@ -22,14 +22,16 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final prefs = new UserPreferences();
+    final _prefs = new UserPreferences();
+
+    _prefs.actualPage = 0;
 
     return Provider(
       child: MaterialApp(
         //No mostrar barra debug
         debugShowCheckedModeBanner: false,
         title: 'EPBasic Debts',
-        initialRoute: prefs.lastPage,
+        initialRoute: _prefs.lastPage,
         routes: getAppRoutes(),
         //Estilos globales
         theme: ThemeData(

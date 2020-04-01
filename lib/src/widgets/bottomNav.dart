@@ -1,3 +1,4 @@
+import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:flutter/material.dart';
 
 import 'package:epbasic_debts/src/widgets/slideTransition.dart';
@@ -12,16 +13,10 @@ class BottomNav extends StatefulWidget {
 }
 
 class _BottomNavState extends State<BottomNav> {
-  int _selectedIndex = 0;
+  final _prefs = new UserPreferences();
 
   @override
   Widget build(BuildContext context) {
-    final selectedIndexData = ModalRoute.of(context).settings.arguments;
-
-    if (selectedIndexData != null) {
-      _selectedIndex = selectedIndexData;
-    }
-
     return BottomNavigationBar(
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
@@ -37,7 +32,7 @@ class _BottomNavState extends State<BottomNav> {
           title: Container(),
         ),
       ],
-      currentIndex: _selectedIndex,
+      currentIndex: _prefs.actualPage,
       selectedItemColor: Colors.blue,
       onTap: _onItemTapped,
     );
@@ -45,10 +40,10 @@ class _BottomNavState extends State<BottomNav> {
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      _prefs.actualPage = index;
     });
 
-    switch (_selectedIndex) {
+    switch (_prefs.actualPage) {
       case 0:
         Navigator.pushReplacement(context, SlideRightRoute(page: HomePage()));
         break;
