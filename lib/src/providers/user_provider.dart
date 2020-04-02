@@ -49,6 +49,8 @@ class UserProvider {
       _prefs.identity = identityList;
       _prefs.lastPage = 'home';
 
+      setPhoneId(_prefs.phoneId);
+
       return {'ok': true, 'token': decodedResp['token']};
     } else {
       return {'ok': false, 'message': decodedResp['message']};
@@ -105,6 +107,15 @@ class UserProvider {
     } else {
       return [];
     }
+  }
+
+  void setPhoneId(String token) async {
+    final url = '$_apiUrl/user/phoneId/$token';
+
+    await http.get(
+      Uri.encodeFull(url),
+      headers: _setAuthHeaders(),
+    );
   }
 
   logout() {

@@ -62,4 +62,12 @@ class UserPreferences {
   set actualPage(int value) {
     _prefs.setInt('actualPage', value);
   }
+
+  get phoneId {
+    return _prefs.getString('phoneId') ?? null;
+  }
+
+  set phoneId(String value) {
+    _prefs.setString('phoneId', value);
+  }
 }
