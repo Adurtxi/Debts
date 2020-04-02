@@ -142,14 +142,4 @@ class FollowersProvider {
       return false;
     }
   }
-
-  _returnData(resp) {
-    final decodedData = json.decode(resp.body);
-
-    if (decodedData['status'] == 'success') {
-      return {'ok': true, 'message': decodedData['message']};
-    } else {
-      return {'ok': false, 'message': decodedData['message']};
-    }
-  }
 }

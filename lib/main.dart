@@ -1,3 +1,4 @@
+import 'package:epbasic_debts/src/providers/push_notifications_provider.dart';
 import 'package:epbasic_debts/src/services/service_locator.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,23 @@ void main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final GlobalKey<NavigatorState> navigatorKey =
+      new GlobalKey<NavigatorState>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    final pushProvider = new PushNotificationProvider();
+    pushProvider.initNotifications();
+  }
+
   @override
   Widget build(BuildContext context) {
     final _prefs = new UserPreferences();
