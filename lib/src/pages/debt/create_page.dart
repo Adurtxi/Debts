@@ -10,7 +10,6 @@ import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:epbasic_debts/src/widgets/myAppBar.dart';
 import 'package:epbasic_debts/src/widgets/userList.dart';
 import 'package:epbasic_debts/src/utils/utils.dart' as utils;
-import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 class NewDebtPage extends StatefulWidget {
@@ -24,14 +23,13 @@ class _NewDebtPageState extends State<NewDebtPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   DebtModel debt = new DebtModel();
-  DebtsBloc debtsBloc = new DebtsBloc();
 
   final debtsProvider = new DebtsProvider();
-  File ticket;
 
   @override
   Widget build(BuildContext context) {
     final followersBloc = Provider.followersBloc(context);
+    final debtsBloc = Provider.debtsBloc(context);
 
     DefaulterModal _defaulterModal = new DefaulterModal();
     TicketPickerModal _ticketPickerModal = new TicketPickerModal();
@@ -44,47 +42,29 @@ class _NewDebtPageState extends State<NewDebtPage> {
         context: context,
       ),
       floatingActionButton: _defaulterButton(_defaulterModal),
-      body: _container(followersBloc, _ticketPickerModal),
+      body: _container(followersBloc, debtsBloc, _ticketPickerModal),
     );
   }
 
-  Widget _container(followersBloc, TicketPickerModal _ticketPickerModal) {
+  Widget _container(
+    FollowersBloc followersBloc,
+    DebtsBloc debtsBloc,
+    TicketPickerModal _ticketPickerModal,
+  ) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
       child: Column(
         children: <Widget>[
           _userList(followersBloc),
-          _card(),
+          _card(debtsBloc, followersBloc),
           Flexible(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: _showPhoto(_ticketPickerModal),
+              child: _showPhoto(debtsBloc, _ticketPickerModal),
             ),
           ),
+          _showStreamTicket(debtsBloc),
         ],
-      ),
-    );
-  }
-
-  Widget _card() {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: <Widget>[
-              _createTitle(),
-              _createDescription(),
-              _createQuantity(),
-              _createAvailable(),
-              _createButton(),
-            ],
-          ),
-        ),
       ),
     );
   }
@@ -113,10 +93,32 @@ class _NewDebtPageState extends State<NewDebtPage> {
     );
   }
 
+  Widget _card(DebtsBloc debtsBloc, FollowersBloc followersBloc) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: <Widget>[
+              _createTitle(),
+              _createDescription(),
+              _createQuantity(),
+              _createAvailable(),
+              _createButton(debtsBloc, followersBloc),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _createTitle() {
     return TextFormField(
       initialValue: debt.title,
-      textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         labelText: 'Título',
       ),
@@ -170,7 +172,7 @@ class _NewDebtPageState extends State<NewDebtPage> {
     );
   }
 
-  Widget _createButton() {
+  Widget _createButton(DebtsBloc debtsBloc, FollowersBloc followersBloc) {
     return RaisedButton.icon(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
@@ -179,8 +181,73 @@ class _NewDebtPageState extends State<NewDebtPage> {
       textColor: Colors.white,
       label: Text('Guardar'),
       icon: Icon(Icons.save),
-      onPressed: () => _submit(),
+      onPressed: () => _submit(debtsBloc, followersBloc),
     );
+  }
+
+  Widget _showPhoto(DebtsBloc debtsBloc, TicketPickerModal modal) {
+    return StreamBuilder<File>(
+      stream: debtsBloc.debtTicketFile,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Image(
+            image: AssetImage(snapshot.data.path),
+            fit: BoxFit.cover,
+          );
+        } else {
+          return GestureDetector(
+            onTap: () {
+              modal.mainBottomSheet(context);
+            },
+            child: Image(
+              image: AssetImage('assets/img/original.png'),
+              height: 200.0,
+              fit: BoxFit.cover,
+            ),
+          );
+        }
+      },
+    );
+  }
+
+  Widget _showStreamTicket(DebtsBloc debtsBloc) {
+    return StreamBuilder<String>(
+      stream: debtsBloc.debtTicket,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          debt.fileName = snapshot.data;
+
+          return Text('Imagen subida');
+        } else {
+          return Text('Sin imagen');
+        }
+      },
+    );
+  }
+
+  void _submit(DebtsBloc debtsBloc, FollowersBloc followersBloc) async {
+    if (!_formKey.currentState.validate()) return;
+
+    _formKey.currentState.save();
+
+    if (debt.defaulterId == null) {
+      _printSnackbar('Selecciona deudor', Colors.blue, Colors.white);
+      return;
+    }
+
+    final resp = await debtsBloc.createDebt(debt);
+
+    if (resp['ok'] == true) {
+      debtsBloc.deleteData();
+      followersBloc.deleteData();
+
+      _formKey.currentState?.reset();
+
+      _printSnackbar(resp['message'], Colors.green, Colors.white);
+    } else {
+      _printSnackbar(resp['message'], Colors.red, Colors.white);
+      return;
+    }
   }
 
   Widget _defaulterButton(DefaulterModal modal) {
@@ -199,72 +266,6 @@ class _NewDebtPageState extends State<NewDebtPage> {
         ),
       ],
     );
-  }
-
-  Widget _showPhoto(TicketPickerModal modal) {
-    if (debt.fileName != null) {
-      return FadeInImage(
-        image: NetworkImage(
-          'https://api.debts.epbasic.eu/api/ticket/${debt.fileName}',
-        ),
-        placeholder: AssetImage('assets/img/original.gif'),
-        fit: BoxFit.cover,
-      );
-    } else {
-      return GestureDetector(
-        onTap: () {
-          _processImage(ImageSource.gallery);
-          //modal.mainBottomSheet(context);
-        },
-        child: Image(
-          image: AssetImage(ticket?.path ?? 'assets/img/original.png'),
-          height: 200.0,
-          fit: BoxFit.cover,
-        ),
-      );
-    }
-  }
-
-  _processImage(ImageSource origin) async {
-    ticket = await ImagePicker.pickImage(
-      source: origin,
-    );
-
-    if (ticket != null) {
-      debt.fileName = null;
-    }
-
-    setState(() {});
-  }
-
-  void _submit() async {
-    if (ticket != null) {
-      final ticketResp = await debtsProvider.uploadTicket(ticket);
-
-      if (ticketResp['ok'] == true) {
-        debt.fileName = ticketResp['file_name'];
-      }
-    }
-
-    if (!_formKey.currentState.validate()) return;
-
-    _formKey.currentState.save();
-
-    if (debt.defaulterId == null) {
-      _printSnackbar('Selecciona deudor', Colors.blue, Colors.white);
-      return;
-    }
-
-    final resp = await debtsBloc.createDebt(debt);
-
-    if (resp['ok'] == true) {
-      _formKey.currentState?.reset();
-
-      _printSnackbar(resp['message'], Colors.green, Colors.white);
-    } else {
-      _printSnackbar(resp['message'], Colors.red, Colors.white);
-      return;
-    }
   }
 
   void _printSnackbar(String message, Color backColor, Color textColor) {

@@ -66,6 +66,10 @@ class FollowersBloc {
     _defaulterCtr.sink.add(sDefaulter);
   }
 
+  void deleteData() {
+    _defaulterCtr.sink.add(null);
+  }
+
   dispose() {
     _followersCtr?.close();
     _followedsCtr?.close();

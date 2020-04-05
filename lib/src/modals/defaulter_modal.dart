@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 
 class DefaulterModal {
   mainBottomSheet(BuildContext context) {
-    final followersBloc = Provider.followersBloc(context);
-    followersBloc.dFolloweds();
+    final _followersBloc = Provider.followersBloc(context);
+    _followersBloc.dFolloweds();
 
     showModalBottomSheet(
         context: context,
@@ -42,7 +42,7 @@ class DefaulterModal {
               ),
               Expanded(
                 flex: 3,
-                child: _createFollowedsList(followersBloc),
+                child: _createFollowedsList(_followersBloc),
               ),
             ],
           );

@@ -1,10 +1,10 @@
 import 'package:epbasic_debts/src/blocs/provider.dart';
-import 'package:epbasic_debts/src/modals/defaulter_modal.dart';
+import 'package:epbasic_debts/src/modals/ticket_picker.dart';
 import 'package:epbasic_debts/src/models/debt_model.dart';
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:epbasic_debts/src/widgets/myAppBar.dart';
 import 'package:flutter/material.dart';
-import 'package:epbasic_debts/src/utils/utils.dart' as utils;
+import 'dart:io';
 
 class EditDebtPage extends StatefulWidget {
   @override
@@ -17,13 +17,12 @@ class _EditDebtPageState extends State<EditDebtPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   DebtModel debt = new DebtModel();
-  DebtsBloc debtsBloc = new DebtsBloc();
 
-  bool _saving = false;
+  TicketPickerModal _ticketPickerModal = new TicketPickerModal();
 
   @override
   Widget build(BuildContext context) {
-    DefaulterModal modal = new DefaulterModal();
+    final debtsBloc = Provider.debtsBloc(context);
 
     DebtModel debtData = ModalRoute.of(context).settings.arguments;
 
@@ -38,15 +37,22 @@ class _EditDebtPageState extends State<EditDebtPage> {
         user: '${_prefs.identity[1][0]}${_prefs.identity[2][0]}',
         context: context,
       ),
-      floatingActionButton: new FloatingActionButton(
-        onPressed: () => modal.mainBottomSheet(context),
-        child: new Icon(Icons.add),
+      body: Column(
+        children: <Widget>[
+          _container(debtsBloc),
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _showPhoto(debtsBloc, _ticketPickerModal),
+            ),
+          ),
+          _showStreamTicket(debtsBloc),
+        ],
       ),
-      body: _container(),
     );
   }
 
-  Widget _container() {
+  Widget _container(DebtsBloc debtsBloc) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
       child: Column(
@@ -63,9 +69,7 @@ class _EditDebtPageState extends State<EditDebtPage> {
                   children: <Widget>[
                     _createTitle(),
                     _createDescription(),
-                    _createQuantity(),
-                    _createAvailable(),
-                    _createButton(),
+                    _createButton(debtsBloc),
                   ],
                 ),
               ),
@@ -105,64 +109,90 @@ class _EditDebtPageState extends State<EditDebtPage> {
     );
   }
 
-  Widget _createQuantity() {
-    return TextFormField(
-      initialValue: debt.quantity.toString(),
-      keyboardType: TextInputType.numberWithOptions(decimal: true),
-      decoration: InputDecoration(
-        labelText: 'Cantidad',
+  Widget _createButton(DebtsBloc debtsBloc) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10.0),
+      child: RaisedButton.icon(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        color: Color.fromRGBO(31, 133, 109, 1.0),
+        textColor: Colors.white,
+        label: Text('Actualizar'),
+        icon: Icon(Icons.save),
+        onPressed: () => _submit(debtsBloc),
       ),
-      onSaved: (value) => debt.quantity = double.parse(value),
-      validator: (value) {
-        if (utils.isNumeric(value)) {
-          return null;
+    );
+  }
+
+  Widget _showPhoto(DebtsBloc debtsBloc, TicketPickerModal modal) {
+    return StreamBuilder<File>(
+      stream: debtsBloc.debtTicketFile,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Image(
+            image: AssetImage(snapshot.data.path),
+            fit: BoxFit.cover,
+          );
         } else {
-          return 'Solo números';
+          Widget image;
+
+          if (debt.fileName != null) {
+            image = FadeInImage(
+              image: NetworkImage(
+                'https://api.debts.epbasic.eu/api/ticket/${debt.fileName}',
+              ),
+              placeholder: AssetImage('assets/img/original.gif'),
+              fit: BoxFit.cover,
+            );
+          } else {
+            image = Image(
+              image: AssetImage('assets/img/original.png'),
+              height: 200.0,
+              fit: BoxFit.cover,
+            );
+          }
+
+          return GestureDetector(
+            onTap: () {
+              modal.mainBottomSheet(context);
+            },
+            child: image,
+          );
         }
       },
     );
   }
 
-  Widget _createAvailable() {
-    return SwitchListTile(
-      value: debt.paid,
-      title: Text('Pagado'),
-      activeColor: Color.fromRGBO(31, 133, 109, 1.0),
-      onChanged: (value) => setState(() {
-        debt.paid = value;
-      }),
+  Widget _showStreamTicket(DebtsBloc debtsBloc) {
+    return StreamBuilder<String>(
+      stream: debtsBloc.debtTicket,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          debt.fileName = snapshot.data;
+
+          return Text('Imagen subida');
+        } else {
+          return Text('');
+        }
+      },
     );
   }
 
-  Widget _createButton() {
-    return RaisedButton.icon(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0),
-      ),
-      color: Color.fromRGBO(31, 133, 109, 1.0),
-      textColor: Colors.white,
-      label: Text('Actualizar'),
-      icon: Icon(Icons.save),
-      onPressed: (_saving) ? null : _submit,
-    );
-  }
-
-  void _submit() async {
+  void _submit(DebtsBloc debtsBloc) async {
     if (!_formKey.currentState.validate()) return;
 
     _formKey.currentState.save();
 
-    setState(() => _saving = true);
-
     final resp = await debtsBloc.updateDebt(debt);
 
     if (resp['ok'] == true) {
+      debtsBloc.deleteData();
+
       _printSnackbar(resp['message'], Colors.green, Colors.white);
     } else {
       _printSnackbar(resp['message'], Colors.red, Colors.white);
     }
-
-    setState(() => _saving = false);
   }
 
   void _printSnackbar(String message, Color backColor, Color textColor) {

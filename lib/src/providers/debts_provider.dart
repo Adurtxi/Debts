@@ -92,6 +92,17 @@ class DebtsProvider {
     return _returnData(resp);
   }
 
+  Future<Map<String, dynamic>> markAsPaid(String id) async {
+    final url = '$_apiUrl/debt/markAsPaid/$id';
+
+    final resp = await http.get(
+      Uri.encodeFull(url),
+      headers: _setHeaders(),
+    );
+
+    return _returnData(resp);
+  }
+
   Future<Map<String, dynamic>> deleteDebt(String id) async {
     final url = '$_apiUrl/debt/$id';
 
