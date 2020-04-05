@@ -11,25 +11,34 @@ class DebtActionsModal {
   mainBottomSheet(BuildContext context) {
     final debtsBloc = Provider.debtsBloc(context);
 
+    Column column;
+
+    if (debt.paid == true) {
+      column = Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          _createTile(context, 'Ver', Icons.attach_money, _detail, debtsBloc),
+          _createTile(context, 'Editar', Icons.mode_edit, _edit, debtsBloc),
+        ],
+      );
+    } else {
+      column = Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          _createTile(context, 'Ver', Icons.attach_money, _detail, debtsBloc),
+          _createTile(context, 'Editar', Icons.mode_edit, _edit, debtsBloc),
+          _createTile(context, 'Marcar como pagada', Icons.check, _markAsPaid,
+              debtsBloc),
+        ],
+      );
+    }
+
     showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              _createTile(
-                  context, 'Ver', Icons.attach_money, _detail, debtsBloc),
-              _createTile(context, 'Editar', Icons.mode_edit, _edit, debtsBloc),
-              _createTile(
-                context,
-                'Marcar como pagada',
-                Icons.check,
-                _markAsPaid,
-                debtsBloc,
-              ),
-            ],
-          );
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return column;
+      },
+    );
   }
 
   ListTile _createTile(BuildContext context, String name, IconData icon,

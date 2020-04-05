@@ -82,9 +82,7 @@ class _EditDebtPageState extends State<EditDebtPage> {
 
   Widget _createTitle() {
     return TextFormField(
-      autofocus: true,
       initialValue: debt.title,
-      textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         labelText: 'Título',
       ),
