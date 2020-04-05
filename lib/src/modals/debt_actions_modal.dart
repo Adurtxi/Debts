@@ -53,11 +53,11 @@ class DebtActionsModal {
     );
   }
 
-  _detail(BuildContext context, DebtModel debt) {
+  _detail(BuildContext context, DebtModel debt, DebtsBloc debtsBloc) {
     Navigator.pushNamed(context, 'detail', arguments: debt);
   }
 
-  _edit(BuildContext context, DebtModel debt) {
+  _edit(BuildContext context, DebtModel debt, DebtsBloc debtsBloc) {
     Navigator.pushNamed(context, 'edit', arguments: debt);
   }
 
