@@ -17,6 +17,7 @@ class DebtModel {
   double quantity;
   String title;
   String description;
+  String fileName;
   bool paid;
   UserModel user;
   UserModel defaulter;
@@ -29,6 +30,7 @@ class DebtModel {
     this.title = '',
     this.description = '',
     this.paid = false,
+    this.fileName,
     this.user,
     this.defaulter,
   });
@@ -40,6 +42,7 @@ class DebtModel {
         quantity: json["quantity"].toDouble(),
         title: json["title"],
         description: json["description"],
+        fileName: json["file_name"],
         paid: json["paid"],
         user: UserModel.fromJson(json["user"]),
         defaulter: UserModel.fromJson(json["defaulter"]),
@@ -53,5 +56,6 @@ class DebtModel {
         "title": title,
         "description": description,
         "paid": paid,
+        "file_name": fileName,
       };
 }

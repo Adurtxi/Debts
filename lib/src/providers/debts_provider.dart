@@ -1,9 +1,9 @@
+import 'dart:io';
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
-
+import 'package:mime_type/mime_type.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
-
 import 'package:epbasic_debts/src/models/debt_model.dart';
 
 class DebtsProvider {
@@ -101,6 +101,37 @@ class DebtsProvider {
     );
 
     return _returnData(resp);
+  }
+
+  Future<Map<String, dynamic>> uploadTicket(File ticket) async {
+    final url = '$_apiUrl/ticket/upload';
+
+    final mimeType = mime(ticket.path).split('/');
+
+    final imageUploadRequest = http.MultipartRequest(
+      'POST',
+      Uri.parse(url),
+    );
+
+    final file = await http.MultipartFile.fromPath(
+      'ticket',
+      ticket.path,
+      contentType: MediaType(mimeType[0], mimeType[1]),
+    );
+
+    imageUploadRequest.files.add(file);
+    imageUploadRequest.headers.addAll({'Authorization': '${_prefs.token}'});
+
+    final streamResponse = await imageUploadRequest.send();
+    final resp = await http.Response.fromStream(streamResponse);
+
+    final decodedData = json.decode(resp.body);
+
+    if (decodedData['status'] == 'success') {
+      return {'ok': true, 'file_name': decodedData['ticket']};
+    } else {
+      return {'ok': false, 'file_name': ''};
+    }
   }
 
   _returnData(resp) {

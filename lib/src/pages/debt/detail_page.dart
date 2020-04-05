@@ -20,6 +20,7 @@ class DebtDetail extends StatelessWidget {
       body: Column(
         children: <Widget>[
           _container(),
+          Flexible(child: _showPhoto()),
         ],
       ),
     );
@@ -108,6 +109,20 @@ class DebtDetail extends StatelessWidget {
 
     if (debt.description.length > 1) {
       return description;
+    } else {
+      return Container();
+    }
+  }
+
+  Widget _showPhoto() {
+    if (debt.fileName != null) {
+      return FadeInImage(
+        image: NetworkImage(
+          'https://api.debts.epbasic.eu/api/ticket/${debt.fileName}',
+        ),
+        placeholder: AssetImage('assets/img/original.gif'),
+        fit: BoxFit.cover,
+      );
     } else {
       return Container();
     }
