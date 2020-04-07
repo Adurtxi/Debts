@@ -1,4 +1,3 @@
-import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:flutter/material.dart';
 
 import 'package:epbasic_debts/src/widgets/slideTransition.dart';
@@ -6,6 +5,7 @@ import 'package:epbasic_debts/src/widgets/slideTransition.dart';
 import 'package:epbasic_debts/src/pages/debt/debts_page.dart';
 import 'package:epbasic_debts/src/pages/home_page.dart';
 import 'package:epbasic_debts/src/pages/user/people_page.dart';
+import 'package:epbasic_debts/src/blocs/provider.dart';
 
 class BottomNav extends StatefulWidget {
   @override
@@ -13,37 +13,49 @@ class BottomNav extends StatefulWidget {
 }
 
 class _BottomNavState extends State<BottomNav> {
-  final _prefs = new UserPreferences();
-
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          title: Container(),
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.money_off),
-          title: Container(),
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.people),
-          title: Container(),
-        ),
-      ],
-      currentIndex: _prefs.actualPage,
-      selectedItemColor: Colors.blue,
-      onTap: _onItemTapped,
+    final _navBarBloc = Provider.navBarBloc(context);
+
+    return StreamBuilder(
+      stream: _navBarBloc.currentPage,
+      builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+        int currentPage;
+
+        if (snapshot.data == null) {
+          currentPage = 0;
+        } else {
+          currentPage = snapshot.data;
+        }
+
+        return BottomNavigationBar(
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              title: Container(),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.money_off),
+              title: Container(),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.people),
+              title: Container(),
+            ),
+          ],
+          currentIndex: currentPage,
+          selectedItemColor: Colors.blue,
+          onTap: (int index) {
+            _navBarBloc.changePage(index);
+            _onItemTapped(index);
+          },
+        );
+      },
     );
   }
 
   void _onItemTapped(int index) {
-    setState(() {
-      _prefs.actualPage = index;
-    });
-
-    switch (_prefs.actualPage) {
+    switch (index) {
       case 0:
         Navigator.pushReplacement(context, SlideRightRoute(page: HomePage()));
         break;

@@ -1,13 +1,16 @@
-import 'package:epbasic_debts/src/blocs/followers_bloc.dart';
-import 'package:epbasic_debts/src/blocs/provider.dart';
-import 'package:epbasic_debts/src/preferences/user_preferences.dart';
-import 'package:epbasic_debts/src/search/user_search_delegate.dart';
+import 'package:flutter/material.dart';
+
 import 'package:epbasic_debts/src/widgets/bottomNav.dart';
 import 'package:epbasic_debts/src/widgets/followers/followedList.dart';
 import 'package:epbasic_debts/src/widgets/followers/followerList.dart';
 import 'package:epbasic_debts/src/widgets/loader.dart';
 import 'package:epbasic_debts/src/widgets/myAppBar.dart';
-import 'package:flutter/material.dart';
+
+import 'package:epbasic_debts/src/blocs/followers_bloc.dart';
+import 'package:epbasic_debts/src/blocs/provider.dart';
+
+import 'package:epbasic_debts/src/preferences/user_preferences.dart';
+import 'package:epbasic_debts/src/search/user_search_delegate.dart';
 
 class PeoplePage extends StatelessWidget {
   final _prefs = new UserPreferences();
@@ -66,7 +69,6 @@ class PeoplePage extends StatelessWidget {
     );
   }
 
-  //Lista de deudas
   _createFollowersList(FollowersBloc followersBloc) {
     return StreamBuilder(
       stream: followersBloc.followerStream,
@@ -119,20 +121,27 @@ class PeoplePage extends StatelessWidget {
     );
   }
 
-  //Botón crear nuevo producto
   _createButtons(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: <Widget>[
-        FloatingActionButton(
-          heroTag: "search",
-          child: Icon(Icons.search, color: Colors.white),
-          backgroundColor: Colors.blue,
-          onPressed: () {
-            showSearch(context: context, delegate: UserSearch());
-          },
+    return FloatingActionButton(
+      onPressed: () {
+        showSearch(context: context, delegate: UserSearch());
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(
+            Radius.circular(25.0),
+          ),
+          gradient: LinearGradient(
+            colors: <Color>[
+              Color(0xFF0D47A1),
+              Color(0xFF1976D2),
+              Color(0xFF42A5F5),
+            ],
+          ),
         ),
-      ],
+        padding: const EdgeInsets.all(16.0),
+        child: Icon(Icons.search, color: Colors.white),
+      ),
     );
   }
 

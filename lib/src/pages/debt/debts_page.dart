@@ -72,18 +72,45 @@ class DebtsPage extends StatelessWidget {
       children: <Widget>[
         FloatingActionButton(
           heroTag: "create",
-          child: Icon(Icons.add, color: Colors.white),
-          backgroundColor: Color.fromRGBO(31, 133, 109, 1.0),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(
+                Radius.circular(25.0),
+              ),
+              gradient: LinearGradient(
+                colors: [
+                  Colors.green[800],
+                  Colors.green[600],
+                  Colors.green[400],
+                ],
+              ),
+            ),
+            padding: const EdgeInsets.all(16.0),
+            child: Icon(Icons.add, color: Colors.white),
+          ),
           onPressed: () => Navigator.pushNamed(context, 'create'),
         ),
         SizedBox(width: 10),
         FloatingActionButton(
-          heroTag: "search",
-          child: Icon(Icons.search, color: Colors.white),
-          backgroundColor: Colors.blue,
           onPressed: () {
             showSearch(context: context, delegate: DebtSearch());
           },
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(
+                Radius.circular(25.0),
+              ),
+              gradient: LinearGradient(
+                colors: <Color>[
+                  Color(0xFF0D47A1),
+                  Color(0xFF1976D2),
+                  Color(0xFF42A5F5),
+                ],
+              ),
+            ),
+            padding: const EdgeInsets.all(16.0),
+            child: Icon(Icons.search, color: Colors.white),
+          ),
         ),
       ],
     );

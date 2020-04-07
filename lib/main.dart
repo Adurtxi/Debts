@@ -41,8 +41,6 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     final _prefs = new UserPreferences();
 
-    _prefs.actualPage = 0;
-
     return Provider(
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

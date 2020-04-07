@@ -1,4 +1,5 @@
 import 'package:epbasic_debts/src/blocs/followers_bloc.dart';
+import 'package:epbasic_debts/src/blocs/navbar_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:epbasic_debts/src/blocs/user_bloc.dart';
 export 'package:epbasic_debts/src/blocs/user_bloc.dart';
@@ -9,6 +10,7 @@ class Provider extends InheritedWidget {
   final _loginBloc = UserBloc();
   final _debtsBloc = DebtsBloc();
   final _followersBloc = FollowersBloc();
+  final _navBarBloc = NavBarBloc();
 
   static Provider _instance;
 
@@ -37,5 +39,9 @@ class Provider extends InheritedWidget {
     return context
         .dependOnInheritedWidgetOfExactType<Provider>()
         ._followersBloc;
+  }
+
+  static NavBarBloc navBarBloc(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<Provider>()._navBarBloc;
   }
 }

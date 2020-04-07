@@ -1,7 +1,8 @@
+import 'package:flutter/material.dart';
+
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:epbasic_debts/src/providers/user_provider.dart';
 import 'package:epbasic_debts/src/widgets/myAppBar.dart';
-import 'package:flutter/material.dart';
 
 class AccountPage extends StatefulWidget {
   @override

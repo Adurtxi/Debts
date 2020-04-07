@@ -55,14 +55,6 @@ class UserPreferences {
     _prefs.setString('pincode', value);
   }
 
-  get actualPage {
-    return _prefs.getInt('actualPage') ?? 0;
-  }
-
-  set actualPage(int value) {
-    _prefs.setInt('actualPage', value);
-  }
-
   get phoneId {
     return _prefs.getString('phoneId') ?? null;
   }

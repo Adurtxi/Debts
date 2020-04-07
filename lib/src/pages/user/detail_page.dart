@@ -1,7 +1,8 @@
+import 'package:flutter/material.dart';
+
 import 'package:epbasic_debts/src/models/user_model.dart';
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:epbasic_debts/src/widgets/myAppBar.dart';
-import 'package:flutter/material.dart';
 
 class UserDetailPage extends StatefulWidget {
   @override
