@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
+
 import 'package:epbasic_debts/src/blocs/provider.dart';
 import 'package:epbasic_debts/src/modals/ticket_picker.dart';
 import 'package:epbasic_debts/src/models/debt_model.dart';
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:epbasic_debts/src/widgets/myAppBar.dart';
-import 'package:flutter/material.dart';
+
 import 'dart:io';
 
 class EditDebtPage extends StatefulWidget {

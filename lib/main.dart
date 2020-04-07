@@ -45,12 +45,10 @@ class _MyAppState extends State<MyApp> {
 
     return Provider(
       child: MaterialApp(
-        //No mostrar barra debug
         debugShowCheckedModeBanner: false,
         title: 'EPBasic Debts',
         initialRoute: _prefs.lastPage,
         routes: getAppRoutes(),
-        //Estilos globales
         theme: ThemeData(
           brightness: Brightness.light,
           primaryColor: Colors.white,

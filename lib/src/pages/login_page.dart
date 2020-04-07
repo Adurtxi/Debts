@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:epbasic_debts/src/blocs/provider.dart';
 import 'package:epbasic_debts/src/providers/user_provider.dart';
 import 'package:epbasic_debts/src/utils/utils.dart';
@@ -17,12 +18,10 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  //Formulario login
   Widget _loginForm(context) {
     final bloc = Provider.userBloc(context);
     final size = MediaQuery.of(context).size;
 
-    //Contenido desplazable
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -30,12 +29,9 @@ class LoginPage extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(vertical: 50.0),
             width: size.width * 0.85,
-            //Tarjeta login
-
             child: Column(
               children: <Widget>[
                 Text('Login', style: TextStyle(fontSize: 20.0)),
-                //Inputs formulario
                 SizedBox(height: 40.0),
                 _createEmail(bloc),
                 SizedBox(height: 20.0),
@@ -57,9 +53,7 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  //Input email
   Widget _createEmail(UserBloc bloc) {
-    //Stream de email y contraseña
     return StreamBuilder(
       stream: bloc.emailStream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -77,7 +71,6 @@ class LoginPage extends StatelessWidget {
               counterText: snapshot.data,
               errorText: snapshot.error,
             ),
-            //Al cambiar guardar los datos en el stream
             onChanged: bloc.changeEmail,
           ),
         );
@@ -125,14 +118,12 @@ class LoginPage extends StatelessWidget {
           elevation: 0.0,
           color: Color.fromRGBO(31, 133, 109, 1.0),
           textColor: Colors.white,
-          //Activar cuando hay informacíon en el snapshot
           onPressed: snapshot.hasData ? () => _login(bloc, context) : null,
         );
       },
     );
   }
 
-  //Enviar datos al provider y en caso de OK redirigir a home
   _login(UserBloc bloc, BuildContext context) async {
     Map info = await userProvider.login(bloc.email, bloc.password);
 

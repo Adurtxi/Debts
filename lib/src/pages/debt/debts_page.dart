@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'package:epbasic_debts/src/blocs/provider.dart';
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:epbasic_debts/src/search/debt_search_delegate.dart';
@@ -5,7 +7,6 @@ import 'package:epbasic_debts/src/widgets/bottomNav.dart';
 import 'package:epbasic_debts/src/widgets/debtsList.dart';
 import 'package:epbasic_debts/src/widgets/loader.dart';
 import 'package:epbasic_debts/src/widgets/myAppBar.dart';
-import 'package:flutter/material.dart';
 
 class DebtsPage extends StatelessWidget {
   final _prefs = new UserPreferences();

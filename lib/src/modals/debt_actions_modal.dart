@@ -2,6 +2,7 @@ import 'package:epbasic_debts/src/blocs/debts_bloc.dart';
 import 'package:epbasic_debts/src/blocs/provider.dart';
 import 'package:epbasic_debts/src/models/debt_model.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DebtActionsModal {
   final DebtModel debt;
@@ -25,10 +26,11 @@ class DebtActionsModal {
       column = Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          _createTile(context, 'Ver', Icons.attach_money, _detail, debtsBloc),
-          _createTile(context, 'Editar', Icons.mode_edit, _edit, debtsBloc),
-          _createTile(context, 'Marcar como pagada', Icons.check, _markAsPaid,
-              debtsBloc),
+          _createTile(context, 'Ver', FontAwesomeIcons.eye, _detail, debtsBloc),
+          _createTile(
+              context, 'Editar', FontAwesomeIcons.pen, _edit, debtsBloc),
+          _createTile(context, 'Marcar como pagada',
+              FontAwesomeIcons.dollarSign, _markAsPaid, debtsBloc),
         ],
       );
     }
@@ -44,7 +46,7 @@ class DebtActionsModal {
   ListTile _createTile(BuildContext context, String name, IconData icon,
       Function action, DebtsBloc debtsBloc) {
     return ListTile(
-      leading: Icon(icon),
+      leading: FaIcon(icon),
       title: Text(name),
       onTap: () {
         Navigator.pop(context);

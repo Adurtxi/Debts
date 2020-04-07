@@ -3,7 +3,12 @@ import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:epbasic_debts/src/widgets/myAppBar.dart';
 import 'package:flutter/material.dart';
 
-class UserDetailPage extends StatelessWidget {
+class UserDetailPage extends StatefulWidget {
+  @override
+  _UserDetailPageState createState() => _UserDetailPageState();
+}
+
+class _UserDetailPageState extends State<UserDetailPage> {
   final _prefs = new UserPreferences();
 
   UserModel _user = new UserModel();

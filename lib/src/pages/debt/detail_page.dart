@@ -1,10 +1,16 @@
+import 'package:flutter/material.dart';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:epbasic_debts/src/models/debt_model.dart';
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:epbasic_debts/src/widgets/userList.dart';
-import 'package:flutter/material.dart';
 
-class DebtDetail extends StatelessWidget {
+class DebtDetail extends StatefulWidget {
+  @override
+  _DebtDetailState createState() => _DebtDetailState();
+}
+
+class _DebtDetailState extends State<DebtDetail> {
   final prefs = new UserPreferences();
 
   DebtModel debt = new DebtModel();

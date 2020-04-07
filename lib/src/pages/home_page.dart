@@ -1,11 +1,13 @@
-import 'package:epbasic_debts/src/widgets/loader.dart';
 import 'package:flutter/material.dart';
 
-import 'package:epbasic_debts/src/blocs/provider.dart';
-import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:epbasic_debts/src/widgets/bottomNav.dart';
 import 'package:epbasic_debts/src/widgets/debtsList.dart';
 import 'package:epbasic_debts/src/widgets/myAppBar.dart';
+import 'package:epbasic_debts/src/widgets/loader.dart';
+
+import 'package:epbasic_debts/src/blocs/provider.dart';
+
+import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -38,7 +40,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  //Lista de deudas
   _createList(DebtsBloc debtsBloc) {
     return StreamBuilder(
       stream: debtsBloc.homeDebtsStream,

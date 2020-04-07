@@ -1,6 +1,7 @@
+import 'package:flutter/material.dart';
+
 import 'package:epbasic_debts/src/modals/ticket_picker.dart';
 import 'package:epbasic_debts/src/providers/debts_provider.dart';
-import 'package:flutter/material.dart';
 import 'package:epbasic_debts/src/blocs/followers_bloc.dart';
 import 'package:epbasic_debts/src/blocs/provider.dart';
 import 'package:epbasic_debts/src/modals/defaulter_modal.dart';
@@ -10,6 +11,7 @@ import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:epbasic_debts/src/widgets/myAppBar.dart';
 import 'package:epbasic_debts/src/widgets/userList.dart';
 import 'package:epbasic_debts/src/utils/utils.dart' as utils;
+
 import 'dart:io';
 
 class NewDebtPage extends StatefulWidget {

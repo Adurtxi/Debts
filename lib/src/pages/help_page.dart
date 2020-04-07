@@ -1,7 +1,9 @@
-import 'package:epbasic_debts/src/preferences/user_preferences.dart';
+import 'package:flutter/material.dart';
+
 import 'package:epbasic_debts/src/widgets/bottomNav.dart';
 import 'package:epbasic_debts/src/widgets/myAppBar.dart';
-import 'package:flutter/material.dart';
+
+import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 
 class HelpPage extends StatelessWidget {
   final _prefs = new UserPreferences();

@@ -1,7 +1,9 @@
+import 'package:flutter/material.dart';
+
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:epbasic_debts/src/services/local_authentication.dart';
 import 'package:epbasic_debts/src/services/service_locator.dart';
-import 'package:flutter/material.dart';
+
 import 'package:flutter_verification_code_input/flutter_verification_code_input.dart';
 
 class AuthPage extends StatefulWidget {
