@@ -1,10 +1,16 @@
-import 'package:epbasic_debts/src/blocs/followers_bloc.dart';
-import 'package:epbasic_debts/src/blocs/navbar_bloc.dart';
 import 'package:flutter/material.dart';
+
 import 'package:epbasic_debts/src/blocs/user_bloc.dart';
 export 'package:epbasic_debts/src/blocs/user_bloc.dart';
+
 import 'package:epbasic_debts/src/blocs/debts_bloc.dart';
 export 'package:epbasic_debts/src/blocs/debts_bloc.dart';
+
+import 'package:epbasic_debts/src/blocs/navbar_bloc.dart';
+export 'package:epbasic_debts/src/blocs/navbar_bloc.dart';
+
+import 'package:epbasic_debts/src/blocs/followers_bloc.dart';
+export 'package:epbasic_debts/src/blocs/followers_bloc.dart';
 
 class Provider extends InheritedWidget {
   final _loginBloc = UserBloc();

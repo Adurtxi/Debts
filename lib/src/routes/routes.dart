@@ -1,4 +1,3 @@
-import 'package:epbasic_debts/src/pages/user/detail_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:epbasic_debts/src/pages/debt/create_page.dart';
@@ -12,6 +11,7 @@ import 'package:epbasic_debts/src/pages/login_page.dart';
 import 'package:epbasic_debts/src/pages/home_page.dart';
 import 'package:epbasic_debts/src/pages/auth_page.dart';
 import 'package:epbasic_debts/src/pages/debt/edit_page.dart';
+import 'package:epbasic_debts/src/pages/user/detail_page.dart';
 
 Map<String, WidgetBuilder> getAppRoutes() {
   return <String, WidgetBuilder>{
