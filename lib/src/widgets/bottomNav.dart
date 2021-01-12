@@ -32,15 +32,15 @@ class _BottomNavState extends State<BottomNav> {
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
-              title: Container(),
+              label: '',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.money_off),
-              title: Container(),
+              label: '',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.people),
-              title: Container(),
+              label: '',
             ),
           ],
           currentIndex: currentPage,

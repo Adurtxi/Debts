@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 
 class FollowersProvider {
-  final String _apiUrl = 'https://api.debts.epbasic.eu/api';
   final _prefs = new UserPreferences();
 
   _setHeaders() => {
@@ -16,7 +15,7 @@ class FollowersProvider {
       };
 
   Future<Map<String, dynamic>> loadFollowers(String pathUrl) async {
-    final url = '$_apiUrl/followers/$pathUrl';
+    final url = '${_prefs.url}/followers/$pathUrl';
 
     final resp = await http.get(
       Uri.encodeFull(url),
@@ -42,7 +41,7 @@ class FollowersProvider {
   }
 
   Future<Map<String, dynamic>> loadFolloweds(String pathUrl) async {
-    final url = '$_apiUrl/followeds/$pathUrl';
+    final url = '${_prefs.url}/followeds/$pathUrl';
 
     final resp = await http.get(
       Uri.encodeFull(url),
@@ -68,7 +67,7 @@ class FollowersProvider {
   }
 
   Future<bool> newFollower(int userId) async {
-    final url = '$_apiUrl/follower/new/$userId';
+    final url = '${_prefs.url}/follower/new/$userId';
 
     final resp = await http.get(
       Uri.encodeFull(url),
@@ -87,7 +86,7 @@ class FollowersProvider {
   }
 
   Future<bool> deleteFollowed(int userId) async {
-    final url = '$_apiUrl/follower/cancel-delete/$userId';
+    final url = '${_prefs.url}/follower/cancel-delete/$userId';
 
     final resp = await http.delete(
       Uri.encodeFull(url),
@@ -106,7 +105,7 @@ class FollowersProvider {
   }
 
   Future<bool> acceptFollower(int userId) async {
-    final url = '$_apiUrl/follower/accept/$userId';
+    final url = '${_prefs.url}/follower/accept/$userId';
 
     final resp = await http.get(
       Uri.encodeFull(url),
@@ -125,7 +124,7 @@ class FollowersProvider {
   }
 
   Future<bool> deleteFollower(int userId) async {
-    final url = '$_apiUrl/follower/delete/$userId';
+    final url = '${_prefs.url}/follower/delete/$userId';
 
     final resp = await http.delete(
       Uri.encodeFull(url),

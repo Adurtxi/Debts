@@ -37,7 +37,7 @@ class PeoplePage extends StatelessWidget {
     return Column(
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0),
           child: Text(
             'Seguidores',
             style: TextStyle(
@@ -51,7 +51,7 @@ class PeoplePage extends StatelessWidget {
           child: _createFollowersList(followersBloc),
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0),
           child: Text(
             'Siguiendo',
             style: TextStyle(
@@ -72,8 +72,7 @@ class PeoplePage extends StatelessWidget {
   _createFollowersList(FollowersBloc followersBloc) {
     return StreamBuilder(
       stream: followersBloc.followerStream,
-      builder:
-          (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data['ok'] == true) {
             final followers = snapshot.data['followers'];
@@ -98,8 +97,7 @@ class PeoplePage extends StatelessWidget {
   _createFollowedsList(FollowersBloc followersBloc) {
     return StreamBuilder(
       stream: followersBloc.followedStream,
-      builder:
-          (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data['ok'] == true) {
             final followeds = snapshot.data['followeds'];
@@ -131,15 +129,9 @@ class PeoplePage extends StatelessWidget {
           borderRadius: BorderRadius.all(
             Radius.circular(25.0),
           ),
-          gradient: LinearGradient(
-            colors: <Color>[
-              Color(0xFF0D47A1),
-              Color(0xFF1976D2),
-              Color(0xFF42A5F5),
-            ],
-          ),
+          color: Color(0xFF1976D2),
         ),
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         child: Icon(Icons.search, color: Colors.white),
       ),
     );

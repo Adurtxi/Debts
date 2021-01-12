@@ -62,4 +62,8 @@ class UserPreferences {
   set phoneId(String value) {
     _prefs.setString('phoneId', value);
   }
+
+  get url {
+    return _prefs.getString('url') ?? 'https://api.debts-v2.epbasic.eu/api';
+  }
 }

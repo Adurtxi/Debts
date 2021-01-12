@@ -7,10 +7,7 @@ import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 class UserProvider {
   final _prefs = new UserPreferences();
 
-  final String _apiUrl = 'https://api.debts.epbasic.eu/api';
-
-  _setHeaders() =>
-      {'Content-type': 'application/json', 'Accept': 'application/json'};
+  _setHeaders() => {'Content-type': 'application/json', 'Accept': 'application/json'};
 
   _setAuthHeaders() => {
         'Content-type': 'application/json',
@@ -19,7 +16,7 @@ class UserProvider {
       };
 
   Future<Map<String, dynamic>> login(String email, String password) async {
-    final url = '$_apiUrl/login';
+    final url = '${_prefs.url}/login';
 
     final authData = {
       'email': email,
@@ -59,7 +56,7 @@ class UserProvider {
 
   Future<Map<String, dynamic>> newUser(
       String email, String password, String name, String surname) async {
-    final url = '$_apiUrl/register';
+    final url = '${_prefs.url}/register';
 
     final authData = {
       'name': name,
@@ -84,7 +81,7 @@ class UserProvider {
   }
 
   Future<List<UserModel>> searchUser(String query) async {
-    final url = '$_apiUrl/users/search/$query';
+    final url = '${_prefs.url}/users/search/$query';
 
     final resp = await http.get(
       Uri.encodeFull(url),
@@ -110,7 +107,7 @@ class UserProvider {
   }
 
   void setPhoneId(String token) async {
-    final url = '$_apiUrl/user/phoneId/$token';
+    final url = '${_prefs.url}/user/phoneId/$token';
 
     await http.get(
       Uri.encodeFull(url),

@@ -62,7 +62,7 @@ class _AccountPageState extends State<AccountPage> {
               }),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: _createInputPassword(),
             ),
             _changePass(),

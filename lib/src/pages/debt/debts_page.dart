@@ -39,16 +39,14 @@ class DebtsPage extends StatelessWidget {
   _createList(DebtsBloc debtsBloc) {
     return StreamBuilder(
       stream: debtsBloc.debtsDebtsStream,
-      builder:
-          (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data['ok'] == true) {
             final debts = snapshot.data['debts'];
             return ListView.builder(
               itemCount: debts.length,
               itemBuilder: (context, i) {
-                final user =
-                    '${debts[i].user.name[0]}${debts[i].user.surname[0]}';
+                final user = '${debts[i].user.name[0]}${debts[i].user.surname[0]}';
 
                 return DebstList(debt: debts[i], user: user);
               },
@@ -77,15 +75,9 @@ class DebtsPage extends StatelessWidget {
               borderRadius: BorderRadius.all(
                 Radius.circular(25.0),
               ),
-              gradient: LinearGradient(
-                colors: [
-                  Colors.green[800],
-                  Colors.green[600],
-                  Colors.green[400],
-                ],
-              ),
+              color: Colors.green[500],
             ),
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(16.0),
             child: Icon(Icons.add, color: Colors.white),
           ),
           onPressed: () => Navigator.pushNamed(context, 'create'),
@@ -100,15 +92,9 @@ class DebtsPage extends StatelessWidget {
               borderRadius: BorderRadius.all(
                 Radius.circular(25.0),
               ),
-              gradient: LinearGradient(
-                colors: <Color>[
-                  Color(0xFF0D47A1),
-                  Color(0xFF1976D2),
-                  Color(0xFF42A5F5),
-                ],
-              ),
+              color: Color(0xFF1976D2),
             ),
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(16.0),
             child: Icon(Icons.search, color: Colors.white),
           ),
         ),

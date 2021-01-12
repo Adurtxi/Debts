@@ -7,7 +7,6 @@ import 'package:epbasic_debts/src/preferences/user_preferences.dart';
 import 'package:epbasic_debts/src/models/debt_model.dart';
 
 class DebtsProvider {
-  final String _apiUrl = 'https://api.debts.epbasic.eu/api';
   final _prefs = new UserPreferences();
 
   _setHeaders() => {
@@ -17,7 +16,7 @@ class DebtsProvider {
       };
 
   Future<Map<String, dynamic>> loadDebts(String pathUrl) async {
-    final url = '$_apiUrl/$pathUrl';
+    final url = '${_prefs.url}/$pathUrl';
 
     final resp = await http.get(
       Uri.encodeFull(url),
@@ -43,7 +42,7 @@ class DebtsProvider {
   }
 
   Future<List<DebtModel>> searchDebt(String query) async {
-    final url = '$_apiUrl/debts/search/$query';
+    final url = '${_prefs.url}/debts/search/$query';
 
     final resp = await http.get(
       Uri.encodeFull(url),
@@ -69,7 +68,7 @@ class DebtsProvider {
   }
 
   Future<Map<String, dynamic>> createDebt(DebtModel debt) async {
-    final url = '$_apiUrl/debt';
+    final url = '${_prefs.url}/debt';
 
     final resp = await http.post(
       Uri.encodeFull(url),
@@ -81,7 +80,7 @@ class DebtsProvider {
   }
 
   Future<Map<String, dynamic>> updateDebt(DebtModel debt) async {
-    final url = '$_apiUrl/debt/${debt.id}';
+    final url = '${_prefs.url}/debt/${debt.id}';
 
     final resp = await http.put(
       Uri.encodeFull(url),
@@ -93,7 +92,7 @@ class DebtsProvider {
   }
 
   Future<Map<String, dynamic>> markAsPaid(String id) async {
-    final url = '$_apiUrl/debt/markAsPaid/$id';
+    final url = '${_prefs.url}/debt/markAsPaid/$id';
 
     final resp = await http.get(
       Uri.encodeFull(url),
@@ -104,7 +103,7 @@ class DebtsProvider {
   }
 
   Future<Map<String, dynamic>> deleteDebt(String id) async {
-    final url = '$_apiUrl/debt/$id';
+    final url = '${_prefs.url}/debt/$id';
 
     final resp = await http.delete(
       Uri.encodeFull(url),
@@ -115,7 +114,7 @@ class DebtsProvider {
   }
 
   Future<Map<String, dynamic>> uploadTicket(File ticket) async {
-    final url = '$_apiUrl/ticket/upload';
+    final url = '${_prefs.url}/ticket/upload';
 
     final mimeType = mime(ticket.path).split('/');
 
