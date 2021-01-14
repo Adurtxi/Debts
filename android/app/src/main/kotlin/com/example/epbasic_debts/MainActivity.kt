@@ -1,4 +1,4 @@
-package com.example.epbasic_debts
+package es.debts
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterFragmentActivity

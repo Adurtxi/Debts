@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:epbasic_debts/src/models/user_model.dart';
+import 'package:debts/src/models/user_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:epbasic_debts/src/preferences/user_preferences.dart';
+import 'package:debts/src/preferences/user_preferences.dart';
 
 class UserProvider {
   final _prefs = new UserPreferences();

@@ -1,11 +1,13 @@
-import 'package:epbasic_debts/src/providers/push_notifications_provider.dart';
-import 'package:epbasic_debts/src/services/service_locator.dart';
 import 'package:flutter/material.dart';
 
-import 'package:epbasic_debts/src/preferences/user_preferences.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-import 'package:epbasic_debts/src/blocs/provider.dart';
-import 'package:epbasic_debts/src/routes/routes.dart';
+import 'package:debts/src/preferences/user_preferences.dart';
+
+import 'package:debts/src/routes/routes.dart';
+
+import 'package:debts/src/providers/push_notifications_provider.dart';
+import 'package:debts/src/services/service_locator.dart';
 
 void main() async {
   setupLocator();
@@ -38,24 +40,17 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     final _prefs = new UserPreferences();
 
-    return Provider(
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'EPBasic Debts',
-        initialRoute: _prefs.lastPage,
-        routes: getAppRoutes(),
-        theme: ThemeData(
-          brightness: Brightness.light,
-          primaryColor: Colors.white,
-        ),
-        darkTheme: ThemeData(
-          primaryColor: Colors.black,
-          primaryColorBrightness: Brightness.dark,
-          primaryColorLight: Colors.black,
-          brightness: Brightness.dark,
-          primaryColorDark: Colors.black,
-          indicatorColor: Colors.white,
-          canvasColor: Colors.black,
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Debts',
+      initialRoute: _prefs.lastPage,
+      routes: getAppRoutes(),
+      theme: ThemeData(
+        brightness: Brightness.light,
+        primaryColor: Colors.red,
+        accentColor: Color(0xAFEF9EB),
+        textTheme: GoogleFonts.poppinsTextTheme(
+          Theme.of(context).textTheme,
         ),
       ),
     );

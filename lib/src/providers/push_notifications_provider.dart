@@ -1,4 +1,4 @@
-import 'package:epbasic_debts/src/preferences/user_preferences.dart';
+import 'package:debts/src/preferences/user_preferences.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 class PushNotificationProvider {

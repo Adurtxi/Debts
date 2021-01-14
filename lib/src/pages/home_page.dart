@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'package:epbasic_debts/src/widgets/bottomNav.dart';
-import 'package:epbasic_debts/src/widgets/debtsList.dart';
-import 'package:epbasic_debts/src/widgets/myAppBar.dart';
-import 'package:epbasic_debts/src/widgets/loader.dart';
+import 'package:debts/src/preferences/user_preferences.dart';
 
-import 'package:epbasic_debts/src/blocs/provider.dart';
+import 'package:debts/src/widgets/favorite_contacts.dart';
+import 'package:debts/src/widgets/appbar.dart';
+import 'package:debts/src/widgets/debt_card.dart';
+import 'package:debts/src/widgets/drawer.dart';
 
-import 'package:epbasic_debts/src/preferences/user_preferences.dart';
+import 'package:debts/src/models/debt_model.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -19,65 +19,92 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final debtsBloc = Provider.debtsBloc(context);
-    debtsBloc.homeDebts();
-
     return Scaffold(
-      appBar: MyAppBar(
-        title: Text('Inicio'),
-        user: '${_prefs.identity[1][0]}${_prefs.identity[2][0]}',
-        context: context,
+      drawer: DrawerW(),
+      appBar: AppBarW(
+        title: 'Inicio',
       ),
-      body: Column(
+      body: _body(),
+    );
+  }
+
+  Widget _body() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).accentColor,
+      ),
+      child: Column(
         children: <Widget>[
-          Expanded(
-            child: _createList(debtsBloc),
-          ),
-          _loader(debtsBloc),
+          FavoriteContacts(),
+          _container(),
         ],
       ),
-      bottomNavigationBar: BottomNav(),
     );
   }
+}
 
-  _createList(DebtsBloc debtsBloc) {
-    return StreamBuilder(
-      stream: debtsBloc.homeDebtsStream,
-      builder:
-          (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
-        if (snapshot.hasData) {
-          if (snapshot.data['ok'] == true) {
-            final debts = snapshot.data['debts'];
-            return ListView.builder(
-              itemCount: debts.length,
-              itemBuilder: (context, i) {
-                final user =
-                    '${debts[i].user.name[0]}${debts[i].user.surname[0]}';
+Widget _container() {
+  final List<DebtModel> debts = [
+    DebtModel(
+      id: 1,
+      quantity: 10000,
+      title: 'Deuda de ESPAÑA',
+      userId: 1,
+      defaulterId: 1,
+      description: '',
+      paid: true,
+      fileName: '',
+    ),
+    DebtModel(
+      id: 1,
+      quantity: 20,
+      title: 'Compra Eroski',
+      userId: 1,
+      defaulterId: 1,
+      description: '',
+      paid: true,
+      fileName: '',
+    ),
+    DebtModel(
+      id: 1,
+      quantity: 500,
+      title: 'Vacaciones',
+      userId: 1,
+      defaulterId: 1,
+      description: '',
+      paid: true,
+      fileName: '',
+    ),
+    DebtModel(
+      id: 1,
+      quantity: 30,
+      title: 'Libro FOL',
+      userId: 1,
+      defaulterId: 1,
+      description: '',
+      paid: true,
+      fileName: '',
+    ),
+    DebtModel(
+      id: 1,
+      quantity: 1,
+      title: 'Carro Eroski',
+      userId: 1,
+      defaulterId: 1,
+      description: '',
+      paid: true,
+      fileName: '',
+    ),
+  ];
 
-                return DebstList(debt: debts[i], user: user);
-              },
-            );
-          } else {
-            return Container();
-          }
-        } else {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
-    );
-  }
-
-  _loader(DebtsBloc debtsBloc) {
-    return StreamBuilder(
-      stream: debtsBloc.loadingStream,
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.data == true) {
-          return ProgressIndicatorW();
-        }
-        return Container();
-      },
-    );
-  }
+  return Expanded(
+    child: ListView.builder(
+      itemCount: debts.length,
+      itemBuilder: (context, index) => DebtCard(
+        itemIndex: index,
+        debt: debts[index],
+        press: () {},
+      ),
+    ),
+  );
 }

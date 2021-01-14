@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:mime_type/mime_type.dart';
 import 'package:http_parser/http_parser.dart';
-import 'package:epbasic_debts/src/preferences/user_preferences.dart';
-import 'package:epbasic_debts/src/models/debt_model.dart';
+import 'package:debts/src/preferences/user_preferences.dart';
+import 'package:debts/src/models/debt_model.dart';
 
 class DebtsProvider {
   final _prefs = new UserPreferences();

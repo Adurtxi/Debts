@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:epbasic_debts/src/models/user_model.dart';
+import 'package:debts/src/models/user_model.dart';
 
 UserModel userFromJson(String str) => UserModel.fromJson(json.decode(str));
 

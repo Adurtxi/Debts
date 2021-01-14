@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:epbasic_debts/src/models/follower_model.dart';
+import 'package:debts/src/models/follower_model.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:epbasic_debts/src/preferences/user_preferences.dart';
+import 'package:debts/src/preferences/user_preferences.dart';
 
 class FollowersProvider {
   final _prefs = new UserPreferences();

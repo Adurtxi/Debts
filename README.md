@@ -1,4 +1,4 @@
-# epbasic_debts
+# debts
 
 A new Flutter project.
 

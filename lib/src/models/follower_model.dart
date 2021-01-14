@@ -1,9 +1,8 @@
 import 'dart:convert';
 
-import 'package:epbasic_debts/src/models/user_model.dart';
+import 'package:debts/src/models/user_model.dart';
 
-FollowerModel followerModelFromJson(String str) =>
-    FollowerModel.fromJson(json.decode(str));
+FollowerModel followerModelFromJson(String str) => FollowerModel.fromJson(json.decode(str));
 
 String followerModelToJson(FollowerModel data) => json.encode(data.toJson());
 

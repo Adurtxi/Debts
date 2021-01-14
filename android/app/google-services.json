@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:346975672857:android:b51c8ad688bb7962e9e888",
         "android_client_info": {
-          "package_name": "com.example.epbasic_debts"
+          "package_name": "es.debts"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "346975672857-td9int1aebjbodbc8oi9p63kp2c0ah5m.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.epbasic_debts",
+            "package_name": "es.debts",
             "certificate_hash": "ec30be507e219f1ec18a99e5e0b25ad4f86efcdf"
           }
         },

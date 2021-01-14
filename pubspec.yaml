@@ -1,4 +1,4 @@
-name: epbasic_debts
+name: debts
 description: A new Flutter project.
 
 # The following defines the version and build number for your application.
@@ -36,7 +36,8 @@ dependencies:
       url: git://github.com/tinylife-io/flutter_verification_code_input.git
   firebase_messaging: ^6.0.13
   flutter_launcher_icons:
-  font_awesome_flutter:
+  cached_network_image: ^2.2.0+1
+  google_fonts: ^1.1.1
 
 flutter_icons:
   android: "launcher_icon"
