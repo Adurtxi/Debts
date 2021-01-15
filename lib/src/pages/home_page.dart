@@ -1,6 +1,5 @@
+import 'package:debts/src/widgets/floating_button.dart';
 import 'package:flutter/material.dart';
-
-import 'package:debts/src/preferences/user_preferences.dart';
 
 import 'package:debts/src/widgets/favorite_contacts.dart';
 import 'package:debts/src/widgets/appbar.dart';
@@ -15,8 +14,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final _prefs = new UserPreferences();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,6 +22,7 @@ class _HomePageState extends State<HomePage> {
         title: 'Inicio',
       ),
       body: _body(),
+      floatingActionButton: FloatingButtonW(),
     );
   }
 

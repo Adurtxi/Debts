@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:debts/src/modals/actions.dart';
 
 class FavoriteContacts extends StatelessWidget {
+  ActionsModal _aModal = ActionsModal();
+
   final favorites = [
     {
       'imageUrl':
@@ -66,10 +68,7 @@ class FavoriteContacts extends StatelessWidget {
             ),
             iconSize: 30.0,
             color: Colors.blueGrey,
-            onPressed: () {
-              ActionsModal _aModal = ActionsModal();
-              _aModal.mainBottomSheet(context);
-            },
+            onPressed: () => _aModal.mainBottomSheet(context),
           ),
         ],
       ),

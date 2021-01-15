@@ -30,11 +30,9 @@ class DebtCard extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           children: <Widget>[
             Container(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(22),
-                ),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(22),
               ),
             ),
             // Avatar
@@ -78,7 +76,7 @@ class DebtCard extends StatelessWidget {
                         vertical: 20.0 / 4, // 5 top and bottom
                       ),
                       decoration: BoxDecoration(
-                        color: Color(0xFFFF2a9d8f),
+                        color: Color(0xFF0000000),
                         borderRadius: BorderRadius.only(
                           bottomRight: Radius.circular(22),
                           topLeft: Radius.circular(22),
