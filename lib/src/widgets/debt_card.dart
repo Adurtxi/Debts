@@ -44,7 +44,7 @@ class DebtCard extends StatelessWidget {
                 child: CircleAvatar(
                   radius: 25,
                   backgroundImage: NetworkImage(
-                    'https://lh3.googleusercontent.com/a-/AOh14GjbLlZ8MpJbM1KqTnccT0VIp4XXZzy-Is-KQoa6Rw=s96-c',
+                    debt.user.image,
                   ),
                 ),
               ),

@@ -15,7 +15,7 @@ class DebtsProvider {
         'Authorization': '${_prefs.token}'
       };
 
-  Future<Map<String, dynamic>> loadDebts(String pathUrl) async {
+  Future<List<DebtModel>> loadDebts(String pathUrl) async {
     final url = '${_prefs.url}/$pathUrl';
 
     final resp = await http.get(
@@ -25,7 +25,7 @@ class DebtsProvider {
 
     final Map<String, dynamic> decodedData = json.decode(resp.body);
 
-    if (decodedData == null) return {'ok': false, 'debts': []};
+    if (decodedData == null) return [];
 
     if (decodedData['status'] == 'success') {
       final List<DebtModel> debts = new List();
@@ -35,9 +35,9 @@ class DebtsProvider {
         debts.add(prodTemp);
       });
 
-      return {'ok': true, 'debts': debts};
+      return debts;
     } else {
-      return {'ok': false, 'debts': []};
+      return [];
     }
   }
 
