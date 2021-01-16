@@ -25,8 +25,6 @@ dependencies:
   cupertino_icons: ^0.1.2
   rxdart: ^0.23.1
   http:
-  image_picker: ^0.6.3+4
-  mime_type: ^0.2.7
   shared_preferences:
   local_auth: ^0.5.2+3
   get_it: ^1.0.3+2

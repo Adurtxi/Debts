@@ -17,7 +17,7 @@ class DebtBloc extends Bloc<DebtEvent, DebtState> {
   @override
   Stream<DebtState> mapEventToState(DebtEvent event) async* {
     // Load home page debts
-    if (event is DebtsLoadEvent) {
+    if (event is DebtsLoad) {
       try {
         yield DebtsLoadingState();
 
@@ -27,6 +27,27 @@ class DebtBloc extends Bloc<DebtEvent, DebtState> {
       } catch (e) {
         yield DebtsErrorState();
       }
+    }
+    // Load home page debts
+    if (event is DebtsAllLoad) {
+      try {
+        yield DebtsAllLoadingState();
+
+        final debts = await _debtsProvider.loadDebts('debts');
+
+        yield DebtsAllLoadedState(debts: debts);
+      } catch (e) {
+        yield DebtsAllErrorState();
+      }
+    }
+
+    // Store debt
+    if (event is DebtStore) {
+      yield DebtStoreState(debt: event.debt);
+
+      final debt = await _debtsProvider.createDebt(event.debt);
+
+      //yield DebtsAllLoadedState(debts: [debt]);
     }
   }
 }

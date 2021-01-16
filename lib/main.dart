@@ -1,4 +1,4 @@
-import 'package:debts/src/providers/debts_provider.dart';
+import 'package:debts/src/blocs/user/user_bloc.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -48,6 +48,7 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => new DebtBloc()),
+        BlocProvider(create: (_) => new UserBloc()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -58,8 +59,17 @@ class _MyAppState extends State<MyApp> {
           brightness: Brightness.light,
           primaryColor: Colors.red,
           accentColor: Color(0xAFEF9EB),
+          hintColor: Colors.grey,
           textTheme: GoogleFonts.poppinsTextTheme(
             Theme.of(context).textTheme,
+          ),
+          inputDecorationTheme: InputDecorationTheme(
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.black),
+            ),
           ),
         ),
       ),

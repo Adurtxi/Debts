@@ -3,10 +3,12 @@ part of 'debt_bloc.dart';
 @immutable
 abstract class DebtEvent {}
 
-class DebtsLoadEvent extends DebtEvent {}
+class DebtsLoad extends DebtEvent {}
 
-class StoreDebt extends DebtEvent {
+class DebtsAllLoad extends DebtEvent {}
+
+class DebtStore extends DebtEvent {
   final DebtModel debt;
 
-  StoreDebt(this.debt);
+  DebtStore(this.debt);
 }

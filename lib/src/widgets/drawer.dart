@@ -24,6 +24,11 @@ class DrawerW extends StatelessWidget {
             ),
           ),
           ListTile(
+            leading: Icon(Icons.home),
+            title: Text('Inicio'),
+            onTap: () => Navigator.pushNamed(context, 'home'),
+          ),
+          ListTile(
             leading: Icon(Icons.message),
             title: Text('Deudas'),
             onTap: () => Navigator.pushNamed(context, 'debts'),

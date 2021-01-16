@@ -1,8 +1,5 @@
-import 'dart:io';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:mime_type/mime_type.dart';
-import 'package:http_parser/http_parser.dart';
 import 'package:debts/src/preferences/user_preferences.dart';
 import 'package:debts/src/models/debt_model.dart';
 
@@ -67,7 +64,7 @@ class DebtsProvider {
     }
   }
 
-  Future<Map<String, dynamic>> createDebt(DebtModel debt) async {
+  Future<DebtModel> createDebt(DebtModel debt) async {
     final url = '${_prefs.url}/debt';
 
     final resp = await http.post(
@@ -79,7 +76,7 @@ class DebtsProvider {
     return _returnData(resp);
   }
 
-  Future<Map<String, dynamic>> updateDebt(DebtModel debt) async {
+  Future<DebtModel> updateDebt(DebtModel debt) async {
     final url = '${_prefs.url}/debt/${debt.id}';
 
     final resp = await http.put(
@@ -91,7 +88,7 @@ class DebtsProvider {
     return _returnData(resp);
   }
 
-  Future<Map<String, dynamic>> markAsPaid(String id) async {
+  Future<DebtModel> markAsPaid(String id) async {
     final url = '${_prefs.url}/debt/markAsPaid/$id';
 
     final resp = await http.get(
@@ -102,7 +99,7 @@ class DebtsProvider {
     return _returnData(resp);
   }
 
-  Future<Map<String, dynamic>> deleteDebt(String id) async {
+  Future<DebtModel> deleteDebt(String id) async {
     final url = '${_prefs.url}/debt/$id';
 
     final resp = await http.delete(
@@ -113,44 +110,15 @@ class DebtsProvider {
     return _returnData(resp);
   }
 
-  Future<Map<String, dynamic>> uploadTicket(File ticket) async {
-    final url = '${_prefs.url}/ticket/upload';
-
-    final mimeType = mime(ticket.path).split('/');
-
-    final imageUploadRequest = http.MultipartRequest(
-      'POST',
-      Uri.parse(url),
-    );
-
-    final file = await http.MultipartFile.fromPath(
-      'ticket',
-      ticket.path,
-      contentType: MediaType(mimeType[0], mimeType[1]),
-    );
-
-    imageUploadRequest.files.add(file);
-    imageUploadRequest.headers.addAll({'Authorization': '${_prefs.token}'});
-
-    final streamResponse = await imageUploadRequest.send();
-    final resp = await http.Response.fromStream(streamResponse);
-
-    final decodedData = json.decode(resp.body);
-
-    if (decodedData['status'] == 'success') {
-      return {'ok': true, 'file_name': decodedData['ticket']};
-    } else {
-      return {'ok': false, 'file_name': ''};
-    }
-  }
-
   _returnData(resp) {
     final decodedData = json.decode(resp.body);
 
     if (decodedData['status'] == 'success') {
-      return {'ok': true, 'message': decodedData['message']};
+      print(DebtModel.fromJson(decodedData['debt']));
+
+      return DebtModel.fromJson(decodedData['debt']);
     } else {
-      return {'ok': false, 'message': decodedData['message']};
+      return null;
     }
   }
 }

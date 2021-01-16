@@ -28,9 +28,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   _loadDebts() async {
-    BlocProvider.of<DebtBloc>(context).add(
-      DebtsLoadEvent(),
-    );
+    BlocProvider.of<DebtBloc>(context).add(DebtsLoad());
   }
 
   List<DebtModel> debts = [];
@@ -68,11 +66,12 @@ class _HomePageState extends State<HomePage> {
       child: BlocListener<DebtBloc, DebtState>(
         listener: (context, state) => (state is DebtsLoadedState) ? debts = state.debts : null,
         child: BlocBuilder<DebtBloc, DebtState>(
-            builder: (context, state) => (state is DebtsLoadingState)
-                ? LoaderW()
-                : (state is DebtsLoadedState)
-                    ? _debts(debtBloc, debts)
-                    : ErrorW()),
+          builder: (context, state) => (state is DebtsLoadingState)
+              ? LoaderW()
+              : (state is DebtsErrorState)
+                  ? ErrorW()
+                  : _debts(debtBloc, debts),
+        ),
       ),
     );
   }
@@ -80,7 +79,7 @@ class _HomePageState extends State<HomePage> {
   Widget _debts(DebtBloc debtBloc, List<DebtModel> debts) {
     return RefreshIndicator(
       color: Colors.black,
-      onRefresh: () async => debtBloc.add(DebtsLoadEvent()),
+      onRefresh: () async => debtBloc.add(DebtsLoad()),
       child: ListView.builder(
         itemCount: debts.length,
         itemBuilder: (context, index) => DebtCard(

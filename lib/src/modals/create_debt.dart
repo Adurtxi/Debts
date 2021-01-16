@@ -1,7 +1,16 @@
-import 'package:debts/src/modals/user_selector.dart';
-import 'package:debts/src/models/debt_model.dart';
-import 'package:debts/src/widgets/button_with_icon.dart';
 import 'package:flutter/material.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:debts/src/blocs/debt/debt_bloc.dart';
+import 'package:debts/src/blocs/user/user_bloc.dart';
+
+import 'package:debts/src/modals/user_selector.dart';
+
+import 'package:debts/src/models/debt_model.dart';
+import 'package:debts/src/models/user_model.dart';
+
+import 'package:debts/src/widgets/button_with_icon.dart';
 
 class CreateDebtModal {
   DebtModel debt = new DebtModel();
@@ -11,6 +20,12 @@ class CreateDebtModal {
   UserSelectorModal _uModal = UserSelectorModal();
 
   mainBottomSheet(BuildContext context) {
+    final debtBloc = BlocProvider.of<DebtBloc>(context);
+
+    BlocProvider.of<UserBloc>(context).add(
+      UserSelect(null),
+    );
+
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
@@ -20,11 +35,11 @@ class CreateDebtModal {
         ),
       ),
       isScrollControlled: true,
-      builder: (BuildContext context) => _container(context),
+      builder: (BuildContext context) => _container(context, debtBloc),
     );
   }
 
-  Widget _container(BuildContext context) {
+  Widget _container(BuildContext context, DebtBloc debtBloc) {
     return StatefulBuilder(
       builder: (BuildContext context, state) {
         return Padding(
@@ -33,7 +48,7 @@ class CreateDebtModal {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               _formContainer(context, state),
-              _createButton(context),
+              _createButton(context, debtBloc),
             ],
           ),
         );
@@ -106,25 +121,37 @@ class CreateDebtModal {
   }
 
   Widget _selectDefaulter(BuildContext context, Function state) {
-    return Container(
-      height: 40.0,
-      child: GestureDetector(
-        onTap: () => _uModal.mainBottomSheet(context),
-        child: ButtonWithIcon(
-          size: 0.6,
-          text: 'Seleccionar deudor',
-          loading: false,
-        ),
-      ),
+    return BlocBuilder<UserBloc, UserState>(
+      builder: (context, state) {
+        String text = 'Seleccionar deudor';
+
+        if (state is UserSelectState && state.user != null) {
+          UserModel user = state.user;
+          debt.defaulterId = user.id;
+          text = user.name;
+        }
+
+        return Container(
+          height: 40.0,
+          child: GestureDetector(
+            onTap: () => _uModal.mainBottomSheet(context),
+            child: ButtonWithIcon(
+              size: 0.6,
+              text: text,
+              loading: false,
+            ),
+          ),
+        );
+      },
     );
   }
 
-  Widget _createButton(BuildContext context) {
+  Widget _createButton(BuildContext context, DebtBloc debtBloc) {
     return Container(
       margin: EdgeInsets.all(20.0),
       height: 50.0,
       child: RaisedButton(
-        onPressed: () => _createDebt(context),
+        onPressed: () => _createDebt(context, debtBloc),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
         padding: EdgeInsets.all(0.0),
         child: ButtonWithIcon(
@@ -136,9 +163,13 @@ class CreateDebtModal {
     );
   }
 
-  void _createDebt(BuildContext context) async {
-    print(debt.quantity);
-
+  void _createDebt(BuildContext context, DebtBloc debtBloc) async {
     if (!_formKey.currentState.validate()) return;
+
+    debtBloc.add(
+      DebtStore(debt),
+    );
+
+    Navigator.pop(context);
   }
 }

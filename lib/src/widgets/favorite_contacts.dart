@@ -3,30 +3,35 @@ import 'package:flutter/material.dart';
 import 'package:debts/src/modals/actions.dart';
 
 class FavoriteContacts extends StatelessWidget {
-  ActionsModal _aModal = ActionsModal();
+  final ActionsModal _aModal = ActionsModal();
 
   final favorites = [
     {
+      'id': 1,
       'imageUrl':
           'https://lh3.googleusercontent.com/a-/AOh14GjbLlZ8MpJbM1KqTnccT0VIp4XXZzy-Is-KQoa6Rw=s96-c',
       'name': 'Adur'
     },
     {
+      'id': 2,
       'imageUrl':
           'https://lh3.googleusercontent.com/a-/AOh14GjIquTPeoC3S7481CjTz_g0acGCBcbzNXHE6ZNs-DI=s96-c',
       'name': 'Noe'
     },
     {
+      'id': 3,
       'imageUrl':
           'https://lh3.googleusercontent.com/a-/AOh14GhvFwuLr13AZ_Qvjil_1W43E8xiXYJ4jQ57_XovUg=s96-c',
       'name': 'Jon'
     },
     {
+      'id': 5,
       'imageUrl':
           'https://lh5.googleusercontent.com/--8YAFwqjtVk/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmJDOowrA3lgvPOdM4ESdpCLJXG7Q/s96-c/photo.jpg',
       'name': 'Rubén'
     },
     {
+      'id': 4,
       'imageUrl':
           'https://lh3.googleusercontent.com/a-/AOh14GiKaOj-6CxhKB257qxdSMLBDq5VGzFBymMMYUN8xQ=s96-c',
       'name': 'Ekaitz'

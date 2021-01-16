@@ -1,6 +1,8 @@
+import 'package:debts/src/blocs/user/user_bloc.dart';
 import 'package:flutter/material.dart';
 
 import 'package:debts/src/models/user_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 // ignore: must_be_immutable
 class UserSelectorModal {
@@ -12,11 +14,21 @@ class UserSelectorModal {
     UserModel(id: 5, name: 'Jon Vidaurre'),
   ];
 
-  List<UserModel> sUsers = [];
+  List<UserModel> sUsers;
+
+  bool start = true;
 
   final _controller = TextEditingController();
 
   mainBottomSheet(BuildContext context) {
+    (start)
+        ? sUsers = allUsers
+        : sUsers = allUsers
+            .where((c) => c.name.toLowerCase().contains(_controller.text.toLowerCase()))
+            .toList();
+
+    start = false;
+
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
@@ -103,15 +115,23 @@ class UserSelectorModal {
       itemCount: sUsers.length,
       itemBuilder: (context, i) => Column(
         children: <Widget>[
-          ListTile(
-            leading: Icon(Icons.copyright, color: Colors.black),
-            title: Text(sUsers[i].name),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
+          _userContainer(context, i),
         ],
       ),
+    );
+  }
+
+  Widget _userContainer(BuildContext context, i) {
+    return ListTile(
+      leading: Icon(Icons.copyright, color: Colors.black),
+      title: Text(sUsers[i].name),
+      onTap: () {
+        BlocProvider.of<UserBloc>(context).add(
+          UserSelect(sUsers[i]),
+        );
+
+        Navigator.pop(context);
+      },
     );
   }
 }
