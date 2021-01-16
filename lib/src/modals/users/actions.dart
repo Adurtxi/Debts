@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ActionsModal {
+class UserActionsModal {
   mainBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,

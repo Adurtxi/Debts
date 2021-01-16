@@ -99,7 +99,7 @@ class DebtsProvider {
     return _returnData(resp);
   }
 
-  Future<DebtModel> deleteDebt(String id) async {
+  Future<String> deleteDebt(int id) async {
     final url = '${_prefs.url}/debt/$id';
 
     final resp = await http.delete(
@@ -107,7 +107,9 @@ class DebtsProvider {
       headers: _setHeaders(),
     );
 
-    return _returnData(resp);
+    final decodedData = json.decode(resp.body);
+
+    return decodedData['status'];
   }
 
   _returnData(resp) {

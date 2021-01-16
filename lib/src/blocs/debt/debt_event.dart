@@ -12,3 +12,9 @@ class DebtStore extends DebtEvent {
 
   DebtStore(this.debt);
 }
+
+class DebtDelete extends DebtEvent {
+  final int debtId;
+
+  DebtDelete(this.debtId);
+}

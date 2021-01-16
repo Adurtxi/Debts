@@ -53,5 +53,16 @@ class DebtBloc extends Bloc<DebtEvent, DebtState> {
 
       yield state.copyWith(allDebts: [debt, ...state.allDebts]);
     }
+
+    // Remove debt
+    if (event is DebtDelete) {
+      final status = await _debtsProvider.deleteDebt(event.debtId);
+
+      if (status == 'success') {
+        final allDebts = state.allDebts.where((d) => d.id != event.debtId).toList();
+
+        yield state.copyWith(allDebts: allDebts);
+      }
+    }
   }
 }

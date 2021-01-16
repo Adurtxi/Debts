@@ -36,14 +36,7 @@ class UserProvider {
 
       final identity = decodedResp['identity'];
 
-      List<String> identityList = [
-        '${identity['sub']}',
-        identity['name'],
-        identity['surname'],
-        identity['email'],
-      ];
-
-      _prefs.identity = identityList;
+      _prefs.id = identity.id;
       _prefs.lastPage = 'home';
 
       setPhoneId(_prefs.phoneId);

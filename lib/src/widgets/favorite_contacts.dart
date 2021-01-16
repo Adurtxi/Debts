@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:debts/src/modals/actions.dart';
+import 'package:debts/src/modals/users/actions.dart';
 
 class FavoriteContacts extends StatelessWidget {
-  final ActionsModal _aModal = ActionsModal();
+  final UserActionsModal _aModal = UserActionsModal();
 
   final favorites = [
     {

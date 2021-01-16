@@ -28,10 +28,11 @@ class DebtState {
     debtState,
   }) =>
       DebtState(
-          debts: debts ?? this.debts,
-          debtsState: debtsState ?? this.debtsState,
-          allDebts: allDebts ?? this.allDebts,
-          allDebtsState: allDebtsState ?? this.allDebtsState,
-          debt: debt ?? this.debt,
-          debtState: debtState ?? this.debtState);
+        debts: debts ?? this.debts,
+        debtsState: debtsState ?? this.debtsState,
+        allDebts: allDebts ?? this.allDebts,
+        allDebtsState: allDebtsState ?? this.allDebtsState,
+        debt: debt ?? this.debt,
+        debtState: debtState ?? this.debtState,
+      );
 }
