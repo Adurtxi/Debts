@@ -64,11 +64,11 @@ class _HomePageState extends State<HomePage> {
   Widget _container(BuildContext context, DebtBloc debtBloc) {
     return Expanded(
       child: BlocListener<DebtBloc, DebtState>(
-        listener: (context, state) => (state is DebtsLoadedState) ? debts = state.debts : null,
+        listener: (context, state) => (state.debtsState == 1) ? debts = state.debts : null,
         child: BlocBuilder<DebtBloc, DebtState>(
-          builder: (context, state) => (state is DebtsLoadingState)
+          builder: (context, state) => (state.debtsState == 0)
               ? LoaderW()
-              : (state is DebtsErrorState)
+              : (state.debtsState == -1)
                   ? ErrorW()
                   : _debts(debtBloc, debts),
         ),

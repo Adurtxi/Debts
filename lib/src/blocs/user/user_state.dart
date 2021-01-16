@@ -1,12 +1,13 @@
 part of 'user_bloc.dart';
 
-class UserState {}
+class UserState {
+  final UserModel selectedUser;
 
-// Select User
-class UserSelectState extends UserState {
-  final UserModel user;
-
-  UserSelectState({
-    @required this.user,
+  UserState({
+    this.selectedUser,
   });
+
+  UserState copyWith({user}) => UserState(
+        selectedUser: user ?? this.selectedUser,
+      );
 }

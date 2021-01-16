@@ -125,8 +125,8 @@ class CreateDebtModal {
       builder: (context, state) {
         String text = 'Seleccionar deudor';
 
-        if (state is UserSelectState && state.user != null) {
-          UserModel user = state.user;
+        if (state is UserState && state.selectedUser != null) {
+          UserModel user = state.selectedUser;
           debt.defaulterId = user.id;
           text = user.name;
         }

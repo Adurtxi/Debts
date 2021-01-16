@@ -19,35 +19,39 @@ class DebtBloc extends Bloc<DebtEvent, DebtState> {
     // Load home page debts
     if (event is DebtsLoad) {
       try {
-        yield DebtsLoadingState();
+        yield state.copyWith(debtsState: 0);
 
         final debts = await _debtsProvider.loadDebts('defaulter-debts-to-pay');
 
-        yield DebtsLoadedState(debts: debts);
+        yield state.copyWith(debts: debts);
+
+        yield state.copyWith(debtsState: 1);
       } catch (e) {
-        yield DebtsErrorState();
+        yield state.copyWith(debtsState: -1);
       }
     }
     // Load home page debts
     if (event is DebtsAllLoad) {
       try {
-        yield DebtsAllLoadingState();
+        yield state.copyWith(allDebtsState: 0);
 
         final debts = await _debtsProvider.loadDebts('debts');
 
-        yield DebtsAllLoadedState(debts: debts);
+        yield state.copyWith(allDebts: debts);
+
+        yield state.copyWith(allDebtsState: 1);
       } catch (e) {
-        yield DebtsAllErrorState();
+        yield state.copyWith(allDebtsState: -1);
       }
     }
 
     // Store debt
     if (event is DebtStore) {
-      yield DebtStoreState(debt: event.debt);
+      yield state.copyWith(debt: event.debt);
 
       final debt = await _debtsProvider.createDebt(event.debt);
 
-      //yield DebtsAllLoadedState(debts: [debt]);
+      yield state.copyWith(allDebts: [debt, ...state.allDebts]);
     }
   }
 }

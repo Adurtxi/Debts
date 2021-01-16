@@ -1,51 +1,37 @@
 part of 'debt_bloc.dart';
 
-class DebtState {}
-
-//
-// DEBTS
-//
-
-class DebtsLoadingState extends DebtState {}
-
-class DebtsLoadedState extends DebtState {
+class DebtState {
   final List<DebtModel> debts;
+  final int debtsState;
 
-  DebtsLoadedState({
-    @required this.debts,
-  });
-}
+  final List<DebtModel> allDebts;
+  final int allDebtsState;
 
-class DebtsErrorState extends DebtState {}
-
-//
-// DEBTS ALL
-//
-
-class DebtsAllLoadingState extends DebtState {}
-
-class DebtsAllLoadedState extends DebtState {
-  final List<DebtModel> debts;
-
-  DebtsAllLoadedState({
-    @required this.debts,
-  });
-}
-
-class DebtsAllErrorState extends DebtState {}
-
-//
-// DEBT Store
-//
-
-class DebtStoreLoadingState extends DebtState {}
-
-class DebtStoreState extends DebtState {
   final DebtModel debt;
+  final int debtState;
 
-  DebtStoreState({
-    @required this.debt,
+  DebtState({
+    this.debts,
+    this.debtsState,
+    this.allDebts,
+    this.allDebtsState,
+    this.debt,
+    this.debtState,
   });
-}
 
-class DebtStoreErrorState extends DebtState {}
+  DebtState copyWith({
+    debts,
+    debtsState,
+    allDebts,
+    allDebtsState,
+    debt,
+    debtState,
+  }) =>
+      DebtState(
+          debts: debts ?? this.debts,
+          debtsState: debtsState ?? this.debtsState,
+          allDebts: allDebts ?? this.allDebts,
+          allDebtsState: allDebtsState ?? this.allDebtsState,
+          debt: debt ?? this.debt,
+          debtState: debtState ?? this.debtState);
+}

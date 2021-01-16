@@ -6,7 +6,6 @@ import 'package:debts/src/blocs/debt/debt_bloc.dart';
 
 import 'package:debts/src/models/debt_model.dart';
 
-import 'package:debts/src/widgets/favorite_contacts.dart';
 import 'package:debts/src/widgets/appbar.dart';
 import 'package:debts/src/widgets/debt_card.dart';
 import 'package:debts/src/widgets/drawer.dart';
@@ -55,13 +54,14 @@ class _DebtsPageState extends State<DebtsPage> {
 
   Widget _container(BuildContext context, DebtBloc debtBloc) {
     return BlocListener<DebtBloc, DebtState>(
-      listener: (context, state) => (state is DebtsAllLoadedState) ? debts = state.debts : null,
+      listener: (context, state) => (state.allDebtsState == 1) ? debts = state.allDebts : null,
       child: BlocBuilder<DebtBloc, DebtState>(
-          builder: (context, state) => (state is DebtsAllLoadingState)
-              ? LoaderW()
-              : (state is DebtsAllErrorState)
-                  ? ErrorW()
-                  : _debts(debtBloc, debts)),
+        builder: (context, state) => (state.allDebtsState == 0)
+            ? LoaderW()
+            : (state.allDebtsState == -1)
+                ? ErrorW()
+                : _debts(debtBloc, debts),
+      ),
     );
   }
 

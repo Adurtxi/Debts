@@ -18,7 +18,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   Stream<UserState> mapEventToState(UserEvent event) async* {
     // Select user
     if (event is UserSelect) {
-      yield UserSelectState(user: event.user);
+      yield UserState(selectedUser: event.user);
     }
   }
 }
