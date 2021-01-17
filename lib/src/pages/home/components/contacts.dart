@@ -5,11 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:debts/src/blocs/user/user_bloc.dart';
 
 import 'package:debts/src/models/follower_model.dart';
+import 'package:debts/src/models/user_model.dart';
 
 import 'package:debts/src/widgets/utils/error.dart';
 import 'package:debts/src/widgets/utils/loader.dart';
 
 import 'package:debts/src/modals/users/actions.dart';
+import 'package:debts/src/modals/debt/create.dart';
 
 // ignore: must_be_immutable
 class HomeContacts extends StatelessWidget {
@@ -69,13 +71,13 @@ class HomeContacts extends StatelessWidget {
               ? LoaderW(size: 30)
               : (state.followersState == -1)
                   ? ErrorW()
-                  : _followers(userBloc, state.followers),
+                  : _contacts(userBloc, state.followers),
         ),
       ),
     );
   }
 
-  Widget _followers(UserBloc userbloc, List<FollowerModel> followers) {
+  Widget _contacts(UserBloc userbloc, List<FollowerModel> followers) {
     if (followers == null) {
       return Container(
         child: Center(
@@ -90,6 +92,7 @@ class HomeContacts extends StatelessWidget {
         padding: EdgeInsets.only(left: 10.0),
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) => _contact(
+          context,
           followers[index],
         ),
         itemCount: followers.length,
@@ -98,28 +101,41 @@ class HomeContacts extends StatelessWidget {
   }
 
   // Contact image and name
-  Widget _contact(FollowerModel follower) {
-    return Container(
-      margin: EdgeInsets.all(10.0),
-      child: Column(
-        children: <Widget>[
-          CircleAvatar(
-            radius: 25.0,
-            backgroundImage: NetworkImage(follower.followed.image),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 20.0),
-            child: Text(
-              follower.followed.name,
-              style: TextStyle(
-                color: Colors.blueGrey,
-                fontSize: 16.0,
-                fontWeight: FontWeight.w600,
+  Widget _contact(BuildContext context, FollowerModel follower) {
+    return GestureDetector(
+      onLongPress: () => _createDebt(context, follower.followed),
+      child: Container(
+        margin: EdgeInsets.all(10.0),
+        child: Column(
+          children: <Widget>[
+            CircleAvatar(
+              radius: 25.0,
+              backgroundImage: NetworkImage(follower.followed.image),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 20.0),
+              child: Text(
+                follower.followed.name,
+                style: TextStyle(
+                  color: Colors.blueGrey,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
+  }
+
+  void _createDebt(BuildContext context, UserModel user) {
+    BlocProvider.of<UserBloc>(context).add(
+      UserSelect(user),
+    );
+
+    CreateDebtModal _aModal = CreateDebtModal(previousPage: 'home');
+
+    _aModal.mainBottomSheet(context);
   }
 }

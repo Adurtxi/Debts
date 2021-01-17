@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:debts/src/blocs/debt/debt_bloc.dart';
 import 'package:debts/src/blocs/user/user_bloc.dart';
 
-import 'package:debts/src/modals/user_selector.dart';
+import 'package:debts/src/modals/debt/user_selector.dart';
 
 import 'package:debts/src/models/debt_model.dart';
 import 'package:debts/src/models/user_model.dart';
@@ -13,6 +13,10 @@ import 'package:debts/src/models/user_model.dart';
 import 'package:debts/src/widgets/button_with_icon.dart';
 
 class CreateDebtModal {
+  final previousPage;
+
+  CreateDebtModal({@required this.previousPage});
+
   DebtModel debt = new DebtModel();
 
   final _formKey = GlobalKey<FormState>();
@@ -21,10 +25,6 @@ class CreateDebtModal {
 
   mainBottomSheet(BuildContext context) {
     final debtBloc = BlocProvider.of<DebtBloc>(context);
-
-    BlocProvider.of<UserBloc>(context).add(
-      UserSelect(null),
-    );
 
     showModalBottomSheet(
       context: context,
@@ -90,7 +90,6 @@ class CreateDebtModal {
 
   Widget _titleInput() {
     return TextFormField(
-      autofocus: true,
       decoration: InputDecoration(
         hintText: 'Título',
         suffixIcon: Icon(
@@ -125,11 +124,12 @@ class CreateDebtModal {
       builder: (context, state) {
         UserModel user = UserModel();
 
-        if (state is UserState && state.selectedUser != null) {
+        String text = 'Selecciona deudor';
+
+        if (state.selectedUser != null) {
           user = state.selectedUser;
           debt.defaulterId = user.id;
-        } else {
-          user = UserModel(name: 'Selecciona deudor');
+          text = user.name + ' ' + user.surname;
         }
 
         return Container(
@@ -145,7 +145,7 @@ class CreateDebtModal {
             onTap: () => _uModal.mainBottomSheet(context),
             child: ListTile(
               leading: _leading(user),
-              title: Text(user.name),
+              title: Text(text),
             ),
           ),
         );
@@ -164,7 +164,9 @@ class CreateDebtModal {
               ),
             ),
           )
-        : Container();
+        : Container(
+            child: Text(''),
+          );
   }
 
   Widget _createButton(BuildContext context, DebtBloc debtBloc) {
@@ -188,7 +190,7 @@ class CreateDebtModal {
     if (!_formKey.currentState.validate()) return;
 
     debtBloc.add(
-      DebtStore(debt),
+      DebtStore(debt, previousPage),
     );
 
     Navigator.pop(context);

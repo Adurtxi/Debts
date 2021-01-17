@@ -1,34 +1,24 @@
-import 'package:debts/src/blocs/user/user_bloc.dart';
 import 'package:flutter/material.dart';
 
-import 'package:debts/src/models/user_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:debts/src/blocs/user/user_bloc.dart';
+import 'package:debts/src/models/follower_model.dart';
+
+import 'package:debts/src/widgets/utils/error.dart';
+import 'package:debts/src/widgets/utils/loader.dart';
 
 // ignore: must_be_immutable
 class UserSelectorModal {
-  List<UserModel> allUsers = [
-    UserModel(id: 1, name: 'Adur Marques'),
-    UserModel(id: 2, name: 'Noe Sliva'),
-    UserModel(id: 3, name: 'Jon Calvo'),
-    UserModel(id: 4, name: 'Iker Sanz'),
-    UserModel(id: 5, name: 'Jon Vidaurre'),
-  ];
+  List<FollowerModel> allUsers = [];
 
-  List<UserModel> sUsers;
+  List<FollowerModel> sUsers = [];
 
   bool start = true;
 
   final _controller = TextEditingController();
 
   mainBottomSheet(BuildContext context) {
-    (start)
-        ? sUsers = allUsers
-        : sUsers = allUsers
-            .where((c) => c.name.toLowerCase().contains(_controller.text.toLowerCase()))
-            .toList();
-
-    start = false;
-
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
@@ -77,7 +67,7 @@ class UserSelectorModal {
         Expanded(
           child: Container(
             height: size.height * 0.6,
-            child: _usersContainer(),
+            child: _usersContainer(context, state),
           ),
         ),
       ],
@@ -92,12 +82,11 @@ class UserSelectorModal {
           Expanded(
             child: TextFormField(
               controller: _controller,
-              autofocus: true,
               decoration: InputDecoration(
                 hintText: 'Nombre de usuario',
               ),
               onChanged: (value) => state(() => sUsers = allUsers
-                  .where((c) => c.name.toLowerCase().contains(value.toLowerCase()))
+                  .where((c) => c.followed.name.toLowerCase().contains(value.toLowerCase()))
                   .toList()),
             ),
           ),
@@ -110,7 +99,39 @@ class UserSelectorModal {
     );
   }
 
-  Widget _usersContainer() {
+  Widget _usersContainer(BuildContext context, Function state2) {
+    final userBloc = BlocProvider.of<UserBloc>(context);
+
+    return Container(
+      child: BlocListener<UserBloc, UserState>(
+        listener: (context, state) => {},
+        child: BlocBuilder<UserBloc, UserState>(
+          builder: (context, state) => (state.followersState == 0)
+              ? LoaderW(size: 30)
+              : (state.followersState == -1)
+                  ? ErrorW()
+                  : _usersBuilder(userBloc, state.followers),
+        ),
+      ),
+    );
+  }
+
+  Widget _usersBuilder(UserBloc userBloc, List<FollowerModel> followers) {
+    if (allUsers == null) {
+      return Container(
+        child: Center(
+          child: Text('No tienes contactos'),
+        ),
+      );
+    }
+
+    if (start) {
+      allUsers = followers;
+      sUsers = allUsers;
+
+      start = false;
+    }
+
     return ListView.builder(
       itemCount: sUsers.length,
       itemBuilder: (context, i) => Column(
@@ -121,17 +142,43 @@ class UserSelectorModal {
     );
   }
 
-  Widget _userContainer(BuildContext context, i) {
-    return ListTile(
-      leading: Icon(Icons.copyright, color: Colors.black),
-      title: Text(sUsers[i].name),
-      onTap: () {
-        BlocProvider.of<UserBloc>(context).add(
-          UserSelect(sUsers[i]),
-        );
-
-        Navigator.pop(context);
-      },
+  Widget _userContainer(BuildContext context, int i) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 10.0),
+      padding: EdgeInsets.all(5.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(
+          Radius.circular(20.0),
+        ),
+      ),
+      child: GestureDetector(
+        onTap: () => _selectUser(context, i),
+        child: ListTile(
+          leading: _leading(i),
+          title: Text(sUsers[i].followed.name + ' ' + sUsers[i].followed.surname),
+        ),
+      ),
     );
+  }
+
+  Widget _leading(int i) {
+    return Container(
+      margin: EdgeInsets.all(7.5),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(25.0),
+        child: Image(
+          image: NetworkImage(sUsers[i].followed.image),
+        ),
+      ),
+    );
+  }
+
+  void _selectUser(BuildContext context, int i) {
+    BlocProvider.of<UserBloc>(context).add(
+      UserSelect(sUsers[i].followed),
+    );
+
+    Navigator.pop(context);
   }
 }

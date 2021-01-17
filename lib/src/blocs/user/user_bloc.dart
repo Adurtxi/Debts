@@ -21,13 +21,21 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   Stream<UserState> mapEventToState(UserEvent event) async* {
     // Select user
     if (event is UserSelect) {
-      yield UserState(selectedUser: event.user);
+      yield state.copyWith(
+        selectedUser: event.user,
+      );
+    }
+
+    if (event is UserRemoveSelect) {
+      yield state.copyWith(
+        selectedUser: null,
+      );
     }
 
     if (event is UserSearch) {
       final users = await _usersProvider.searchUsers(event.searchQuery);
 
-      yield UserState(users: users);
+      yield state.copyWith(users: users);
     }
 
     if (event is UserAdd) {
@@ -64,7 +72,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
         final followers = await _followersProvider.loadFollowers();
 
-        yield UserState(followers: followers);
+        yield state.copyWith(followers: followers);
 
         yield state.copyWith(followersState: 1);
       } catch (e) {

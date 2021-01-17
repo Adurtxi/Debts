@@ -51,7 +51,9 @@ class DebtBloc extends Bloc<DebtEvent, DebtState> {
 
       final debt = await _debtsProvider.createDebt(event.debt);
 
-      yield state.copyWith(allDebts: [debt, ...state.allDebts]);
+      if (event.previousPage == 'debts') {
+        yield state.copyWith(allDebts: [debt, ...state.allDebts]);
+      }
     }
 
     // Remove debt

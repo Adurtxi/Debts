@@ -11,6 +11,8 @@ class UserSelect extends UserEvent {
   UserSelect(this.user);
 }
 
+class UserRemoveSelect extends UserEvent {}
+
 class UserSearch extends UserEvent {
   final String searchQuery;
 

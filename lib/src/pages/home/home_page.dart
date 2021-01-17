@@ -39,7 +39,9 @@ class _HomePageState extends State<HomePage> {
         title: 'Inicio',
       ),
       body: _body(context, debtBloc),
-      floatingActionButton: FloatingButtonDebt(),
+      floatingActionButton: FloatingButtonDebt(
+        previousPage: 'home',
+      ),
     );
   }
 

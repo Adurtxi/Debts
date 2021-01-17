@@ -40,7 +40,9 @@ class _DebtsPageState extends State<DebtsPage> {
         title: 'Deudas',
       ),
       body: _body(context, debtBloc),
-      floatingActionButton: FloatingButtonDebt(),
+      floatingActionButton: FloatingButtonDebt(
+        previousPage: 'debts',
+      ),
     );
   }
 

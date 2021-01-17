@@ -9,8 +9,9 @@ class DebtsAllLoad extends DebtEvent {}
 
 class DebtStore extends DebtEvent {
   final DebtModel debt;
+  final String previousPage;
 
-  DebtStore(this.debt);
+  DebtStore(this.debt, this.previousPage);
 }
 
 class DebtDelete extends DebtEvent {
