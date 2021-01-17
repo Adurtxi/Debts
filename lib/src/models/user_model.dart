@@ -9,7 +9,6 @@ class UserModel {
   String name;
   String surname;
   String email;
-  String password;
   String image;
   int follStatus;
 
@@ -18,7 +17,6 @@ class UserModel {
     this.name,
     this.surname,
     this.email,
-    this.password,
     this.image,
     this.follStatus,
   });
@@ -28,7 +26,6 @@ class UserModel {
         name: json["name"],
         surname: json["surname"],
         email: json["email"],
-        password: json["password"],
         image: json["image"],
         follStatus: json["follStatus"],
       );
@@ -39,6 +36,5 @@ class UserModel {
         "surname": surname,
         "email": email,
         "image": image,
-        "password": password,
       };
 }

@@ -10,7 +10,7 @@ import 'package:debts/src/widgets/favorite_contacts.dart';
 import 'package:debts/src/widgets/appbar.dart';
 import 'package:debts/src/widgets/debt_card.dart';
 import 'package:debts/src/widgets/drawer.dart';
-import 'package:debts/src/widgets/floating_button.dart';
+import 'package:debts/src/widgets/debt/floating_button.dart';
 
 import 'package:debts/src/widgets/utils/error.dart';
 import 'package:debts/src/widgets/utils/loader.dart';
@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
         title: 'Inicio',
       ),
       body: _body(context, debtBloc),
-      floatingActionButton: FloatingButtonW(),
+      floatingActionButton: FloatingButtonDebt(),
     );
   }
 

@@ -36,8 +36,9 @@ class DrawerW extends StatelessWidget {
             onTap: () => Navigator.pushNamed(context, 'debts'),
           ),
           ListTile(
-            leading: Icon(Icons.account_circle),
-            title: Text('Perfíl'),
+            leading: Icon(Icons.people),
+            title: Text('Gente'),
+            onTap: () => Navigator.pushNamed(context, 'people'),
           ),
           ListTile(
             leading: Icon(Icons.settings),

@@ -54,7 +54,7 @@ class DebtActionsModal {
 
   Widget _createTile(
       BuildContext context, String name, IconData icon, Color color, Function function) {
-    if (function == _delete && _prefs.id == debt.defaulterId) {
+    if ((function == _delete || function == _markAsPaid) && _prefs.id == debt.defaulterId) {
       return Container();
     }
 

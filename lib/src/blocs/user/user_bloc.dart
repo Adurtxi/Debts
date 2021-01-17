@@ -20,5 +20,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     if (event is UserSelect) {
       yield UserState(selectedUser: event.user);
     }
+
+    if (event is UserSearch) {
+      final users = await _usersProvider.searchUsers(event.searchQuery);
+
+      yield UserState(users: users);
+    }
   }
 }

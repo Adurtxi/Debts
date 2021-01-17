@@ -10,3 +10,9 @@ class UserSelect extends UserEvent {
 
   UserSelect(this.user);
 }
+
+class UserSearch extends UserEvent {
+  final String searchQuery;
+
+  UserSearch(this.searchQuery);
+}

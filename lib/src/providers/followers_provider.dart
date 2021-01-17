@@ -40,72 +40,8 @@ class FollowersProvider {
     }
   }
 
-  Future<Map<String, dynamic>> loadFolloweds(String pathUrl) async {
-    final url = '${_prefs.url}/followeds/$pathUrl';
-
-    final resp = await http.get(
-      Uri.encodeFull(url),
-      headers: _setHeaders(),
-    );
-
-    final Map<String, dynamic> decodedData = json.decode(resp.body);
-
-    if (decodedData == null) return {'ok': false, 'followeds': []};
-
-    if (decodedData['status'] == 'success') {
-      final List<FollowerModel> followeds = new List();
-
-      decodedData['followeds'].forEach((followed) {
-        final prodTemp = FollowerModel.fromJson(followed);
-        followeds.add(prodTemp);
-      });
-
-      return {'ok': true, 'followeds': followeds};
-    } else {
-      return {'ok': false, 'followeds': []};
-    }
-  }
-
   Future<bool> newFollower(int userId) async {
     final url = '${_prefs.url}/follower/new/$userId';
-
-    final resp = await http.get(
-      Uri.encodeFull(url),
-      headers: _setHeaders(),
-    );
-
-    final Map<String, dynamic> decodedData = json.decode(resp.body);
-
-    if (decodedData == null) return false;
-
-    if (decodedData['status'] == 'success') {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  Future<bool> deleteFollowed(int userId) async {
-    final url = '${_prefs.url}/follower/cancel-delete/$userId';
-
-    final resp = await http.delete(
-      Uri.encodeFull(url),
-      headers: _setHeaders(),
-    );
-
-    final Map<String, dynamic> decodedData = json.decode(resp.body);
-
-    if (decodedData == null) return false;
-
-    if (decodedData['status'] == 'success') {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  Future<bool> acceptFollower(int userId) async {
-    final url = '${_prefs.url}/follower/accept/$userId';
 
     final resp = await http.get(
       Uri.encodeFull(url),

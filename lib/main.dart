@@ -64,7 +64,7 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           brightness: Brightness.light,
           primaryColor: Colors.red,
-          accentColor: Color(0xAFEF9EB),
+          accentColor: Color(0xAABA9EB),
           hintColor: Colors.grey,
           textTheme: GoogleFonts.poppinsTextTheme(
             Theme.of(context).textTheme,

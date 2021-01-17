@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:debts/src/modals/create_debt.dart';
 
-class FloatingButtonW extends StatelessWidget {
-  const FloatingButtonW({Key key}) : super(key: key);
+class FloatingButtonDebt extends StatelessWidget {
+  const FloatingButtonDebt({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

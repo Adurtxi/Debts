@@ -1,9 +1,12 @@
 import 'dart:convert';
 
-import 'package:debts/src/models/user_model.dart';
-import 'package:debts/src/services/google_signin_service.dart';
 import 'package:http/http.dart' as http;
+
+import 'package:debts/src/services/google_signin_service.dart';
+
 import 'package:debts/src/preferences/user_preferences.dart';
+
+import 'package:debts/src/models/user_model.dart';
 
 class UserProvider {
   final _prefs = new UserPreferences();
@@ -68,6 +71,33 @@ class UserProvider {
     );
 
     return _returnData(resp, 'register');
+  }
+
+  // Buscar usuario por QUERY
+  Future<List<UserModel>> searchUsers(String query) async {
+    final url = '${_prefs.url}/users/search/$query';
+
+    final resp = await http.get(
+      Uri.encodeFull(url),
+      headers: _setAuthHeaders(),
+    );
+
+    final Map<String, dynamic> decodedData = json.decode(resp.body);
+
+    if (decodedData == null) return [];
+
+    if (decodedData['status'] == 'success') {
+      final List<UserModel> users = List();
+
+      decodedData['users'].forEach((user) {
+        final prodTemp = UserModel.fromJson(user);
+        users.add(prodTemp);
+      });
+
+      return users;
+    } else {
+      return [];
+    }
   }
 
   _returnData(resp, type) {

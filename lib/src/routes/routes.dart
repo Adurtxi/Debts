@@ -4,6 +4,7 @@ import 'package:debts/src/pages/debts_page.dart';
 import 'package:debts/src/pages/home_page.dart';
 import 'package:debts/src/pages/auth_page.dart';
 import 'package:debts/src/pages/config/introduction_page.dart';
+import 'package:debts/src/pages/people_page.dart';
 
 Map<String, WidgetBuilder> getAppRoutes() {
   return <String, WidgetBuilder>{
@@ -11,5 +12,6 @@ Map<String, WidgetBuilder> getAppRoutes() {
     'debts': (BuildContext context) => DebtsPage(),
     'introduction': (BuildContext context) => IntroductionPage(),
     'auth': (BuildContext context) => AuthPage(),
+    'people': (BuildContext context) => PeoplePage(),
   };
 }
