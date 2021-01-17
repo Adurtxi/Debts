@@ -1,7 +1,9 @@
-import 'package:debts/src/preferences/user_preferences.dart';
 import 'package:flutter/material.dart';
 
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:debts/src/preferences/user_preferences.dart';
 
 import 'package:debts/src/blocs/debt/debt_bloc.dart';
 
@@ -29,21 +31,21 @@ class DebtActionsModal {
           _createTile(
             context,
             'Ver',
-            Icons.east,
+            FontAwesomeIcons.eye,
             Colors.blue[700],
             _detail,
           ),
           _createTile(
             context,
             'Marcar como pagada',
-            Icons.money_rounded,
+            FontAwesomeIcons.moneyBill,
             Colors.green[700],
             _markAsPaid,
           ),
           _createTile(
             context,
             'Eliminar',
-            Icons.title,
+            FontAwesomeIcons.trash,
             Colors.red[700],
             _delete,
           ),
@@ -62,7 +64,11 @@ class DebtActionsModal {
     final debtBloc = BlocProvider.of<DebtBloc>(context);
 
     return ListTile(
-      leading: Icon(icon, color: color),
+      leading: Icon(
+        icon,
+        color: color,
+        size: 18,
+      ),
       title: Text(name),
       onTap: () {
         function(context, debtBloc);

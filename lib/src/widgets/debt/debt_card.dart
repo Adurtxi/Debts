@@ -1,19 +1,16 @@
-import 'package:debts/src/modals/debt/actions.dart';
 import 'package:flutter/material.dart';
 
 import 'package:debts/src/models/debt_model.dart';
 
+import 'package:debts/src/modals/debt/actions.dart';
+
 class DebtCard extends StatelessWidget {
   const DebtCard({
     Key key,
-    this.itemIndex,
     this.debt,
-    this.press,
   }) : super(key: key);
 
-  final int itemIndex;
   final DebtModel debt;
-  final Function press;
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +26,8 @@ class DebtCard extends StatelessWidget {
           horizontal: 15.0,
           vertical: 10.0,
         ),
-        height: 100,
+        height: 100.0,
         child: InkWell(
-          onTap: press,
           child: Stack(
             alignment: Alignment.bottomCenter,
             children: <Widget>[
@@ -53,12 +49,12 @@ class DebtCard extends StatelessWidget {
   // Avatar
   Widget _avatarBox(BuildContext context, size) {
     return Positioned(
-      top: 25,
+      top: 25.0,
       left: 0,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.0),
         child: CircleAvatar(
-          radius: 25,
+          radius: 25.0,
           backgroundImage: NetworkImage(
             debt.user.image,
           ),
@@ -73,7 +69,7 @@ class DebtCard extends StatelessWidget {
       bottom: 0,
       right: 0,
       child: SizedBox(
-        height: 110,
+        height: 110.0,
         // our image take 200 width, thats why we set out total width - 200
         width: size.width - 110,
         child: Column(

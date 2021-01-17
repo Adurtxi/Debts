@@ -7,7 +7,7 @@ import 'package:debts/src/blocs/debt/debt_bloc.dart';
 import 'package:debts/src/models/debt_model.dart';
 
 import 'package:debts/src/widgets/appbar.dart';
-import 'package:debts/src/widgets/debt_card.dart';
+import 'package:debts/src/widgets/debt/debt_card.dart';
 import 'package:debts/src/widgets/drawer.dart';
 import 'package:debts/src/widgets/debt/floating_button.dart';
 
@@ -29,8 +29,6 @@ class _DebtsPageState extends State<DebtsPage> {
   _loadDebts() async {
     BlocProvider.of<DebtBloc>(context).add(DebtsAllLoad());
   }
-
-  List<DebtModel> debts = [];
 
   @override
   Widget build(BuildContext context) {
@@ -54,27 +52,29 @@ class _DebtsPageState extends State<DebtsPage> {
 
   Widget _container(BuildContext context, DebtBloc debtBloc) {
     return BlocListener<DebtBloc, DebtState>(
-      listener: (context, state) => (state.allDebtsState == 1) ? debts = state.allDebts : null,
+      listener: (context, state) {},
       child: BlocBuilder<DebtBloc, DebtState>(
         builder: (context, state) => (state.allDebtsState == 0)
-            ? LoaderW()
+            ? LoaderW(size: 50)
             : (state.allDebtsState == -1)
                 ? ErrorW()
-                : _debts(debtBloc, debts),
+                : _debts(debtBloc, state.allDebts),
       ),
     );
   }
 
   Widget _debts(DebtBloc debtBloc, List<DebtModel> debts) {
+    if (debts == null) {
+      return Container();
+    }
+
     return RefreshIndicator(
       color: Colors.black,
       onRefresh: () async => debtBloc.add(DebtsAllLoad()),
       child: ListView.builder(
         itemCount: debts.length,
         itemBuilder: (context, index) => DebtCard(
-          itemIndex: index,
           debt: debts[index],
-          press: () => print(1),
         ),
       ),
     );

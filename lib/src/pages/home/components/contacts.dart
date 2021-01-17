@@ -1,51 +1,30 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:debts/src/blocs/user/user_bloc.dart';
+
+import 'package:debts/src/models/follower_model.dart';
+
+import 'package:debts/src/widgets/utils/error.dart';
+import 'package:debts/src/widgets/utils/loader.dart';
+
 import 'package:debts/src/modals/users/actions.dart';
 
-class FavoriteContacts extends StatelessWidget {
+// ignore: must_be_immutable
+class HomeContacts extends StatelessWidget {
   final UserActionsModal _aModal = UserActionsModal();
-
-  final favorites = [
-    {
-      'id': 1,
-      'imageUrl':
-          'https://lh3.googleusercontent.com/a-/AOh14GjbLlZ8MpJbM1KqTnccT0VIp4XXZzy-Is-KQoa6Rw=s96-c',
-      'name': 'Adur'
-    },
-    {
-      'id': 2,
-      'imageUrl':
-          'https://lh3.googleusercontent.com/a-/AOh14GjIquTPeoC3S7481CjTz_g0acGCBcbzNXHE6ZNs-DI=s96-c',
-      'name': 'Noe'
-    },
-    {
-      'id': 3,
-      'imageUrl':
-          'https://lh3.googleusercontent.com/a-/AOh14GhvFwuLr13AZ_Qvjil_1W43E8xiXYJ4jQ57_XovUg=s96-c',
-      'name': 'Jon'
-    },
-    {
-      'id': 5,
-      'imageUrl':
-          'https://lh5.googleusercontent.com/--8YAFwqjtVk/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucmJDOowrA3lgvPOdM4ESdpCLJXG7Q/s96-c/photo.jpg',
-      'name': 'Rubén'
-    },
-    {
-      'id': 4,
-      'imageUrl':
-          'https://lh3.googleusercontent.com/a-/AOh14GiKaOj-6CxhKB257qxdSMLBDq5VGzFBymMMYUN8xQ=s96-c',
-      'name': 'Ekaitz'
-    },
-  ];
 
   @override
   Widget build(BuildContext context) {
+    final userBloc = BlocProvider.of<UserBloc>(context);
+
     return Container(
       margin: EdgeInsets.only(top: 10.0),
       child: Column(
         children: <Widget>[
           _textContainer(context),
-          _contacts(),
+          _container(context, userBloc),
         ],
       ),
     );
@@ -80,33 +59,58 @@ class FavoriteContacts extends StatelessWidget {
     );
   }
 
-  // Contacts row
-  Widget _contacts() {
+  Widget _container(BuildContext context, UserBloc userBloc) {
     return Container(
-      height: 120.0,
+      height: 120,
+      child: BlocListener<UserBloc, UserState>(
+        listener: (context, state) {},
+        child: BlocBuilder<UserBloc, UserState>(
+          builder: (context, state) => (state.followersState == 0)
+              ? LoaderW(size: 30)
+              : (state.followersState == -1)
+                  ? ErrorW()
+                  : _followers(userBloc, state.followers),
+        ),
+      ),
+    );
+  }
+
+  Widget _followers(UserBloc userbloc, List<FollowerModel> followers) {
+    if (followers == null) {
+      return Container(
+        child: Center(
+          child: Text('No tienes contactos'),
+        ),
+      );
+    }
+
+    return Container(
+      height: 120,
       child: ListView.builder(
         padding: EdgeInsets.only(left: 10.0),
         scrollDirection: Axis.horizontal,
-        itemCount: favorites.length,
-        itemBuilder: (BuildContext context, int index) => _contact(index),
+        itemBuilder: (context, index) => _contact(
+          followers[index],
+        ),
+        itemCount: followers.length,
       ),
     );
   }
 
   // Contact image and name
-  Widget _contact(int index) {
+  Widget _contact(FollowerModel follower) {
     return Container(
       margin: EdgeInsets.all(10.0),
       child: Column(
         children: <Widget>[
           CircleAvatar(
             radius: 25.0,
-            backgroundImage: NetworkImage(favorites[index]['imageUrl']),
+            backgroundImage: NetworkImage(follower.followed.image),
           ),
           Container(
             margin: EdgeInsets.only(top: 20.0),
             child: Text(
-              favorites[index]['name'],
+              follower.followed.name,
               style: TextStyle(
                 color: Colors.blueGrey,
                 fontSize: 16.0,

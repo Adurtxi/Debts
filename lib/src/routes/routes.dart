@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:debts/src/pages/debts_page.dart';
-import 'package:debts/src/pages/home_page.dart';
+import 'package:debts/src/pages/home/home_page.dart';
 import 'package:debts/src/pages/auth_page.dart';
 import 'package:debts/src/pages/config/introduction_page.dart';
 import 'package:debts/src/pages/people_page.dart';

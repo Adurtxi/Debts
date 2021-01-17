@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:debts/src/preferences/user_preferences.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:debts/src/preferences/user_preferences.dart';
 
 import 'package:debts/src/blocs/user/user_bloc.dart';
 
@@ -20,35 +21,37 @@ class UserCard extends StatelessWidget {
     final userBloc = BlocProvider.of<UserBloc>(context);
 
     return Container(
-      margin: EdgeInsets.only(bottom: 10.0),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
+      margin: EdgeInsets.fromLTRB(5.0, 0, 5.0, 10.0),
+      padding: EdgeInsets.all(5.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(
+          Radius.circular(20.0),
         ),
-        child: GestureDetector(
-          onTap: () => _addUser(context, userBloc),
-          child: ListTile(
-            leading: Container(
-              margin: EdgeInsets.all(7.5),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(25.0),
-                child: Image(
-                  image: NetworkImage(
-                    user.image,
-                  ),
-                ),
+      ),
+      child: GestureDetector(
+        onTap: () => _addUser(context, userBloc),
+        child: ListTile(
+          leading: Container(
+            margin: EdgeInsets.all(7.5),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(25.0),
+              child: Image(
+                image: NetworkImage(user.image),
               ),
             ),
-            title: Text('${user.name} ${user.surname}'),
-            trailing: _trailing(),
           ),
+          title: Text('${user.name} ${user.surname}'),
+          trailing: _trailing(),
         ),
       ),
     );
   }
 
   Widget _trailing() {
-    return (user.follower) ? Icon(Icons.remove) : Icon(Icons.add);
+    return (user.follower)
+        ? Icon(FontAwesomeIcons.solidHeart, color: Colors.red)
+        : Icon(FontAwesomeIcons.heart, color: Colors.red);
   }
 
   void _addUser(BuildContext context, UserBloc userBloc) {

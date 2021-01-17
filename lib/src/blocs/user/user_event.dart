@@ -28,3 +28,5 @@ class UserDelete extends UserEvent {
 
   UserDelete(this.userId);
 }
+
+class UserFollowersLoad extends UserEvent {}

@@ -14,8 +14,8 @@ class FollowersProvider {
         'Authorization': '${_prefs.token}'
       };
 
-  Future<Map<String, dynamic>> loadFollowers(String pathUrl) async {
-    final url = '${_prefs.url}/followers/$pathUrl';
+  Future<List<FollowerModel>> loadFollowers() async {
+    final url = '${_prefs.url}/followers';
 
     final resp = await http.get(
       Uri.encodeFull(url),
@@ -24,7 +24,7 @@ class FollowersProvider {
 
     final Map<String, dynamic> decodedData = json.decode(resp.body);
 
-    if (decodedData == null) return {'ok': false, 'followers': []};
+    if (decodedData == null) return null;
 
     if (decodedData['status'] == 'success') {
       final List<FollowerModel> followers = new List();
@@ -34,9 +34,9 @@ class FollowersProvider {
         followers.add(prodTemp);
       });
 
-      return {'ok': true, 'followers': followers};
+      return followers;
     } else {
-      return {'ok': false, 'followers': []};
+      return null;
     }
   }
 

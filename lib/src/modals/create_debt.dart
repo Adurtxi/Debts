@@ -123,27 +123,48 @@ class CreateDebtModal {
   Widget _selectDefaulter(BuildContext context, Function state) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        String text = 'Seleccionar deudor';
+        UserModel user = UserModel();
 
         if (state is UserState && state.selectedUser != null) {
-          UserModel user = state.selectedUser;
+          user = state.selectedUser;
           debt.defaulterId = user.id;
-          text = user.name;
+        } else {
+          user = UserModel(name: 'Selecciona deudor');
         }
 
         return Container(
-          height: 40.0,
+          margin: EdgeInsets.fromLTRB(5.0, 0, 5.0, 10.0),
+          padding: EdgeInsets.all(5.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(
+              Radius.circular(20.0),
+            ),
+          ),
           child: GestureDetector(
             onTap: () => _uModal.mainBottomSheet(context),
-            child: ButtonWithIcon(
-              size: 0.6,
-              text: text,
-              loading: false,
+            child: ListTile(
+              leading: _leading(user),
+              title: Text(user.name),
             ),
           ),
         );
       },
     );
+  }
+
+  Widget _leading(UserModel user) {
+    return (user.image != null)
+        ? Container(
+            margin: EdgeInsets.all(7.5),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(25.0),
+              child: Image(
+                image: NetworkImage(user.image),
+              ),
+            ),
+          )
+        : Container();
   }
 
   Widget _createButton(BuildContext context, DebtBloc debtBloc) {

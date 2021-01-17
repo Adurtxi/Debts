@@ -1,3 +1,4 @@
+import 'package:debts/src/models/follower_model.dart';
 import 'package:meta/meta.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -54,6 +55,20 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         users[userIndex].follower = false;
 
         yield state.copyWith(users: users);
+      }
+    }
+
+    if (event is UserFollowersLoad) {
+      try {
+        yield state.copyWith(followersState: 0);
+
+        final followers = await _followersProvider.loadFollowers();
+
+        yield UserState(followers: followers);
+
+        yield state.copyWith(followersState: 1);
+      } catch (e) {
+        yield state.copyWith(followersState: -1);
       }
     }
   }

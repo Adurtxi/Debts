@@ -21,7 +21,7 @@ class _PeoplePageState extends State<PeoplePage> {
     return Scaffold(
       drawer: DrawerW(),
       appBar: AppBarW(
-        title: 'Gente',
+        title: 'Usuarios',
       ),
       body: _body(context, userBloc),
     );
@@ -83,7 +83,11 @@ class _PeoplePageState extends State<PeoplePage> {
                         user: state.users[index],
                       ),
                     )
-                  : Container(),
+                  : Container(
+                      child: Center(
+                        child: Text('Busca usuarios y añadelos a favoritos'),
+                      ),
+                    ),
         ),
       ),
     );

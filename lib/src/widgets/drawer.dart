@@ -37,7 +37,7 @@ class DrawerW extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.people),
-            title: Text('Gente'),
+            title: Text('Usuarios'),
             onTap: () => Navigator.pushNamed(context, 'people'),
           ),
           ListTile(

@@ -58,8 +58,8 @@ class ButtonWithIcon extends StatelessWidget {
     return Ink(
       child: Container(
         decoration: BoxDecoration(
-          color: Color(0xff3366ff),
           borderRadius: BorderRadius.circular(30.0),
+          color: Colors.black87,
         ),
         constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * size),
         alignment: Alignment.center,
