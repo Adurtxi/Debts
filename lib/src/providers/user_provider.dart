@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:debts/src/models/user_model.dart';
+import 'package:debts/src/services/google_signin_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:debts/src/preferences/user_preferences.dart';
 
@@ -15,12 +16,49 @@ class UserProvider {
         'Authorization': '${_prefs.token}'
       };
 
-  Future<Map<String, dynamic>> login(String email, String password) async {
-    final url = '${_prefs.url}/login';
+  Future<Map<String, dynamic>> googleSignIn(String token) async {
+    final url = '${_prefs.url}/google-sign-in';
+
+    final data = {
+      'token': token,
+    };
+
+    final resp = await http.post(
+      Uri.encodeFull(url),
+      body: json.encode(data),
+      headers: _setHeaders(),
+    );
+
+    Map<String, dynamic> decodedResp = json.decode(resp.body);
+
+    if (decodedResp['type'] == 'login') {
+      _prefs.lastPage = 'home';
+
+      _prefs.token = decodedResp['token'];
+
+      _prefs.id = decodedResp['identity']['sub'];
+
+      return {'type': 'login'};
+    } else {
+      return {
+        'type': 'register',
+        'payload': decodedResp['payload'],
+      };
+    }
+  }
+
+  // Crear cuenta
+  Future<Map<String, dynamic>> register(
+      String googleId, String name, String surname, String email, String image) async {
+    final url = '${_prefs.url}/register';
 
     final authData = {
+      'google_id': googleId,
+      'name': name,
+      'surname': surname,
       'email': email,
-      'password': password,
+      'image': image,
+      'phoneId': _prefs.phoneId,
     };
 
     final resp = await http.post(
@@ -29,86 +67,36 @@ class UserProvider {
       headers: _setHeaders(),
     );
 
+    return _returnData(resp, 'register');
+  }
+
+  _returnData(resp, type) {
     Map<String, dynamic> decodedResp = json.decode(resp.body);
 
     if (decodedResp['status'] == 'success') {
       _prefs.token = decodedResp['token'];
 
-      final identity = decodedResp['identity'];
+      switch (type) {
+        case 'register':
+          _prefs.lastPage = 'introduction';
+          break;
 
-      _prefs.id = identity.id;
-      _prefs.lastPage = 'home';
+        case 'login':
+          _prefs.lastPage = 'home';
+          break;
+      }
 
-      setPhoneId(_prefs.phoneId);
+      _prefs.id = decodedResp['identity']['sub'];
 
-      return {'ok': true, 'token': decodedResp['token']};
-    } else {
-      return {'ok': false, 'message': decodedResp['message']};
-    }
-  }
-
-  Future<Map<String, dynamic>> newUser(
-      String email, String password, String name, String surname) async {
-    final url = '${_prefs.url}/register';
-
-    final authData = {
-      'name': name,
-      'surname': surname,
-      'email': email,
-      'password': password,
-    };
-
-    final resp = await http.post(
-      Uri.encodeFull(url),
-      body: json.encode(authData),
-      headers: _setHeaders(),
-    );
-
-    Map<String, dynamic> decodedResp = json.decode(resp.body);
-
-    if (decodedResp['status'] == 'success') {
       return {'ok': true};
     } else {
       return {'ok': false, 'message': decodedResp['message']};
     }
   }
 
-  Future<List<UserModel>> searchUser(String query) async {
-    final url = '${_prefs.url}/users/search/$query';
-
-    final resp = await http.get(
-      Uri.encodeFull(url),
-      headers: _setAuthHeaders(),
-    );
-
-    final Map<String, dynamic> decodedData = json.decode(resp.body);
-
-    if (decodedData == null) return [];
-
-    if (decodedData['status'] == 'success') {
-      final List<UserModel> users = new List();
-
-      decodedData['users'].forEach((user) {
-        final prodTemp = UserModel.fromJson(user);
-        users.add(prodTemp);
-      });
-
-      return users;
-    } else {
-      return [];
-    }
-  }
-
-  void setPhoneId(String token) async {
-    final url = '${_prefs.url}/user/phoneId/$token';
-
-    await http.get(
-      Uri.encodeFull(url),
-      headers: _setAuthHeaders(),
-    );
-  }
-
   logout() {
+    GoogleSignInService.signOut();
+
     _prefs.token = null;
     _prefs.lastPage = null;
     _prefs.lookScreen = null;
