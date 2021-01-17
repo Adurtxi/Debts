@@ -1,5 +1,3 @@
-import 'package:debts/src/providers/user_provider.dart';
-import 'package:debts/src/widgets/slide_transition.dart';
 import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -7,6 +5,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:debts/src/pages/config/introduction_page.dart';
 
 import 'package:debts/src/services/google_signin_service.dart';
+
+import 'package:debts/src/providers/user_provider.dart';
+
+import 'package:debts/src/widgets/slide_transition.dart';
 
 class AuthPage extends StatefulWidget {
   @override
@@ -113,7 +115,7 @@ class _AuthPageState extends State<AuthPage> {
 
       final resp = await userProvider.googleSignIn(account['googleKey']);
 
-      if (resp['payload'] == null) {
+      if (resp['type'] == 'register' && resp['payload'] == null) {
         return;
       }
 
@@ -135,7 +137,7 @@ class _AuthPageState extends State<AuthPage> {
           break;
 
         case 'login':
-          Navigator.pushReplacementNamed(context, 'Home');
+          Navigator.pushReplacementNamed(context, 'home');
           break;
       }
     }

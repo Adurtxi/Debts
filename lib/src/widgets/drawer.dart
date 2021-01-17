@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:debts/src/providers/user_provider.dart';
+
 class DrawerW extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -44,9 +46,19 @@ class DrawerW extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.logout),
             title: Text('Salir'),
+            onTap: () => _logout(context),
           ),
         ],
       ),
     );
+  }
+
+  _logout(context) {
+    UserProvider userProvider = new UserProvider();
+
+    userProvider.logout();
+
+    Navigator.pop(context);
+    Navigator.pushReplacementNamed(context, 'auth');
   }
 }
