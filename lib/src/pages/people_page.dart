@@ -74,16 +74,16 @@ class _PeoplePageState extends State<PeoplePage> {
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 15),
         child: BlocBuilder<UserBloc, UserState>(
-          builder: (context, state) {
-            print(state.users);
-
-            return ListView.builder(
-              itemCount: state.users.length,
-              itemBuilder: (context, index) => UserCard(
-                user: state.users[index],
-              ),
-            );
-          },
+          builder: (context, state) =>
+              // Users container
+              (state.users != null)
+                  ? ListView.builder(
+                      itemCount: state.users.length,
+                      itemBuilder: (context, index) => UserCard(
+                        user: state.users[index],
+                      ),
+                    )
+                  : Container(),
         ),
       ),
     );

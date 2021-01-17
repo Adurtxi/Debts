@@ -84,7 +84,7 @@ class UserProvider {
 
     final Map<String, dynamic> decodedData = json.decode(resp.body);
 
-    if (decodedData == null) return [];
+    if (decodedData == null) return null;
 
     if (decodedData['status'] == 'success') {
       final List<UserModel> users = List();
@@ -96,7 +96,7 @@ class UserProvider {
 
       return users;
     } else {
-      return [];
+      return null;
     }
   }
 

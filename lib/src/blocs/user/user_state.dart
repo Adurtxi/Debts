@@ -11,9 +11,14 @@ class UserState {
     this.users,
   });
 
-  UserState copyWith({user}) => UserState(
-        selectedUser: user ?? this.selectedUser,
-        searchQuery: user ?? this.searchQuery,
-        users: user ?? this.users,
+  UserState copyWith({
+    user,
+    searchQuery,
+    users,
+  }) =>
+      UserState(
+        selectedUser: selectedUser ?? this.selectedUser,
+        searchQuery: searchQuery ?? this.searchQuery,
+        users: users ?? this.users,
       );
 }

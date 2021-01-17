@@ -10,7 +10,7 @@ class UserModel {
   String surname;
   String email;
   String image;
-  int follStatus;
+  bool follower;
 
   UserModel({
     this.id,
@@ -18,7 +18,7 @@ class UserModel {
     this.surname,
     this.email,
     this.image,
-    this.follStatus,
+    this.follower,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
@@ -27,7 +27,7 @@ class UserModel {
         surname: json["surname"],
         email: json["email"],
         image: json["image"],
-        follStatus: json["follStatus"],
+        follower: json["follower"],
       );
 
   Map<String, dynamic> toJson() => {

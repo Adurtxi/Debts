@@ -40,41 +40,36 @@ class FollowersProvider {
     }
   }
 
-  Future<bool> newFollower(int userId) async {
-    final url = '${_prefs.url}/follower/new/$userId';
+  Future<String> addFollower(int userId) async {
+    final url = '${_prefs.url}/follower';
 
-    final resp = await http.get(
+    final resp = await http.post(
       Uri.encodeFull(url),
+      body: json.encode({
+        'user_id': userId,
+      }),
       headers: _setHeaders(),
     );
 
-    final Map<String, dynamic> decodedData = json.decode(resp.body);
-
-    if (decodedData == null) return false;
-
-    if (decodedData['status'] == 'success') {
-      return true;
-    } else {
-      return false;
-    }
+    return _returnData(resp);
   }
 
-  Future<bool> deleteFollower(int userId) async {
-    final url = '${_prefs.url}/follower/delete/$userId';
+  Future<String> deleteFollower(int userId) async {
+    final url = '${_prefs.url}/follower/$userId';
 
     final resp = await http.delete(
       Uri.encodeFull(url),
       headers: _setHeaders(),
     );
 
+    return _returnData(resp);
+  }
+
+  String _returnData(resp) {
     final Map<String, dynamic> decodedData = json.decode(resp.body);
 
-    if (decodedData == null) return false;
+    if (decodedData == null) return 'error';
 
-    if (decodedData['status'] == 'success') {
-      return true;
-    } else {
-      return false;
-    }
+    return decodedData['status'];
   }
 }

@@ -16,3 +16,15 @@ class UserSearch extends UserEvent {
 
   UserSearch(this.searchQuery);
 }
+
+class UserAdd extends UserEvent {
+  final int userId;
+
+  UserAdd(this.userId);
+}
+
+class UserDelete extends UserEvent {
+  final int userId;
+
+  UserDelete(this.userId);
+}
