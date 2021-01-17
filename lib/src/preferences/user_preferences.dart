@@ -23,16 +23,16 @@ class UserPreferences {
     _prefs.setString('token', value);
   }
 
-  get identity {
-    return _prefs.getStringList('identity') ?? '';
+  get id {
+    return _prefs.getInt('id');
   }
 
-  set identity(List value) {
-    _prefs.setStringList('identity', value);
+  set id(int value) {
+    _prefs.setInt('id', value);
   }
 
   get lastPage {
-    return _prefs.getString('lastPage') ?? 'home';
+    return _prefs.getString('lastPage') ?? 'auth';
   }
 
   set lastPage(String value) {
