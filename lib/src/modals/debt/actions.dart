@@ -80,7 +80,11 @@ class DebtActionsModal {
 
   void _detail(BuildContext context, DebtBloc debtBloc) {}
 
-  void _markAsPaid(BuildContext context, DebtBloc debtBloc) {}
+  void _markAsPaid(BuildContext context, DebtBloc debtBloc) {
+    debtBloc.add(
+      DebtMarkAsPaid(debt.id),
+    );
+  }
 
   void _delete(BuildContext context, DebtBloc debtBloc) {
     debtBloc.add(

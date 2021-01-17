@@ -14,6 +14,12 @@ class DebtStore extends DebtEvent {
   DebtStore(this.debt, this.previousPage);
 }
 
+class DebtMarkAsPaid extends DebtEvent {
+  final int debtId;
+
+  DebtMarkAsPaid(this.debtId);
+}
+
 class DebtDelete extends DebtEvent {
   final int debtId;
 

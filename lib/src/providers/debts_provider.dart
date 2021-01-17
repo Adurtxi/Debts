@@ -88,7 +88,7 @@ class DebtsProvider {
     return _returnData(resp);
   }
 
-  Future<DebtModel> markAsPaid(String id) async {
+  Future<String> markAsPaid(int id) async {
     final url = '${_prefs.url}/debt/markAsPaid/$id';
 
     final resp = await http.get(
@@ -96,7 +96,7 @@ class DebtsProvider {
       headers: _setHeaders(),
     );
 
-    return _returnData(resp);
+    return _returnStatus(resp);
   }
 
   Future<String> deleteDebt(int id) async {
@@ -112,12 +112,16 @@ class DebtsProvider {
     return decodedData['status'];
   }
 
+  _returnStatus(resp) {
+    final decodedData = json.decode(resp.body);
+
+    return decodedData['status'];
+  }
+
   _returnData(resp) {
     final decodedData = json.decode(resp.body);
 
     if (decodedData['status'] == 'success') {
-      print(DebtModel.fromJson(decodedData['debt']));
-
       return DebtModel.fromJson(decodedData['debt']);
     } else {
       return null;

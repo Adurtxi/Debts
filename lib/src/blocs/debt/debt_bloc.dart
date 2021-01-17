@@ -21,7 +21,7 @@ class DebtBloc extends Bloc<DebtEvent, DebtState> {
       try {
         yield state.copyWith(debtsState: 0);
 
-        final debts = await _debtsProvider.loadDebts('defaulter-debts-to-pay');
+        final debts = await _debtsProvider.loadDebts('debts-to-pay');
 
         yield state.copyWith(debts: debts);
 
@@ -47,12 +47,25 @@ class DebtBloc extends Bloc<DebtEvent, DebtState> {
 
     // Store debt
     if (event is DebtStore) {
-      yield state.copyWith(debt: event.debt);
-
       final debt = await _debtsProvider.createDebt(event.debt);
 
       if (event.previousPage == 'debts') {
         yield state.copyWith(allDebts: [debt, ...state.allDebts]);
+      }
+    }
+
+    // Mark debt as paid
+    if (event is DebtMarkAsPaid) {
+      List<DebtModel> allDebts = state.allDebts;
+
+      final status = await _debtsProvider.markAsPaid(event.debtId);
+
+      if (status == 'success') {
+        final debtIndex = allDebts.indexWhere((d) => d.id == event.debtId);
+
+        allDebts[debtIndex].paid = true;
+
+        yield state.copyWith(allDebts: allDebts);
       }
     }
 
