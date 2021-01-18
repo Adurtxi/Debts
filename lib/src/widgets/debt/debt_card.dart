@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:debts/src/models/debt_model.dart';
 
 import 'package:debts/src/modals/debt/actions.dart';
+import 'package:debts/src/modals/debt/detail.dart';
 
 class DebtCard extends StatelessWidget {
   const DebtCard({
@@ -14,13 +15,14 @@ class DebtCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DebtActionsModal _dModal = DebtActionsModal(debt: debt);
+    final DebtActionsModal _daModal = DebtActionsModal(debt: debt);
+    final DebtModal _dModal = DebtModal(debt: debt);
 
     Size size = MediaQuery.of(context).size;
 
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, 'debt', arguments: debt),
-      onLongPress: () => _dModal.mainBottomSheet(context),
+      onTap: () => _dModal.mainBottomSheet(context),
+      onLongPress: () => _daModal.mainBottomSheet(context),
       child: Container(
         margin: EdgeInsets.symmetric(
           horizontal: 15.0,
