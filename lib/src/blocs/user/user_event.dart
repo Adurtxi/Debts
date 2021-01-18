@@ -19,16 +19,20 @@ class UserSearch extends UserEvent {
   UserSearch(this.searchQuery);
 }
 
-class UserAdd extends UserEvent {
-  final int userId;
+class UserSearchRestart extends UserEvent {}
 
-  UserAdd(this.userId);
+class FollowerAdd extends UserEvent {
+  final int userId;
+  final String previousPage;
+
+  FollowerAdd(this.userId, this.previousPage);
 }
 
-class UserDelete extends UserEvent {
+class FollowerDelete extends UserEvent {
   final int userId;
+  final String previousPage;
 
-  UserDelete(this.userId);
+  FollowerDelete(this.userId, this.previousPage);
 }
 
 class UserFollowersLoad extends UserEvent {}

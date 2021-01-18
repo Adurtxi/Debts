@@ -40,7 +40,13 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       yield state.copyWith();
     }
 
-    if (event is UserAdd) {
+    if (event is UserSearchRestart) {
+      state.users = null;
+
+      yield state.copyWith();
+    }
+
+    if (event is FollowerAdd) {
       final status = await _followersProvider.addFollower(event.userId);
 
       if (status == 'success') {
@@ -54,17 +60,30 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       }
     }
 
-    if (event is UserDelete) {
+    if (event is FollowerDelete) {
       final status = await _followersProvider.deleteFollower(event.userId);
 
       if (status == 'success') {
-        List<UserModel> users = state.users;
+        // Users page -> Delete from Users
+        if (event.previousPage == 'users') {
+          List<UserModel> users = state.users;
 
-        final userIndex = users.indexWhere((u) => u.id == event.userId);
+          final userIndex = users.indexWhere((f) => f.id == event.userId);
 
-        users[userIndex].follower = false;
+          users[userIndex].follower = false;
 
-        yield state.copyWith(users: users);
+          state.users = users;
+        }
+        // Home page -> Delete from Followers
+        else if (event.previousPage == 'home') {
+          List<FollowerModel> followers = state.followers;
+
+          followers = followers.where((f) => f.followedId != event.userId).toList();
+
+          state.followers = followers;
+        }
+
+        yield state.copyWith();
       }
     }
 

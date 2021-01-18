@@ -30,7 +30,13 @@ class HomeDebts extends StatelessWidget {
               ? LoaderW(size: 50)
               : (state.debtsState == -1)
                   ? ErrorW()
-                  : _debts(debtBloc, state.debts),
+                  : RefreshIndicator(
+                      color: Colors.black,
+                      onRefresh: () async => debtBloc.add(
+                        DebtsLoad(),
+                      ),
+                      child: _debts(debtBloc, state.debts),
+                    ),
         ),
       ),
     );
@@ -41,16 +47,10 @@ class HomeDebts extends StatelessWidget {
       return Message(message: 'No tienes deudas');
     }
 
-    return RefreshIndicator(
-      color: Colors.black,
-      onRefresh: () async => debtBloc.add(
-        DebtsLoad(),
-      ),
-      child: ListView.builder(
-        itemCount: debts.length,
-        itemBuilder: (context, index) => DebtCard(
-          debt: debts[index],
-        ),
+    return ListView.builder(
+      itemCount: debts.length,
+      itemBuilder: (context, index) => DebtCard(
+        debt: debts[index],
       ),
     );
   }

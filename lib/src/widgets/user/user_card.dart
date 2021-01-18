@@ -56,7 +56,7 @@ class UserCard extends StatelessWidget {
 
   void _addUser(BuildContext context, UserBloc userBloc) {
     (user.follower)
-        ? BlocProvider.of<UserBloc>(context).add(UserDelete(user.id))
-        : BlocProvider.of<UserBloc>(context).add(UserAdd(user.id));
+        ? BlocProvider.of<UserBloc>(context).add(FollowerDelete(user.id, 'users'))
+        : BlocProvider.of<UserBloc>(context).add(FollowerAdd(user.id, 'users'));
   }
 }

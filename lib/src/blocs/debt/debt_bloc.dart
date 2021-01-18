@@ -65,7 +65,9 @@ class DebtBloc extends Bloc<DebtEvent, DebtState> {
 
         allDebts[debtIndex].paid = true;
 
-        yield state.copyWith(allDebts: allDebts);
+        state.allDebts = allDebts;
+
+        yield state.copyWith();
       }
     }
 
@@ -76,7 +78,9 @@ class DebtBloc extends Bloc<DebtEvent, DebtState> {
       if (status == 'success') {
         final allDebts = state.allDebts.where((d) => d.id != event.debtId).toList();
 
-        yield state.copyWith(allDebts: allDebts);
+        state.allDebts = allDebts;
+
+        yield state.copyWith();
       }
     }
   }

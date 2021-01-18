@@ -61,7 +61,11 @@ class _DebtsPageState extends State<DebtsPage> {
             ? LoaderW(size: 50)
             : (state.allDebtsState == -1)
                 ? ErrorW()
-                : _debts(debtBloc, state.allDebts),
+                : RefreshIndicator(
+                    color: Colors.black,
+                    onRefresh: () async => debtBloc.add(DebtsAllLoad()),
+                    child: _debts(debtBloc, state.allDebts),
+                  ),
       ),
     );
   }
@@ -71,14 +75,10 @@ class _DebtsPageState extends State<DebtsPage> {
       return Message(message: 'No tienes deudas');
     }
 
-    return RefreshIndicator(
-      color: Colors.black,
-      onRefresh: () async => debtBloc.add(DebtsAllLoad()),
-      child: ListView.builder(
-        itemCount: debts.length,
-        itemBuilder: (context, index) => DebtCard(
-          debt: debts[index],
-        ),
+    return ListView.builder(
+      itemCount: debts.length,
+      itemBuilder: (context, index) => DebtCard(
+        debt: debts[index],
       ),
     );
   }

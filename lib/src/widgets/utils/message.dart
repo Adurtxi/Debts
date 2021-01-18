@@ -7,9 +7,18 @@ class Message extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text(message),
+    return LayoutBuilder(
+      builder: (context, constraints) => ListView(
+        children: [
+          Container(
+            constraints: BoxConstraints(
+              minHeight: constraints.maxHeight,
+            ),
+            child: Center(
+              child: Text(message),
+            ),
+          )
+        ],
       ),
     );
   }

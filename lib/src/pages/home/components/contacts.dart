@@ -1,3 +1,4 @@
+import 'package:debts/src/modals/users/actions.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,13 +12,10 @@ import 'package:debts/src/widgets/utils/error.dart';
 import 'package:debts/src/widgets/utils/loader.dart';
 import 'package:debts/src/widgets/utils/message.dart';
 
-import 'package:debts/src/modals/users/actions.dart';
 import 'package:debts/src/modals/debt/create.dart';
 
 // ignore: must_be_immutable
 class HomeContacts extends StatelessWidget {
-  final UserActionsModal _aModal = UserActionsModal();
-
   @override
   Widget build(BuildContext context) {
     final userBloc = BlocProvider.of<UserBloc>(context);
@@ -51,11 +49,11 @@ class HomeContacts extends StatelessWidget {
           ),
           IconButton(
             icon: Icon(
-              Icons.more_horiz,
+              Icons.person_add,
             ),
             iconSize: 30.0,
             color: Colors.blueGrey,
-            onPressed: () => _aModal.mainBottomSheet(context),
+            onPressed: () => Navigator.pushReplacementNamed(context, 'users'),
           ),
         ],
       ),
@@ -78,7 +76,7 @@ class HomeContacts extends StatelessWidget {
     );
   }
 
-  Widget _contacts(UserBloc userbloc, List<FollowerModel> followers) {
+  Widget _contacts(UserBloc userBloc, List<FollowerModel> followers) {
     if (followers == null) {
       return Message(message: 'No tienes contactos');
     }
@@ -90,6 +88,7 @@ class HomeContacts extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) => _contact(
           context,
+          userBloc,
           followers[index],
         ),
         itemCount: followers.length,
@@ -98,9 +97,10 @@ class HomeContacts extends StatelessWidget {
   }
 
   // Contact image and name
-  Widget _contact(BuildContext context, FollowerModel follower) {
+  Widget _contact(BuildContext context, UserBloc userBloc, FollowerModel follower) {
     return GestureDetector(
-      onLongPress: () => _createDebt(context, follower.followed),
+      onTap: () => _openModal(context, userBloc, follower),
+      onLongPress: () => _createDebt(context, userBloc, follower.followed),
       child: Container(
         margin: EdgeInsets.all(10.0),
         child: Column(
@@ -126,8 +126,18 @@ class HomeContacts extends StatelessWidget {
     );
   }
 
-  void _createDebt(BuildContext context, UserModel user) {
-    BlocProvider.of<UserBloc>(context).add(
+  void _openModal(BuildContext context, UserBloc userBloc, FollowerModel follower) {
+    userBloc.add(
+      UserSelect(follower.followed),
+    );
+
+    FollowerActionsModal _aModal = FollowerActionsModal(followed: follower);
+
+    _aModal.mainBottomSheet(context);
+  }
+
+  void _createDebt(BuildContext context, UserBloc userBloc, UserModel user) {
+    userBloc.add(
       UserSelect(user),
     );
 

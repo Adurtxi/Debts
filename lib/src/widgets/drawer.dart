@@ -28,21 +28,22 @@ class DrawerW extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.home),
             title: Text('Inicio'),
-            onTap: () => Navigator.pushNamed(context, 'home'),
+            onTap: () => Navigator.pushReplacementNamed(context, 'home'),
           ),
           ListTile(
             leading: Icon(Icons.message),
             title: Text('Deudas'),
-            onTap: () => Navigator.pushNamed(context, 'debts'),
+            onTap: () => Navigator.pushReplacementNamed(context, 'debts'),
           ),
           ListTile(
             leading: Icon(Icons.people),
             title: Text('Usuarios'),
-            onTap: () => Navigator.pushNamed(context, 'people'),
+            onTap: () => Navigator.pushReplacementNamed(context, 'users'),
           ),
           ListTile(
             leading: Icon(Icons.settings),
             title: Text('Configuración'),
+            onTap: () => Navigator.pushReplacementNamed(context, 'config'),
           ),
           ListTile(
             leading: Icon(Icons.logout),

@@ -7,7 +7,7 @@ class AppBarW extends AppBar {
           title: Text(
             title,
             style: TextStyle(
-              fontSize: 26.0,
+              fontSize: 24.0,
               fontWeight: FontWeight.bold,
             ),
           ),

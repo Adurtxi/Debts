@@ -10,12 +10,12 @@ import 'package:debts/src/widgets/user/user_card.dart';
 
 import 'package:debts/src/widgets/utils/message.dart';
 
-class PeoplePage extends StatefulWidget {
+class UsersPage extends StatefulWidget {
   @override
-  _PeoplePageState createState() => _PeoplePageState();
+  _UsersPageState createState() => _UsersPageState();
 }
 
-class _PeoplePageState extends State<PeoplePage> {
+class _UsersPageState extends State<UsersPage> {
   @override
   Widget build(BuildContext context) {
     final userBloc = BlocProvider.of<UserBloc>(context);
@@ -30,6 +30,8 @@ class _PeoplePageState extends State<PeoplePage> {
   }
 
   Widget _body(BuildContext context, UserBloc userBloc) {
+    userBloc.add(UserSearchRestart());
+
     return Container(
       child: _container(context, userBloc),
     );
@@ -56,8 +58,12 @@ class _PeoplePageState extends State<PeoplePage> {
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.white),
           ),
+          suffixIcon: Icon(
+            Icons.search,
+            color: Colors.black,
+          ),
         ),
-        onChanged: (value) => _onChanged(value),
+        onChanged: (value) => _onChanged(userBloc, value),
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(
@@ -85,13 +91,17 @@ class _PeoplePageState extends State<PeoplePage> {
                         user: state.users[index],
                       ),
                     )
-                  : Message(message: 'Busca usuarios y añadelos a favoritos'),
+                  : Message(message: 'Busca usuarios y añádelos a favoritos'),
         ),
       ),
     );
   }
 
-  void _onChanged(value) {
-    BlocProvider.of<UserBloc>(context).add(UserSearch(value));
+  void _onChanged(UserBloc userBloc, String value) {
+    if (value.length > 2) {
+      userBloc.add(UserSearch(value));
+    } else {
+      userBloc.add(UserSearchRestart());
+    }
   }
 }
