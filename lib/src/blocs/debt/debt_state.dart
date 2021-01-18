@@ -1,11 +1,11 @@
 part of 'debt_bloc.dart';
 
 class DebtState {
-  final List<DebtModel> debts;
-  final int debtsState;
+  List<DebtModel> debts;
+  int debtsState;
 
-  final List<DebtModel> allDebts;
-  final int allDebtsState;
+  List<DebtModel> allDebts;
+  int allDebtsState;
 
   DebtState({
     this.debts,

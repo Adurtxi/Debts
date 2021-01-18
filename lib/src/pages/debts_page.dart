@@ -11,6 +11,7 @@ import 'package:debts/src/widgets/debt/debt_card.dart';
 import 'package:debts/src/widgets/drawer.dart';
 import 'package:debts/src/widgets/debt/floating_button.dart';
 
+import 'package:debts/src/widgets/utils/message.dart';
 import 'package:debts/src/widgets/utils/error.dart';
 import 'package:debts/src/widgets/utils/loader.dart';
 
@@ -67,7 +68,7 @@ class _DebtsPageState extends State<DebtsPage> {
 
   Widget _debts(DebtBloc debtBloc, List<DebtModel> debts) {
     if (debts == null) {
-      return Container();
+      return Message(message: 'No tienes deudas');
     }
 
     return RefreshIndicator(

@@ -7,6 +7,7 @@ import 'package:debts/src/models/follower_model.dart';
 
 import 'package:debts/src/widgets/utils/error.dart';
 import 'package:debts/src/widgets/utils/loader.dart';
+import 'package:debts/src/widgets/utils/message.dart';
 
 // ignore: must_be_immutable
 class UserSelectorModal {
@@ -117,19 +118,15 @@ class UserSelectorModal {
   }
 
   Widget _usersBuilder(UserBloc userBloc, List<FollowerModel> followers) {
-    if (allUsers == null) {
-      return Container(
-        child: Center(
-          child: Text('No tienes contactos'),
-        ),
-      );
-    }
-
     if (start) {
       allUsers = followers;
       sUsers = allUsers;
 
       start = false;
+    }
+
+    if (allUsers == null) {
+      return Message(message: 'No tienes contactos');
     }
 
     return ListView.builder(

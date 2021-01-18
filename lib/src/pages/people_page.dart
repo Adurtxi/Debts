@@ -1,4 +1,3 @@
-import 'package:debts/src/widgets/user/user_card.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +6,9 @@ import 'package:debts/src/blocs/user/user_bloc.dart';
 
 import 'package:debts/src/widgets/appbar.dart';
 import 'package:debts/src/widgets/drawer.dart';
+import 'package:debts/src/widgets/user/user_card.dart';
+
+import 'package:debts/src/widgets/utils/message.dart';
 
 class PeoplePage extends StatefulWidget {
   @override
@@ -83,11 +85,7 @@ class _PeoplePageState extends State<PeoplePage> {
                         user: state.users[index],
                       ),
                     )
-                  : Container(
-                      child: Center(
-                        child: Text('Busca usuarios y añadelos a favoritos'),
-                      ),
-                    ),
+                  : Message(message: 'Busca usuarios y añadelos a favoritos'),
         ),
       ),
     );

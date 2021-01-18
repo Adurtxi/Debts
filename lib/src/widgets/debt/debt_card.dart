@@ -19,7 +19,7 @@ class DebtCard extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     return GestureDetector(
-      onTap: () => print(1),
+      onTap: () => Navigator.pushNamed(context, 'debt', arguments: debt),
       onLongPress: () => _dModal.mainBottomSheet(context),
       child: Container(
         margin: EdgeInsets.symmetric(

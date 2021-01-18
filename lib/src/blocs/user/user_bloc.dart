@@ -27,15 +27,17 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     }
 
     if (event is UserRemoveSelect) {
-      yield state.copyWith(
-        selectedUser: null,
-      );
+      state.selectedUser = null;
+
+      yield state.copyWith();
     }
 
     if (event is UserSearch) {
       final users = await _usersProvider.searchUsers(event.searchQuery);
 
-      yield state.copyWith(users: users);
+      state.users = users;
+
+      yield state.copyWith();
     }
 
     if (event is UserAdd) {
@@ -72,7 +74,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
         final followers = await _followersProvider.loadFollowers();
 
-        yield state.copyWith(followers: followers);
+        state.followers = followers;
 
         yield state.copyWith(followersState: 1);
       } catch (e) {

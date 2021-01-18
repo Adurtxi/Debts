@@ -10,13 +10,10 @@ import 'package:debts/src/widgets/debt/debt_card.dart';
 
 import 'package:debts/src/widgets/utils/error.dart';
 import 'package:debts/src/widgets/utils/loader.dart';
-
-import 'package:debts/src/modals/users/actions.dart';
+import 'package:debts/src/widgets/utils/message.dart';
 
 // ignore: must_be_immutable
 class HomeDebts extends StatelessWidget {
-  final UserActionsModal _aModal = UserActionsModal();
-
   @override
   Widget build(BuildContext context) {
     final debtBloc = BlocProvider.of<DebtBloc>(context);
@@ -41,12 +38,14 @@ class HomeDebts extends StatelessWidget {
 
   Widget _debts(DebtBloc debtBloc, List<DebtModel> debts) {
     if (debts == null) {
-      return Container();
+      return Message(message: 'No tienes deudas');
     }
 
     return RefreshIndicator(
       color: Colors.black,
-      onRefresh: () async => debtBloc.add(DebtsLoad()),
+      onRefresh: () async => debtBloc.add(
+        DebtsLoad(),
+      ),
       child: ListView.builder(
         itemCount: debts.length,
         itemBuilder: (context, index) => DebtCard(

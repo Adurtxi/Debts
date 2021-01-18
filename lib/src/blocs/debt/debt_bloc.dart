@@ -23,21 +23,21 @@ class DebtBloc extends Bloc<DebtEvent, DebtState> {
 
         final debts = await _debtsProvider.loadDebts('debts-to-pay');
 
-        yield state.copyWith(debts: debts);
+        state.debts = debts;
 
         yield state.copyWith(debtsState: 1);
       } catch (e) {
         yield state.copyWith(debtsState: -1);
       }
     }
-    // Load home page debts
+    // Load debts page debts
     if (event is DebtsAllLoad) {
       try {
         yield state.copyWith(allDebtsState: 0);
 
         final debts = await _debtsProvider.loadDebts('debts');
 
-        yield state.copyWith(allDebts: debts);
+        state.allDebts = debts;
 
         yield state.copyWith(allDebtsState: 1);
       } catch (e) {

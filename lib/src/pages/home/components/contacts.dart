@@ -9,6 +9,7 @@ import 'package:debts/src/models/user_model.dart';
 
 import 'package:debts/src/widgets/utils/error.dart';
 import 'package:debts/src/widgets/utils/loader.dart';
+import 'package:debts/src/widgets/utils/message.dart';
 
 import 'package:debts/src/modals/users/actions.dart';
 import 'package:debts/src/modals/debt/create.dart';
@@ -79,11 +80,7 @@ class HomeContacts extends StatelessWidget {
 
   Widget _contacts(UserBloc userbloc, List<FollowerModel> followers) {
     if (followers == null) {
-      return Container(
-        child: Center(
-          child: Text('No tienes contactos'),
-        ),
-      );
+      return Message(message: 'No tienes contactos');
     }
 
     return Container(

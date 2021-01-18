@@ -1,14 +1,14 @@
 part of 'user_bloc.dart';
 
 class UserState {
-  final UserModel selectedUser;
+  UserModel selectedUser;
 
-  final String searchQuery;
+  String searchQuery;
 
-  final List<UserModel> users;
+  List<UserModel> users;
 
-  final List<FollowerModel> followers;
-  final int followersState;
+  List<FollowerModel> followers;
+  int followersState;
 
   UserState({
     this.selectedUser,
@@ -26,7 +26,7 @@ class UserState {
     followersState,
   }) =>
       UserState(
-        selectedUser: selectedUser ?? null,
+        selectedUser: selectedUser ?? this.selectedUser,
         searchQuery: searchQuery ?? this.searchQuery,
         users: users ?? this.users,
         followers: followers ?? this.followers,
