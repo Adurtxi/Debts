@@ -28,10 +28,10 @@ class FollowerActionsModal {
         children: <Widget>[
           _createTile(
             context,
-            'Eliminar',
-            FontAwesomeIcons.heartBroken,
-            Colors.red[700],
-            _delete,
+            'Perfil',
+            FontAwesomeIcons.userAlt,
+            Colors.purple[700],
+            _profile,
           ),
           _createTile(
             context,
@@ -39,6 +39,13 @@ class FollowerActionsModal {
             FontAwesomeIcons.moneyBill,
             Colors.green[700],
             _createDebt,
+          ),
+          _createTile(
+            context,
+            'Eliminar',
+            FontAwesomeIcons.heartBroken,
+            Colors.red[700],
+            _delete,
           ),
         ],
       ),
@@ -57,10 +64,18 @@ class FollowerActionsModal {
         size: 18,
       ),
       title: Text(name),
-      onTap: () {
-        function(context, userBloc);
-      },
+      onTap: () => function(context, userBloc),
     );
+  }
+
+  void _profile(BuildContext context, UserBloc userBloc) {
+    Navigator.pushReplacementNamed(context, 'user', arguments: followed.followed);
+  }
+
+  void _createDebt(BuildContext context, UserBloc userBloc) {
+    CreateDebtModal _dModal = CreateDebtModal(previousPage: 'home');
+
+    _dModal.mainBottomSheet(context);
   }
 
   void _delete(BuildContext context, UserBloc userBloc) {
@@ -69,11 +84,5 @@ class FollowerActionsModal {
     );
 
     Navigator.pop(context);
-  }
-
-  void _createDebt(BuildContext context, UserBloc userBloc) {
-    CreateDebtModal _dModal = CreateDebtModal(previousPage: 'home');
-
-    _dModal.mainBottomSheet(context);
   }
 }

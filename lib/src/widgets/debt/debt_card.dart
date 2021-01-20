@@ -78,14 +78,13 @@ class DebtCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
             Spacer(),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 20.0),
               child: Text(
                 debt.title,
                 style: Theme.of(context).textTheme.button,
               ),
             ),
-            // it use the available space
             Spacer(),
             Container(
               padding: EdgeInsets.symmetric(

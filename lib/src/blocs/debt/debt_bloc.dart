@@ -45,6 +45,21 @@ class DebtBloc extends Bloc<DebtEvent, DebtState> {
       }
     }
 
+    // Load user debts page debts
+    if (event is DebtsUserLoad) {
+      try {
+        yield state.copyWith(userDebtsState: 0);
+
+        final debts = await _debtsProvider.loadDebts('debts-of-user/' + event.userId.toString());
+
+        state.userDebts = debts;
+
+        yield state.copyWith(userDebtsState: 1);
+      } catch (e) {
+        yield state.copyWith(userDebtsState: -1);
+      }
+    }
+
     // Store debt
     if (event is DebtStore) {
       final debt = await _debtsProvider.createDebt(event.debt);

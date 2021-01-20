@@ -7,11 +7,16 @@ class DebtState {
   List<DebtModel> allDebts;
   int allDebtsState;
 
+  List<DebtModel> userDebts;
+  int userDebtsState;
+
   DebtState({
     this.debts,
     this.debtsState,
     this.allDebts,
     this.allDebtsState,
+    this.userDebts,
+    this.userDebtsState,
   });
 
   DebtState copyWith({
@@ -19,13 +24,15 @@ class DebtState {
     debtsState,
     allDebts,
     allDebtsState,
-    debt,
-    debtState,
+    userDebts,
+    userDebtsState,
   }) =>
       DebtState(
         debts: debts ?? this.debts,
         debtsState: debtsState ?? this.debtsState,
         allDebts: allDebts ?? this.allDebts,
         allDebtsState: allDebtsState ?? this.allDebtsState,
+        userDebts: userDebts ?? this.userDebts,
+        userDebtsState: userDebtsState ?? this.userDebtsState,
       );
 }

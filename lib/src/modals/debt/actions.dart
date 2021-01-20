@@ -9,6 +9,8 @@ import 'package:debts/src/blocs/debt/debt_bloc.dart';
 
 import 'package:debts/src/models/debt_model.dart';
 
+import 'package:debts/src/modals/debt/detail.dart';
+
 class DebtActionsModal {
   DebtModel debt;
 
@@ -34,6 +36,13 @@ class DebtActionsModal {
             FontAwesomeIcons.eye,
             Colors.blue[700],
             _detail,
+          ),
+          _createTile(
+            context,
+            'Perfil',
+            FontAwesomeIcons.userAlt,
+            Colors.purple[700],
+            _profile,
           ),
           _createTile(
             context,
@@ -70,25 +79,33 @@ class DebtActionsModal {
         size: 18,
       ),
       title: Text(name),
-      onTap: () {
-        function(context, debtBloc);
-
-        Navigator.pop(context);
-      },
+      onTap: () => function(context, debtBloc),
     );
   }
 
-  void _detail(BuildContext context, DebtBloc debtBloc) {}
+  void _profile(BuildContext context, DebtBloc debtBloc) {
+    Navigator.pushReplacementNamed(context, 'user', arguments: debt.user);
+  }
+
+  void _detail(BuildContext context, DebtBloc debtBloc) {
+    final DebtModal _dModal = DebtModal(debt: debt);
+
+    _dModal.mainBottomSheet(context);
+  }
 
   void _markAsPaid(BuildContext context, DebtBloc debtBloc) {
     debtBloc.add(
       DebtMarkAsPaid(debt.id),
     );
+
+    Navigator.pop(context);
   }
 
   void _delete(BuildContext context, DebtBloc debtBloc) {
     debtBloc.add(
       DebtDelete(debt.id),
     );
+
+    Navigator.pop(context);
   }
 }

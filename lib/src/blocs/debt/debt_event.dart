@@ -7,6 +7,12 @@ class DebtsLoad extends DebtEvent {}
 
 class DebtsAllLoad extends DebtEvent {}
 
+class DebtsUserLoad extends DebtEvent {
+  final int userId;
+
+  DebtsUserLoad(this.userId);
+}
+
 class DebtStore extends DebtEvent {
   final DebtModel debt;
   final String previousPage;
