@@ -7,6 +7,7 @@ import 'package:debts/src/blocs/debt/debt_bloc.dart';
 import 'package:debts/src/widgets/utils/error.dart';
 
 import 'package:debts/src/models/user_model.dart';
+import 'package:debts/src/models/debt_model.dart';
 
 // ignore: must_be_immutable
 class UserSummary extends StatelessWidget {
@@ -25,12 +26,21 @@ class UserSummary extends StatelessWidget {
     return BlocListener<DebtBloc, DebtState>(
       listener: (context, state) {},
       child: BlocBuilder<DebtBloc, DebtState>(
-        builder: (context, state) => (state.userDebtsState == -1) ? ErrorW() : _summary(),
+        builder: (context, state) =>
+            (state.userDebtsState == -1) ? ErrorW() : _summary(state.userDebts),
       ),
     );
   }
 
-  Widget _summary() {
+  Widget _summary(List<DebtModel> debts) {
+    List<double> quantity = [0.0, 0.0];
+
+    if (debts != null) {
+      debts.forEach((debt) {
+        (debt.defaulterId == user.id) ? quantity[0] += debt.quantity : quantity[1] += debt.quantity;
+      });
+    }
+
     return Container(
       margin: EdgeInsets.all(15),
       decoration: BoxDecoration(
@@ -38,11 +48,11 @@ class UserSummary extends StatelessWidget {
         color: Colors.white,
       ),
       height: 100,
-      child: _row(),
+      child: _row(quantity),
     );
   }
 
-  Widget _row() {
+  Widget _row(List<double> quantity) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
@@ -51,7 +61,7 @@ class UserSummary extends StatelessWidget {
           children: [
             Text('Tú'),
             Text(
-              '25 €',
+              quantity[0].toString() + ' €',
               style: TextStyle(
                 fontSize: 20,
               ),
@@ -63,7 +73,7 @@ class UserSummary extends StatelessWidget {
           children: [
             Text(user.name + ' ' + user.surname),
             Text(
-              '20 €',
+              quantity[1].toString() + ' €',
               style: TextStyle(
                 fontSize: 20,
               ),
