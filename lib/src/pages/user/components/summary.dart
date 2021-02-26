@@ -42,24 +42,60 @@ class UserSummary extends StatelessWidget {
     }
 
     return Container(
-      margin: EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25),
-        color: Colors.white,
-      ),
-      height: 100,
-      child: _row(quantity),
+      height: 200,
+      margin: EdgeInsets.only(top: 15),
+      child: _carousel(quantity),
     );
   }
 
-  Widget _row(List<double> quantity) {
+  Widget _carousel(List<double> quantity) {
+    return PageView.builder(
+      controller: PageController(viewportFraction: 0.9),
+      itemCount: 2,
+      itemBuilder: (BuildContext context, int index) {
+        Widget widget = (index == 0) ? _firstItem(quantity) : _secondItem(quantity);
+
+        return Container(
+          margin: EdgeInsets.symmetric(horizontal: 4.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          ),
+          child: widget,
+        );
+      },
+    );
+  }
+
+  Widget _firstItem(quantity) {
+    double debtsTotalQuantity = quantity[0] - quantity[1];
+
+    String text;
+
+    if (debtsTotalQuantity == 0) {
+      text = 'No hay deuda';
+    } else if (debtsTotalQuantity > 0) {
+      text = 'Debe ' + debtsTotalQuantity.abs().toString() + '€';
+    } else {
+      text = 'Le debe ' + debtsTotalQuantity.abs().toString() + '€';
+    }
+
+    return Center(
+      child: Text(
+        text,
+        style: TextStyle(fontSize: 30),
+      ),
+    );
+  }
+
+  Widget _secondItem(quantity) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Text('Tú'),
+            Text('Usted'),
             Text(
               quantity[0].toString() + ' €',
               style: TextStyle(
