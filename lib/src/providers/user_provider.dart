@@ -87,7 +87,7 @@ class UserProvider {
     if (decodedData == null) return null;
 
     if (decodedData['status'] == 'success') {
-      final List<UserModel> users = List();
+      final List<UserModel> users = [];
 
       decodedData['users'].forEach((user) {
         final prodTemp = UserModel.fromJson(user);

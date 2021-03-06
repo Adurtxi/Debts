@@ -27,7 +27,7 @@ class FollowersProvider {
     if (decodedData == null) return null;
 
     if (decodedData['status'] == 'success') {
-      final List<FollowerModel> followers = new List();
+      final List<FollowerModel> followers = [];
 
       decodedData['followers'].forEach((follower) {
         final prodTemp = FollowerModel.fromJson(follower);

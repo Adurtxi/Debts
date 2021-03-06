@@ -173,10 +173,8 @@ class CreateDebtModal {
     return Container(
       margin: EdgeInsets.all(20.0),
       height: 50.0,
-      child: RaisedButton(
+      child: ElevatedButton(
         onPressed: () => _createDebt(context, debtBloc),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
-        padding: EdgeInsets.all(0.0),
         child: ButtonWithIcon(
           size: 0.9,
           text: 'Crear deuda',

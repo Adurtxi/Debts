@@ -25,7 +25,7 @@ class DebtsProvider {
     if (decodedData == null) return null;
 
     if (decodedData['status'] == 'success') {
-      final List<DebtModel> debts = new List();
+      final List<DebtModel> debts = [];
 
       decodedData['debts'].forEach((debt) {
         final prodTemp = DebtModel.fromJson(debt);
@@ -51,7 +51,7 @@ class DebtsProvider {
     if (decodedData == null) return null;
 
     if (decodedData['status'] == 'success') {
-      final List<DebtModel> debts = new List();
+      final List<DebtModel> debts = [];
 
       decodedData['debts'].forEach((debt) {
         final prodTemp = DebtModel.fromJson(debt);
